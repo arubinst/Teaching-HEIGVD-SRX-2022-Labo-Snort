@@ -366,6 +366,11 @@ s'appelle Frag2.
 ---
 
 **Réponse :**  
+GUILAIN:
+Car contrairement au fichier snort.conf, le fichier mysnort.conf ne charge aucun
+preprocesseur. Snort nous indique donc qu'aucun preprocesseur n'est chargé pour 
+la policy 0, mais fonctionne quand même sans traîter les paquets avant le set de 
+règles que nous avons renseignées.
 
 ---
 
