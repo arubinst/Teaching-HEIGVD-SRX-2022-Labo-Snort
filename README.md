@@ -351,7 +351,13 @@ Vous pouvez aussi utiliser des captures Wireshark ou des fichiers snort.log.xxxx
 
 ---
 
-**Réponse :**  
+**Réponse :** 
+GUILAIN:
+Les preprocesseurs dans le context de Snort sont les composants qui traîtent les
+paquets avant qu'ils ne soient traîtés par les règles.
+Il y a par exemple un preprocesseur qui permet de détecter et réassembler 
+les paquets fragmentés qui tentent d'éviter une détection. Ce preprocesseur 
+s'appelle Frag2.
 
 ---
 
