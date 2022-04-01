@@ -351,7 +351,9 @@ Vous pouvez aussi utiliser des captures Wireshark ou des fichiers snort.log.xxxx
 
 ---
 
-**Réponse :**  
+**Réponse : ** Les préprocesseurs sont des modules d’extension pour arranger ou modifier les paquets de données
+avant que le moteur de détection n’intervienne. Certains préprocesseurs détectent aussi des anomalies
+dans les entêtes des paquets et génèrent alors des alertes. Par exemple, ça permet à snort de detecter une attaque avec des paquets fragmentés
 
 ---
 
@@ -359,7 +361,7 @@ Vous pouvez aussi utiliser des captures Wireshark ou des fichiers snort.log.xxxx
 
 ---
 
-**Réponse :**  
+**Réponse :** Car il n'y a pas de préprocesseur chargé.
 
 ---
 
@@ -375,7 +377,7 @@ alert tcp any any -> any any (msg:"Mon nom!"; content:"Rubinstein"; sid:4000015;
 
 ---
 
-**Réponse :**  
+**Réponse :**  Traffic TCP, de n'importe quelle IP + port à n'importe quelle IP + port. ça cela créer une alerte pour tous les paquets contenants le mot "Rubinstein" dans l'en-tête. Le message "Mon nom!" sera journalisé dans le syslog. Le sid et le rev permettent d'identifier de manière unique.
 
 ---
 
@@ -389,7 +391,7 @@ sudo snort -c myrules.rules -i eth0
 
 ---
 
-**Réponse :**  
+**Réponse :**  C'est une sorte de résumé des règles actives.
 
 ---
 
@@ -401,7 +403,7 @@ Pour accéder à Firefox dans son conteneur, ouvrez votre navigateur web sur vot
 
 ---
 
-**Réponse :**  
+**Réponse :**  Il ne s'affiche rien
 
 ---
 
@@ -411,7 +413,7 @@ Arrêter Snort avec `CTRL-C`.
 
 ---
 
-**Réponse :**  
+**Réponse :**  Le temps que cela lui a pris pour process les paquets, le nombre de paquets processed, un résumé de l'utilisation mémoire, le total I/O paquets, une liste des protocoles, des statistiques d'actions, des limites et des verdicts.
 
 ---
 
@@ -422,7 +424,11 @@ Aller au répertoire /var/log/snort. Ouvrir le fichier `alert`. Vérifier qu'il 
 
 ---
 
-**Réponse :**  
+**Réponse :**  La règle utilisée: alert tcp any any -> any any (msg:"Detected Facebook!"; content:"Facebook"; sid:4000016; rev:1;)
+
+En permier on voit le sid, la rev et le message
+En dessous on voit la priorité (0 dans notre cas)
+Des informations sur le paquet TCP (TTL, TOS, ID...)
 
 ---
 
@@ -437,7 +443,8 @@ Ecrire deux règles qui journalisent (sans alerter) chacune un message à chaque
 
 ---
 
-**Réponse :**  
+**Réponse :**  règle dans l'état: log tcp 192.168.220.3 any -> 185.15.58.224 443 (msg:"Wikipedia detected on client"; sid:4000020; rev:1;)
+(juste changer le 3 en un 4 pour avoir firefox)
 
 ---
 
