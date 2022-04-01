@@ -387,6 +387,11 @@ alert tcp any any -> any any (msg:"Mon nom!"; content:"Rubinstein"; sid:4000015;
 ---
 
 **Réponse :**  
+La règle indique à snort de logger le message "Mon nom!" dans le fichier d'alert tous les paquets
+tcp provenant de n'importe quelle ip source et port source vers n'importe quelle
+ip de destination et port de destination si la payload contient la string 
+"Rubinstein". 
+La règle indique également que son sid est "4000015" et que c'est sa première version.
 
 ---
 
