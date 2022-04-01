@@ -352,6 +352,7 @@ Vous pouvez aussi utiliser des captures Wireshark ou des fichiers snort.log.xxxx
 ---
 
 **Réponse :**  
+Les préprocesseurs de Snort sont des composants qui interviennent avant l'application des règles. Un préprocesseur permet de traiter les paquets et flux qui nécessitent d'être traités dans un flux avant de pouvoir être envoyés aux règles.
 
 ---
 
