@@ -387,6 +387,7 @@ alert tcp any any -> any any (msg:"Mon nom!"; content:"Rubinstein"; sid:4000015;
 ---
 
 **Réponse :**  
+GUILAIN:
 La règle indique à snort de logger le message "Mon nom!" dans le fichier d'alert tous les paquets
 tcp provenant de n'importe quelle ip source et port source vers n'importe quelle
 ip de destination et port de destination si la payload contient la string 
@@ -406,7 +407,11 @@ sudo snort -c myrules.rules -i eth0
 ---
 
 **Réponse :**  
-
+GUILAIN:
+Ce sont tous les éléments de configuration qui sont appliqués. On voit que la
+plupart des éléments indiquent "none". La configuration s'initialise en fonction 
+de ce qui est nécessaire pour pouvoir appliquer la règles que nous appliquons 
+via notre fichier myrules.rules.
 ---
 
 Aller à un site web contenant dans son text la phrase ou le mot clé que vous avez choisi (il faudra chercher un peu pour trouver un site en http... Si vous n'y arrivez pas, vous pouvez utiliser [http://neverssl.com](http://neverssl.com) et modifier votre votre règle pour détecter un morceau de text contenu dans le site).
