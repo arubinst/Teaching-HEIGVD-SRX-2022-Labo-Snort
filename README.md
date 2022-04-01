@@ -423,7 +423,8 @@ Pour accéder à Firefox dans son conteneur, ouvrez votre navigateur web sur vot
 ---
 
 **Réponse :**  
-
+GUILAIN:
+WARNING: No preprocessors configured for policy 0.
 ---
 
 Arrêter Snort avec `CTRL-C`.
@@ -433,7 +434,102 @@ Arrêter Snort avec `CTRL-C`.
 ---
 
 **Réponse :**  
+GUILAIN:
+Un compte rendu de ce qui a été détecté:
+```
+===============================================================================
+Run time for packet processing was 83.14207 seconds
+Snort processed 271 packets.
+Snort ran for 0 days 0 hours 1 minutes 23 seconds
+   Pkts/min:          271
+   Pkts/sec:            3
+===============================================================================
+Memory usage summary:
+  Total non-mmapped bytes (arena):       4100096
+  Bytes in mapped regions (hblkhd):      30265344
+  Total allocated space (uordblks):      3349104
+  Total free space (fordblks):           750992
+  Topmost releasable block (keepcost):   593552
+===============================================================================
+Packet I/O Totals:
+   Received:          282
+   Analyzed:          271 ( 96.099%)
+    Dropped:            0 (  0.000%)
+   Filtered:            0 (  0.000%)
+Outstanding:           11 (  3.901%)
+   Injected:            0
+===============================================================================
+Breakdown by protocol (includes rebuilt packets):
+        Eth:          271 (100.000%)
+       VLAN:            0 (  0.000%)
+        IP4:          265 ( 97.786%)
+       Frag:            0 (  0.000%)
+       ICMP:            0 (  0.000%)
+        UDP:           58 ( 21.402%)
+        TCP:          205 ( 75.646%)
+        IP6:            0 (  0.000%)
+    IP6 Ext:            0 (  0.000%)
+   IP6 Opts:            0 (  0.000%)
+      Frag6:            0 (  0.000%)
+      ICMP6:            0 (  0.000%)
+       UDP6:            0 (  0.000%)
+       TCP6:            0 (  0.000%)
+     Teredo:            0 (  0.000%)
+    ICMP-IP:            0 (  0.000%)
+    IP4/IP4:            0 (  0.000%)
+    IP4/IP6:            0 (  0.000%)
+    IP6/IP4:            0 (  0.000%)
+    IP6/IP6:            0 (  0.000%)
+        GRE:            0 (  0.000%)
+    GRE Eth:            0 (  0.000%)
+   GRE VLAN:            0 (  0.000%)
+    GRE IP4:            0 (  0.000%)
+    GRE IP6:            0 (  0.000%)
+GRE IP6 Ext:            0 (  0.000%)
+   GRE PPTP:            0 (  0.000%)
+    GRE ARP:            0 (  0.000%)
+    GRE IPX:            0 (  0.000%)
+   GRE Loop:            0 (  0.000%)
+       MPLS:            0 (  0.000%)
+        ARP:            6 (  2.214%)
+        IPX:            0 (  0.000%)
+   Eth Loop:            0 (  0.000%)
+   Eth Disc:            0 (  0.000%)
+   IP4 Disc:            2 (  0.738%)
+   IP6 Disc:            0 (  0.000%)
+   TCP Disc:            0 (  0.000%)
+   UDP Disc:            0 (  0.000%)
+  ICMP Disc:            0 (  0.000%)
+All Discard:            2 (  0.738%)
+      Other:            0 (  0.000%)
+Bad Chk Sum:          139 ( 51.292%)
+    Bad TTL:            0 (  0.000%)
+     S5 G 1:            0 (  0.000%)
+     S5 G 2:            0 (  0.000%)
+      Total:          271
+===============================================================================
+Action Stats:
+     Alerts:            2 (  0.738%)
+     Logged:            2 (  0.738%)
+     Passed:            0 (  0.000%)
+Limits:
+      Match:            0
+      Queue:            0
+        Log:            0
+      Event:            0
+      Alert:            0
+Verdicts:
+      Allow:          271 ( 96.099%)
+      Block:            0 (  0.000%)
+    Replace:            0 (  0.000%)
+  Whitelist:            0 (  0.000%)
+  Blacklist:            0 (  0.000%)
+     Ignore:            0 (  0.000%)
+      Retry:            0 (  0.000%)
+===============================================================================
+Snort exiting
 
+```
 ---
 
 
@@ -444,7 +540,16 @@ Aller au répertoire /var/log/snort. Ouvrir le fichier `alert`. Vérifier qu'il 
 ---
 
 **Réponse :**  
+GUILAIN:
+```
+[**] [1:4000015:1] Mon Alert! [**]
+[Priority: 0]
+04/01-09:58:35.141221 188.184.21.108:80 -> 192.168.220.4:37524
+TCP TTL:47 TOS:0x0 ID:7269 IpLen:20 DgmLen:930 DF
+***AP*** Seq: 0x8F80B664  Ack: 0x4B6D1B37  Win: 0xEB  TcpLen: 32
+TCP Options (3) => NOP NOP TS: 199862785 766923961
 
+```
 ---
 
 
