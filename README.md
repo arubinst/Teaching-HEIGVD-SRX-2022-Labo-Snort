@@ -352,6 +352,11 @@ Vous pouvez aussi utiliser des captures Wireshark ou des fichiers snort.log.xxxx
 ---
 
 **Réponse :**  
+Mehdi:
+
+Le préprocesseur sert à normaliser et interpreter le traffic avant qu'il soit
+envoyé vers le moteur de règles. Certaines attaques ne peuvent pas être
+detectées telle quelle et doivent d'abord être traitée par le préprocesseur.
 
 ---
 
@@ -360,6 +365,9 @@ Vous pouvez aussi utiliser des captures Wireshark ou des fichiers snort.log.xxxx
 ---
 
 **Réponse :**  
+Mehdi:
+Car il n'y a pas de préprocesseur configuré pour la règles que nous avons
+ajouté.
 
 ---
 
@@ -376,6 +384,9 @@ alert tcp any any -> any any (msg:"Mon nom!"; content:"Rubinstein"; sid:4000015;
 ---
 
 **Réponse :**  
+Mehdi:
+
+Cette règle détecte lorsqu'un paquet contient la chaîne "Rubinstein".
 
 ---
 
