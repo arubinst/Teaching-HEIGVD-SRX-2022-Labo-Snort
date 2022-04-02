@@ -351,12 +351,14 @@ Vous pouvez aussi utiliser des captures Wireshark ou des fichiers snort.log.xxxx
 
 ---
 
-**Réponse :**  
-Mehdi:
-
-Le préprocesseur sert à normaliser et interpreter le traffic avant qu'il soit
-envoyé vers le moteur de règles. Certaines attaques ne peuvent pas être
 detectées telle quelle et doivent d'abord être traitée par le préprocesseur.
+**Réponse :** 
+GUILAIN:
+Les preprocesseurs dans le context de Snort sont les composants qui traîtent les
+paquets avant qu'ils ne soient traîtés par les règles.
+Il y a par exemple un preprocesseur qui permet de détecter et réassembler 
+les paquets fragmentés qui tentent d'éviter une détection. Ce preprocesseur 
+s'appelle Frag2.
 
 ---
 
@@ -365,9 +367,12 @@ detectées telle quelle et doivent d'abord être traitée par le préprocesseur.
 ---
 
 **Réponse :**  
-Mehdi:
-Car il n'y a pas de préprocesseur configuré pour la règles que nous avons
 ajouté.
+GUILAIN:
+Car contrairement au fichier snort.conf, le fichier mysnort.conf ne charge aucun
+preprocesseur. Snort nous indique donc qu'aucun preprocesseur n'est chargé pour 
+la policy 0, mais fonctionne quand même sans traîter les paquets avant le set de 
+règles que nous avons renseignées.
 
 ---
 
@@ -384,9 +389,12 @@ alert tcp any any -> any any (msg:"Mon nom!"; content:"Rubinstein"; sid:4000015;
 ---
 
 **Réponse :**  
-Mehdi:
-
-Cette règle détecte lorsqu'un paquet contient la chaîne "Rubinstein".
+GUILAIN:
+La règle indique à snort de logger le message "Mon nom!" dans le fichier d'alert tous les paquets
+tcp provenant de n'importe quelle ip source et port source vers n'importe quelle
+ip de destination et port de destination si la payload contient la string 
+"Rubinstein". 
+La règle indique également que son sid est "4000015" et que c'est sa première version.
 
 ---
 
@@ -401,7 +409,11 @@ sudo snort -c myrules.rules -i eth0
 ---
 
 **Réponse :**  
-
+GUILAIN:
+Ce sont tous les éléments de configuration qui sont appliqués. On voit que la
+plupart des éléments indiquent "none". La configuration s'initialise en fonction 
+de ce qui est nécessaire pour pouvoir appliquer la règles que nous appliquons 
+via notre fichier myrules.rules.
 ---
 
 Aller à un site web contenant dans son text la phrase ou le mot clé que vous avez choisi (il faudra chercher un peu pour trouver un site en http... Si vous n'y arrivez pas, vous pouvez utiliser [http://neverssl.com](http://neverssl.com) et modifier votre votre règle pour détecter un morceau de text contenu dans le site).
@@ -413,7 +425,8 @@ Pour accéder à Firefox dans son conteneur, ouvrez votre navigateur web sur vot
 ---
 
 **Réponse :**  
-
+GUILAIN:
+WARNING: No preprocessors configured for policy 0.
 ---
 
 Arrêter Snort avec `CTRL-C`.
@@ -423,7 +436,102 @@ Arrêter Snort avec `CTRL-C`.
 ---
 
 **Réponse :**  
+GUILAIN:
+Un compte rendu de ce qui a été détecté:
+```
+===============================================================================
+Run time for packet processing was 83.14207 seconds
+Snort processed 271 packets.
+Snort ran for 0 days 0 hours 1 minutes 23 seconds
+   Pkts/min:          271
+   Pkts/sec:            3
+===============================================================================
+Memory usage summary:
+  Total non-mmapped bytes (arena):       4100096
+  Bytes in mapped regions (hblkhd):      30265344
+  Total allocated space (uordblks):      3349104
+  Total free space (fordblks):           750992
+  Topmost releasable block (keepcost):   593552
+===============================================================================
+Packet I/O Totals:
+   Received:          282
+   Analyzed:          271 ( 96.099%)
+    Dropped:            0 (  0.000%)
+   Filtered:            0 (  0.000%)
+Outstanding:           11 (  3.901%)
+   Injected:            0
+===============================================================================
+Breakdown by protocol (includes rebuilt packets):
+        Eth:          271 (100.000%)
+       VLAN:            0 (  0.000%)
+        IP4:          265 ( 97.786%)
+       Frag:            0 (  0.000%)
+       ICMP:            0 (  0.000%)
+        UDP:           58 ( 21.402%)
+        TCP:          205 ( 75.646%)
+        IP6:            0 (  0.000%)
+    IP6 Ext:            0 (  0.000%)
+   IP6 Opts:            0 (  0.000%)
+      Frag6:            0 (  0.000%)
+      ICMP6:            0 (  0.000%)
+       UDP6:            0 (  0.000%)
+       TCP6:            0 (  0.000%)
+     Teredo:            0 (  0.000%)
+    ICMP-IP:            0 (  0.000%)
+    IP4/IP4:            0 (  0.000%)
+    IP4/IP6:            0 (  0.000%)
+    IP6/IP4:            0 (  0.000%)
+    IP6/IP6:            0 (  0.000%)
+        GRE:            0 (  0.000%)
+    GRE Eth:            0 (  0.000%)
+   GRE VLAN:            0 (  0.000%)
+    GRE IP4:            0 (  0.000%)
+    GRE IP6:            0 (  0.000%)
+GRE IP6 Ext:            0 (  0.000%)
+   GRE PPTP:            0 (  0.000%)
+    GRE ARP:            0 (  0.000%)
+    GRE IPX:            0 (  0.000%)
+   GRE Loop:            0 (  0.000%)
+       MPLS:            0 (  0.000%)
+        ARP:            6 (  2.214%)
+        IPX:            0 (  0.000%)
+   Eth Loop:            0 (  0.000%)
+   Eth Disc:            0 (  0.000%)
+   IP4 Disc:            2 (  0.738%)
+   IP6 Disc:            0 (  0.000%)
+   TCP Disc:            0 (  0.000%)
+   UDP Disc:            0 (  0.000%)
+  ICMP Disc:            0 (  0.000%)
+All Discard:            2 (  0.738%)
+      Other:            0 (  0.000%)
+Bad Chk Sum:          139 ( 51.292%)
+    Bad TTL:            0 (  0.000%)
+     S5 G 1:            0 (  0.000%)
+     S5 G 2:            0 (  0.000%)
+      Total:          271
+===============================================================================
+Action Stats:
+     Alerts:            2 (  0.738%)
+     Logged:            2 (  0.738%)
+     Passed:            0 (  0.000%)
+Limits:
+      Match:            0
+      Queue:            0
+        Log:            0
+      Event:            0
+      Alert:            0
+Verdicts:
+      Allow:          271 ( 96.099%)
+      Block:            0 (  0.000%)
+    Replace:            0 (  0.000%)
+  Whitelist:            0 (  0.000%)
+  Blacklist:            0 (  0.000%)
+     Ignore:            0 (  0.000%)
+      Retry:            0 (  0.000%)
+===============================================================================
+Snort exiting
 
+```
 ---
 
 
@@ -434,7 +542,16 @@ Aller au répertoire /var/log/snort. Ouvrir le fichier `alert`. Vérifier qu'il 
 ---
 
 **Réponse :**  
+GUILAIN:
+```
+[**] [1:4000015:1] Mon Alert! [**]
+[Priority: 0]
+04/01-09:58:35.141221 188.184.21.108:80 -> 192.168.220.4:37524
+TCP TTL:47 TOS:0x0 ID:7269 IpLen:20 DgmLen:930 DF
+***AP*** Seq: 0x8F80B664  Ack: 0x4B6D1B37  Win: 0xEB  TcpLen: 32
+TCP Options (3) => NOP NOP TS: 199862785 766923961
 
+```
 ---
 
 
