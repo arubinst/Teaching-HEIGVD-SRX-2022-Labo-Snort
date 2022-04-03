@@ -571,10 +571,12 @@ Ecrire deux règles qui journalisent (sans alerter) chacune un message à chaque
 Mehdi:
 Règles Snort:
 
+```
 log udp 192.168.220.4 any -> any any (msg:"Visite Wikipedia";
 content:"|09|wikipedia|03|org|00|"; nocase; sid: 4000020;)                                                                                    
 log udp 192.168.220.3 any -> any any (msg:"Visite Wikipedia";
  content:"|09|wikipedia|03|org|00|"; nocase; sid: 4000021;)
+```
 
 Contenu log /var/log/snort/snort.log.1649002876 :
 (Ouvert avec tcpdump -r snort.log.xxxxx)
