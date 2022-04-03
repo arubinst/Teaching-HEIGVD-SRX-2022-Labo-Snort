@@ -614,7 +614,10 @@ Ecrire une règle qui alerte à chaque fois que votre machine IDS **reçoit** un
 
 **Réponse :**  
 Mehdi:
+
+```
 alert icmp any any -> 192.168.220.2 any (msg:"Alerte ping recu"; sid: 4000022;)
+```
 
 Résultat du fichier alert:
 
@@ -622,7 +625,8 @@ Résultat du fichier alert:
 
 [**] [1:4000022:0] Alerte ping recu [**]
 [Priority: 0]                                        
-04/03-16:54:29.270623 192.168.220.3 -> 192.168.220.2                                                  ICMP TTL:64 TOS:0x0 ID:39077 IpLen:20 DgmLen:84 DF
+04/03-16:54:29.270623 192.168.220.3 -> 192.168.220.2                                                  
+ICMP TTL:64 TOS:0x0 ID:39077 IpLen:20 DgmLen:84 DF
 Type:8  Code:0  ID:59576   Seq:4  ECHO
 
 [**] [1:4000022:0] Alerte ping recu [**]
