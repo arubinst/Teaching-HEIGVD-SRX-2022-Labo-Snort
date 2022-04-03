@@ -579,6 +579,7 @@ log udp 192.168.220.3 any -> any any (msg:"Visite Wikipedia";
 Contenu log /var/log/snort/snort.log.1649002876 :
 (Ouvert avec tcpdump -r snort.log.xxxxx)
 
+```
 reading from file snort.log.1649002876, link-type EN10MB (Ethernet), snapshot
 length 1514
 16:21:19.278661 IP 192.168.220.4.34011 > 192.168.0.254.53: 28092+ A?
@@ -601,6 +602,7 @@ de.wikipedia.org. (34)
 de.wikipedia.org. (34)
 16:21:19.745752 IP 192.168.220.4.45628 > 192.168.0.254.53: 33157+ A?
 de.wikipedia.org. (34)
+```
 
 On peut constater que le log contient:
 
