@@ -582,26 +582,16 @@ Contenu log /var/log/snort/snort.log.1649002876 :
 ```
 reading from file snort.log.1649002876, link-type EN10MB (Ethernet), snapshot
 length 1514
-16:21:19.278661 IP 192.168.220.4.34011 > 192.168.0.254.53: 28092+ A?
-de.wikipedia.org. (34)
-16:21:19.279651 IP 192.168.220.4.53315 > 192.168.0.254.53: 51316+ A?
-de.wikipedia.org. (34)
-16:21:19.524195 IP 192.168.220.4.54088 > 192.168.0.254.53: 3000+ A?
-de.wikipedia.org. (34)
-16:21:19.527678 IP 192.168.220.4.36888 > 192.168.0.254.53: 62228+ A?
-de.wikipedia.org. (34)
-16:21:19.565185 IP 192.168.220.4.52880 > 192.168.0.254.53: 18219+ A?
-de.wikipedia.org. (34)
-16:21:19.571523 IP 192.168.220.4.44068 > 192.168.0.254.53: 10498+ A?
-de.wikipedia.org. (34)
-16:21:19.575469 IP 192.168.220.4.43372 > 192.168.0.254.53: 43451+ A?
-de.wikipedia.org. (34)
-16:21:19.625311 IP 192.168.220.4.51885 > 192.168.0.254.53: 41987+ A?
-de.wikipedia.org. (34)
-16:21:19.665905 IP 192.168.220.4.56434 > 192.168.0.254.53: 45190+ A?
-de.wikipedia.org. (34)
-16:21:19.745752 IP 192.168.220.4.45628 > 192.168.0.254.53: 33157+ A?
-de.wikipedia.org. (34)
+16:21:19.278661 IP 192.168.220.4.34011 > 192.168.0.254.53: 28092+ A?  de.wikipedia.org. (34)
+16:21:19.279651 IP 192.168.220.4.53315 > 192.168.0.254.53: 51316+ A?  de.wikipedia.org. (34)
+16:21:19.524195 IP 192.168.220.4.54088 > 192.168.0.254.53: 3000+ A?  de.wikipedia.org. (34)
+16:21:19.527678 IP 192.168.220.4.36888 > 192.168.0.254.53: 62228+ A?  de.wikipedia.org. (34)
+16:21:19.565185 IP 192.168.220.4.52880 > 192.168.0.254.53: 18219+ A?  de.wikipedia.org. (34)
+16:21:19.571523 IP 192.168.220.4.44068 > 192.168.0.254.53: 10498+ A?  de.wikipedia.org. (34)
+16:21:19.575469 IP 192.168.220.4.43372 > 192.168.0.254.53: 43451+ A?  de.wikipedia.org. (34)
+16:21:19.625311 IP 192.168.220.4.51885 > 192.168.0.254.53: 41987+ A?  de.wikipedia.org. (34)
+16:21:19.665905 IP 192.168.220.4.56434 > 192.168.0.254.53: 45190+ A?  de.wikipedia.org. (34)
+16:21:19.745752 IP 192.168.220.4.45628 > 192.168.0.254.53: 33157+ A?  de.wikipedia.org. (34)
 ```
 
 On peut constater que le log contient:
@@ -623,6 +613,24 @@ Ecrire une règle qui alerte à chaque fois que votre machine IDS **reçoit** un
 ---
 
 **Réponse :**  
+Mehdi:
+alert icmp any any -> 192.168.220.2 any (msg:"Alerte ping recu"; sid: 4000022;)
+
+Résultat du fichier alert:
+
+```
+
+[**] [1:4000022:0] Alerte ping recu [**]
+[Priority: 0]                                        
+04/03-16:54:29.270623 192.168.220.3 -> 192.168.220.2                                                  ICMP TTL:64 TOS:0x0 ID:39077 IpLen:20 DgmLen:84 DF
+Type:8  Code:0  ID:59576   Seq:4  ECHO
+
+[**] [1:4000022:0] Alerte ping recu [**]
+[Priority: 0] 
+04/03-16:54:46.198408 192.168.220.4 -> 192.168.220.2
+ICMP TTL:64 TOS:0x0 ID:12740 IpLen:20 DgmLen:84 DF
+Type:8  Code:0  ID:8628   Seq:0  ECHO
+```
 
 ---
 
@@ -632,6 +640,9 @@ Ecrire une règle qui alerte à chaque fois que votre machine IDS **reçoit** un
 ---
 
 **Réponse :**  
+Mehdi:
+
+En précisent comme destination l'ip de l'IDS, soit 192.168.220.2
 
 ---
 
@@ -641,6 +652,9 @@ Ecrire une règle qui alerte à chaque fois que votre machine IDS **reçoit** un
 ---
 
 **Réponse :**  
+Mehdi:
+
+Dans /var/log/snort/alert
 
 ---
 
@@ -651,7 +665,20 @@ Les journaux sont générés en format pcap. Vous pouvez donc les lire avec Wire
 ---
 
 **Réponse :**  
+On peut voir dans le log ci-dessous que les adresses ip sources et destination,
+le protocol et le type de requetes sont loguées.
 
+Contenu du fichier log:
+
+```
+1   0.000000 192.168.220.3 ? 192.168.220.2 ICMP 98 Echo (ping) request  id=0xe8b8, seq=1/256, ttl=64
+2   1.008930 192.168.220.3 ? 192.168.220.2 ICMP 98 Echo (ping) request  id=0xe8b8, seq=2/512, ttl=64
+3   2.033023 192.168.220.3 ? 192.168.220.2 ICMP 98 Echo (ping) request  id=0xe8b8, seq=3/768, ttl=64
+4   3.057157 192.168.220.3 ? 192.168.220.2 ICMP 98 Echo (ping) request  id=0xe8b8, seq=4/1024, ttl=64
+5  19.984942 192.168.220.4 ? 192.168.220.2 ICMP 98 Echo (ping) request  id=0x21b4, seq=0/0, ttl=64
+6  20.985172 192.168.220.4 ? 192.168.220.2 ICMP 98 Echo (ping) request  id=0x21b4, seq=1/256, ttl=64
+7  21.985403 192.168.220.4 ? 192.168.220.2 ICMP 98 Echo (ping) request  id=0x21b4, seq=2/512, ttl=64
+```
 ---
 
 --
