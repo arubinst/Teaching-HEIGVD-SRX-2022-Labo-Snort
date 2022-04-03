@@ -351,7 +351,6 @@ Vous pouvez aussi utiliser des captures Wireshark ou des fichiers snort.log.xxxx
 
 ---
 
-detectées telle quelle et doivent d'abord être traitée par le préprocesseur.
 **Réponse :** 
 GUILAIN:
 Les preprocesseurs dans le context de Snort sont les composants qui traîtent les
@@ -360,6 +359,10 @@ Il y a par exemple un preprocesseur qui permet de détecter et réassembler
 les paquets fragmentés qui tentent d'éviter une détection. Ce preprocesseur 
 s'appelle Frag2.
 
+Mehdi, précision:
+Le préprocesseurs est utile car certaines attaques ne peuvent pas être traitées
+par le moteur de règles avant d'avoir étés transformées au préalables.
+
 ---
 
 **Question 2: Pourquoi êtes vous confronté au WARNING suivant `"No preprocessors configured for policy 0"` lorsque vous exécutez la commande `snort` avec un fichier de règles ou de configuration "fait-maison" ?**
@@ -367,7 +370,6 @@ s'appelle Frag2.
 ---
 
 **Réponse :**  
-ajouté.
 GUILAIN:
 Car contrairement au fichier snort.conf, le fichier mysnort.conf ne charge aucun
 preprocesseur. Snort nous indique donc qu'aucun preprocesseur n'est chargé pour 
@@ -566,6 +568,45 @@ Ecrire deux règles qui journalisent (sans alerter) chacune un message à chaque
 ---
 
 **Réponse :**  
+Mehdi:
+Règles Snort:
+
+log udp 192.168.220.4 any -> any any (msg:"Visite Wikipedia";
+content:"|09|wikipedia|03|org|00|"; nocase; sid: 4000020;)                                                                                    
+log udp 192.168.220.3 any -> any any (msg:"Visite Wikipedia";
+ content:"|09|wikipedia|03|org|00|"; nocase; sid: 4000021;)
+
+Contenu log /var/log/snort/snort.log.1649002876 :
+(Ouvert avec tcpdump -r snort.log.xxxxx)
+
+reading from file snort.log.1649002876, link-type EN10MB (Ethernet), snapshot
+length 1514
+16:21:19.278661 IP 192.168.220.4.34011 > 192.168.0.254.53: 28092+ A?
+de.wikipedia.org. (34)
+16:21:19.279651 IP 192.168.220.4.53315 > 192.168.0.254.53: 51316+ A?
+de.wikipedia.org. (34)
+16:21:19.524195 IP 192.168.220.4.54088 > 192.168.0.254.53: 3000+ A?
+de.wikipedia.org. (34)
+16:21:19.527678 IP 192.168.220.4.36888 > 192.168.0.254.53: 62228+ A?
+de.wikipedia.org. (34)
+16:21:19.565185 IP 192.168.220.4.52880 > 192.168.0.254.53: 18219+ A?
+de.wikipedia.org. (34)
+16:21:19.571523 IP 192.168.220.4.44068 > 192.168.0.254.53: 10498+ A?
+de.wikipedia.org. (34)
+16:21:19.575469 IP 192.168.220.4.43372 > 192.168.0.254.53: 43451+ A?
+de.wikipedia.org. (34)
+16:21:19.625311 IP 192.168.220.4.51885 > 192.168.0.254.53: 41987+ A?
+de.wikipedia.org. (34)
+16:21:19.665905 IP 192.168.220.4.56434 > 192.168.0.254.53: 45190+ A?
+de.wikipedia.org. (34)
+16:21:19.745752 IP 192.168.220.4.45628 > 192.168.0.254.53: 33157+ A?
+de.wikipedia.org. (34)
+
+On peut constater que le log contient:
+
+- un timestamp de l'événement
+- l'adresse IP source et destination
+- le port source et destionation
 
 ---
 
