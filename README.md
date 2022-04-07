@@ -932,7 +932,10 @@ assemblés.
 
 Mehdi: 
 
-
+Ce préprocesseur sert à traiter le traffic afin de déterminer s'il s'agit de
+traffic avec protocol SSL/TLS. Ce traffic étant chiffré, il n'y a pas de raison
+que Snort l'inspecte car il ne pourra rien en tirer, en plus de consommer des
+performances inutilement.
 
 ---
 
@@ -942,6 +945,14 @@ Mehdi:
 ---
 
 **Réponse :**  
+
+Mehdi: 
+
+Ce préprocesseur sert à détecter des fuites de données sensibles, telles que des
+numéro de carte de crédit ou des numéros de sécurité sociale, afin de les modifier, 
+par exemple en remplaçant les premiers digits d'un numéro de carte de crédit par
+des XXXX. Cela permet d'éviter que ces données sensibles sortent du réseau en
+clair, par exemple en les ayant copié accidentellement dans un document.
 
 ---
 
@@ -956,6 +967,15 @@ Mehdi:
 
 Mehdi: 
 
+Snort est un outil puissant de détection d'intrusion. C'est devenu le standard
+de facto. Adoptant la philosophie Unix, il est possible de tout configurer et
+customiser, ce qui en fait un outil très flexible. Les règles et la syntaxes de
+base sont relativement simple à comprendre mais elles deviennent vite complexe
+lorsqu'il faut créer des règles plus élaborée. La documentation n'est pas
+évidente à comprendre et il manque souvent des exemples. Une des grandes force
+est la communauté qui fournis de nombreuses règles prêtes à l'emploi. Tout cela
+fait qu'il est donc possible d'installer Snort sur un réseau avec une
+configuration de base assez solide et tout cela à bas prix.
 
 ---
 

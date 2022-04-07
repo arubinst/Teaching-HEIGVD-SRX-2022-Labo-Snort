@@ -12,3 +12,13 @@ alert icmp any any -> any any (msg:"Alerte ping recu"; sid: 4000023;)
 # Q14 Alerte si SSH depuis Client vers IDS
 
 alert tcp 192.168.220.3 any -> 192.168.220.2 22 (msg: "Alerte SSH Client->IDS";sid :4000024;)
+
+# frag3 config
+preprocessor frag3_global: max_frags 65536
+preprocessor frag3_engine: policy windows detect_anomalies overlap_limit 10 min_fragment_length 100 timeout 180
+
+# Q22 detect syn scan
+
+alert tcp any any -> 192.168.220.2 any (msg:"SYN scan";flags:S,12;sid:1000003;)
+
+
