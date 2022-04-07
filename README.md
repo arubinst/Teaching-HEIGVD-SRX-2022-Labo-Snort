@@ -739,7 +739,13 @@ alert tcp 192.168.220.3 any -> 192.168.220.2 22 (msg: "Alerte SSH Client->IDS";s
 Mehdi:
 
 ```
-1   0.000000 192.168.220.3 → 192.168.220.2 TCP 74 44850 → 22 [SYN] Seq=0 Win=64240 Len=0 MSS=1460 SACK_PERM=1 TSval=3596258622 TSecr=0 WS=128
+
+[**] [1:4000024:0] Alerte SSH Client->IDS [**]
+[Priority: 0] 
+04/07-04:53:45.221512 192.168.220.3:44850 -> 192.168.220.2:22
+TCP TTL:64 TOS:0x10 ID:44837 IpLen:20 DgmLen:60 DF
+******S* Seq: 0x56A9B316  Ack: 0x0  Win: 0xFAF0  TcpLen: 40
+TCP Options (5) => MSS: 1460 SackOK TS: 3596258622 0 NOP WS: 7 
 ```
 
 ---
