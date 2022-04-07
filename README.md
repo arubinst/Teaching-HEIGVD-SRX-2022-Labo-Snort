@@ -816,6 +816,12 @@ Faire des recherches à propos des outils `fragroute` et `fragrouter`.
 
 **Réponse :**  
 
+Mehdi:
+
+Ces outils servent à échapper aux systèmes de détection d'intrusion en
+modifiant les paquets à destination d'une cible. Les paquets peuvent être
+dupliqués, fragmentés, réordonnés, etc.
+
 ---
 
 
@@ -825,6 +831,18 @@ Faire des recherches à propos des outils `fragroute` et `fragrouter`.
 
 **Réponse :**  
 
+Mehdi:
+
+Il est possible de configurer une machine pour qu'elle route son traffic au
+travers de Fragrouter. On peut ensuite configurer Fragrouter pour que le traffic
+à destination d'une certaine machine soit modifié de manière à correspondre à
+une attaque dont le but est d'échapper aux systèmes de détection d'intrusion. Un
+exemple d'attaque est de fragmenter les paquets en plusieurs petits paquets. Le
+système d'intrusion analyse ainsi du traffic qui ne correspond pas exactement à
+ce que la cible va recevoir, et n'est pas en mesure de détecter des attaques
+sans au préalable ré assembler les paquets, s'il est capable de le faire et
+s'il est configuré pour le faire.
+
 ---
 
 
@@ -833,6 +851,11 @@ Faire des recherches à propos des outils `fragroute` et `fragrouter`.
 ---
 
 **Réponse :**  
+
+Frag3 a pour but de défragmenter du traffic étant arrivé fragmenté et ce pour
+contrer les techniques d'évasion de systèmes d'intrustion. Il fonctionne en
+ré assemblant les paquets qui ont été fragmenté. Cela permet ensuite d'appliquer
+les règles du systèmes de détection d'intrusion sur le traffic défragmenté.
 
 ---
 
