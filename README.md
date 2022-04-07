@@ -696,6 +696,12 @@ Faites le nécessaire pour que les pings soient détectés dans les deux sens.
 ---
 
 **Réponse :**  
+En mettant simplement any des deux cotés de la règles, soit en entrée et en
+sortie
+
+```
+alert icmp any any -> 192.168.220.2 any (msg:"Alerte ping recu"; sid: 4000022;)
+```
 
 ---
 
