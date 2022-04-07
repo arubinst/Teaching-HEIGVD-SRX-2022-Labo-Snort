@@ -696,10 +696,14 @@ Faites le nécessaire pour que les pings soient détectés dans les deux sens.
 ---
 
 **Réponse :**  
+Mehdi:
+
 En mettant simplement any des deux cotés de la règles, soit en entrée et en
 sortie
 
 ```
+Mehdi:
+
 alert icmp any any -> 192.168.220.2 any (msg:"Alerte ping recu"; sid: 4000022;)
 ```
 
@@ -718,6 +722,12 @@ Essayer d'écrire une règle qui Alerte qu'une tentative de session SSH a été 
 
 **Réponse :**  
 
+Mehdi:
+
+```
+alert tcp 192.168.220.3 any -> 192.168.220.2 22 (msg: "Alerte SSH Client->IDS";sid :4000024;)
+```
+
 ---
 
 
@@ -726,6 +736,11 @@ Essayer d'écrire une règle qui Alerte qu'une tentative de session SSH a été 
 ---
 
 **Réponse :**  
+Mehdi:
+
+```
+1   0.000000 192.168.220.3 → 192.168.220.2 TCP 74 44850 → 22 [SYN] Seq=0 Win=64240 Len=0 MSS=1460 SACK_PERM=1 TSval=3596258622 TSecr=0 WS=128
+```
 
 ---
 
