@@ -770,6 +770,10 @@ Générez du trafic depuis le deuxième terminal qui corresponde à l'une des r�
 
 **Réponse :**  
 
+Mehdi:
+
+snort -r nom_fichier.pcap
+
 ---
 
 Utiliser l'option correcte de Snort pour analyser le fichier de capture Wireshark que vous venez de générer.
@@ -780,6 +784,11 @@ Utiliser l'option correcte de Snort pour analyser le fichier de capture Wireshar
 
 **Réponse :**  
 
+Mehdi:
+
+Snort affiche les logs puis un résumé du type du traffic et du nombre de
+paquets. Le comportant est identique à celui en temps réel.
+
 ---
 
 **Question 18: Est-ce que des alertes sont aussi enregistrées dans le fichier d'alertes?**
@@ -787,6 +796,11 @@ Utiliser l'option correcte de Snort pour analyser le fichier de capture Wireshar
 ---
 
 **Réponse :**  
+
+Mehdi:
+
+Non étant donné que ce n'est pas Snort qui a été lancé pour faire la capture,
+mais Tshark.
 
 ---
 
