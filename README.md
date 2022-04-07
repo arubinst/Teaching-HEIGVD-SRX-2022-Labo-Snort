@@ -871,6 +871,13 @@ L'outil nmap propose une option qui fragmente les messages afin d'essayer de con
 
 **Réponse :**  
 
+Mehdi:
+
+```
+alert tcp any any -> 192l.168.220.2 any (msg:"SYN Scan"; flags:S, 12;sid:
+1000003;)
+```
+
 ---
 
 
@@ -892,6 +899,9 @@ nmap -sS -f -p 22 --send-eth 192.168.220.2
 ---
 
 **Réponse :**  
+
+Mehdi:
+En utilisant la fragmentation avec Nmap, Snort ne détecte plus le scan.
 
 ---
 
