@@ -915,6 +915,12 @@ Modifier le fichier `myrules.rules` pour que snort utiliser le `Frag3 Preprocess
 
 **Réponse :**  
 
+Mehdi:
+
+Snort est maintenant capable d'identifier le SYN scan de Nmap. Il indique aussi
+dans son rapport les statistiques de Frag3 et les paquets qui ont été ré
+assemblés.
+
 ---
 
 
@@ -923,6 +929,10 @@ Modifier le fichier `myrules.rules` pour que snort utiliser le `Frag3 Preprocess
 ---
 
 **Réponse :**  
+
+Mehdi: 
+
+
 
 ---
 
@@ -943,6 +953,9 @@ Modifier le fichier `myrules.rules` pour que snort utiliser le `Frag3 Preprocess
 ---
 
 **Réponse :**  
+
+Mehdi: 
+
 
 ---
 
