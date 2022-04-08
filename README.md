@@ -391,6 +391,7 @@ sudo snort -c myrules.rules -i eth0
 ---
 
 **Réponse :**  
+On voit les règles chargées, le protocole ainsi que les src/addr qui vont être processés (lié à la règle créée). On voit aussi l'endroit ou les logs seront écrits, sur quel interface il écoute.
 
 ---
 
@@ -403,6 +404,7 @@ Pour accéder à Firefox dans son conteneur, ouvrez votre navigateur web sur vot
 ---
 
 **Réponse :**  
+Sur snort directement *WARNING: No preprocessors configured for policy 0.*
 
 ---
 
@@ -413,6 +415,11 @@ Arrêter Snort avec `CTRL-C`.
 ---
 
 **Réponse :**  
+On a un résumé de la capture :
+Le nombre de packets recus, le nombre de packets analysés, le nombre de paquets droppé
+La durée de la caputre, ainsi que des statistique sur le nombre de packets par minute et par secondes, par protocole
+Des informations sur la mémoire utilisée durant la capture
+Le nombre d'actions qui ont étés trigger : (Alerts / logged / Paused)
 
 ---
 
@@ -424,6 +431,14 @@ Aller au répertoire /var/log/snort. Ouvrir le fichier `alert`. Vérifier qu'il 
 ---
 
 **Réponse :**  
+
+```
+[**] [1:6006:2] Mon ecole ! [**]                                    [1]
+[Priority: 0]                                                       [2]
+04/08-09:12:31.324374 193.134.221.185:80 -> 192.168.220.2:37484     [3]
+TCP TTL:37 TOS:0x0 ID:43019 IpLen:20 DgmLen:417                     [4]
+***AP*** Seq: 0x1AFEFEBC  Ack: 0xA7195270  Win: 0xFFFF  TcpLen: 20  [5]
+
 
 ---
 
