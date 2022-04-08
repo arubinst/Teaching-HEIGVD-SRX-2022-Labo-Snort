@@ -363,6 +363,9 @@ Mehdi, précision:
 Le préprocesseurs est utile car certaines attaques ne peuvent pas être traitées
 par le moteur de règles avant d'avoir étés transformées au préalables.
 
+C'est le cas par exemple du traffic qui a été fragmenté et qui peut être
+défragmenté grâce à Frag3.
+
 ---
 
 **Question 2: Pourquoi êtes vous confronté au WARNING suivant `"No preprocessors configured for policy 0"` lorsque vous exécutez la commande `snort` avec un fichier de règles ou de configuration "fait-maison" ?**
@@ -569,6 +572,7 @@ Ecrire deux règles qui journalisent (sans alerter) chacune un message à chaque
 
 **Réponse :**  
 Mehdi:
+
 Règles Snort:
 
 ```
@@ -599,6 +603,7 @@ On peut constater que le log contient:
 - un timestamp de l'événement
 - l'adresse IP source et destination
 - le port source et destionation
+- la requête DNS qui a été faite
 
 ---
 
@@ -613,6 +618,7 @@ Ecrire une règle qui alerte à chaque fois que votre machine IDS **reçoit** un
 ---
 
 **Réponse :**  
+
 Mehdi:
 
 ```
@@ -704,7 +710,7 @@ sortie
 ```
 Mehdi:
 
-alert icmp any any -> 192.168.220.2 any (msg:"Alerte ping recu"; sid: 4000022;)
+alert icmp any any -> any any (msg:"Alerte ping recu"; sid: 4000022;)
 ```
 
 ---
@@ -872,6 +878,7 @@ L'outil nmap propose une option qui fragmente les messages afin d'essayer de con
 **Réponse :**  
 
 Mehdi:
+A VERIFIER
 
 ```
 alert tcp any any -> 192l.168.220.2 any (msg:"SYN Scan"; flags:S, 12;sid:
@@ -901,6 +908,7 @@ nmap -sS -f -p 22 --send-eth 192.168.220.2
 **Réponse :**  
 
 Mehdi:
+
 En utilisant la fragmentation avec Nmap, Snort ne détecte plus le scan.
 
 ---
@@ -935,7 +943,7 @@ Mehdi:
 Ce préprocesseur sert à traiter le traffic afin de déterminer s'il s'agit de
 traffic avec protocol SSL/TLS. Ce traffic étant chiffré, il n'y a pas de raison
 que Snort l'inspecte car il ne pourra rien en tirer, en plus de consommer des
-performances inutilement.
+ressources inutilement.
 
 ---
 
