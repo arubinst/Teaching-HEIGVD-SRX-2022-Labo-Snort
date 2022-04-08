@@ -555,7 +555,17 @@ TCP Options (3) => NOP NOP TS: 199862785 766923961
 
 ```
 ---
+*[**] [1:4000015:1] Mon Alert! [**]*: Cette ligne indique le message d'alert ("Mon Alert!")
+ainsi que la signature de l'intrusion ([1:4000015:1] ).
 
+*[Priority: 0]*: Indique la priorité de l'attaque (0 indique un risque faible).
+
+*04/01-09:58:35.141221*: Indique la date et l'heure de l'événement.
+
+*188.184.21.108:80 -> 192.168.220.4:37524*: Indique les ip et ports sources / destination.
+
+Le reste du message donne des indications sur le paquet qui a été observé
+(comme le time-to-live par exemple).
 
 --
 
