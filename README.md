@@ -634,6 +634,12 @@ Mehdi:
 ```
 alert icmp any any -> 192.168.220.2 any (msg:"Alerte ping recu"; sid: 4000022;)
 ```
+Antho:
+
+```
+alert icmp 192.168.220.0/24 any -> 192.168.220.2 any (msg:"Alerte ping recu"; sid: 4000022;)
+```
+
 
 Résultat du fichier alert:
 
