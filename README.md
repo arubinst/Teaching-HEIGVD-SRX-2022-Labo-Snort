@@ -356,11 +356,12 @@ Les préprocesseurs de Snort sont des composants qui interviennent avant l'appli
 
 ---
 
-**Question 2: Pourquoi êtes vous confronté au WARNING suivant `"No preprocessors configured for policy 0"` lorsque vous exécutez la commande `snort` avec un fichier de règles ou de configuration "fait-maison" ?**
+**Question 2: Pourquoi êtes-vous confronté au WARNING suivant `"No preprocessors configured for policy 0"` lorsque vous exécutez la commande `snort` avec un fichier de règles ou de configuration "fait-maison" ?**
 
 ---
 
 **Réponse :**  
+Car il faut toujours préciser et charger des préprocesseurs pour que Snort fonctionne ! La solution la plus simple étant de garder les préprocesseurs de bases définis dans /etc/snort/mysnort.conf.
 
 ---
 
