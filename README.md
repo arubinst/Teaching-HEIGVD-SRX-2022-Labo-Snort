@@ -458,7 +458,7 @@ Ecrire une règle qui alerte à chaque fois que votre machine IDS **reçoit** un
 
 ---
 
-**Réponse :**  
+**Réponse :**  alert icmp [192.168.220.3,192.168.220.4] any -> 192.168.220.2 any (msg:"Ping local vers l'IDS"; sid:4000030;rev:1;)
 
 ---
 
