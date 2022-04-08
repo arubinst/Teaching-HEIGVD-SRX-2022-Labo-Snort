@@ -361,7 +361,7 @@ Les préprocesseurs de Snort sont des composants qui interviennent avant l'appli
 ---
 
 **Réponse :**  
-Car il faut toujours préciser et charger des préprocesseurs pour que Snort fonctionne ! La solution la plus simple étant de garder les préprocesseurs de bases définis dans /etc/snort/mysnort.conf.
+Car il faut toujours préciser et charger des préprocesseurs pour que Snort fonctionne ! La solution la plus simple étant de garder les préprocesseurs de bases définis dans /etc/snort/snort.conf.
 
 ---
 
