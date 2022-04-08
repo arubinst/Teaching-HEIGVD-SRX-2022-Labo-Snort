@@ -378,7 +378,7 @@ alert tcp any any -> any any (msg:"Mon nom!"; content:"Rubinstein"; sid:4000015;
 ---
 
 **Réponse :**  
- Elle envoie une alerte pour tout le traffic TCP qui contient "Rubinstein" comme payload.
+ Cette règle journalise une alerte pour tout le traffic TCP qui contient "Rubinstein" comme payload.
 
 ---
 
@@ -393,7 +393,7 @@ sudo snort -c myrules.rules -i eth0
 ---
 
 **Réponse :**  
-Beaucoup d'information sur la configuration chargée par Snort. Toutes les étapes de chargement de la config.
+le chargement de snort affiche beaucoup d'informations sur la configuration de Snort.
 
 ---
 
@@ -406,7 +406,7 @@ Pour accéder à Firefox dans son conteneur, ouvrez votre navigateur web sur vot
 ---
 
 **Réponse :**  
-Beaucoup de messages indiquant qu'aucun preprocesseur n'est confguré.
+Dans le terminal, il n'y a que des messages d'avertissement disant qu'il n'y a pas de processeur. Les alertes vont dans le dossier de log.
 
 ---
 
@@ -417,7 +417,7 @@ Arrêter Snort avec `CTRL-C`.
 ---
 
 **Réponse :**  
-Un rundown complet de tous les paquets qui ont été capturé.
+Un rundown complet de tous les paquets qui ont été capturés.
 
 ---
 
@@ -429,7 +429,7 @@ Aller au répertoire /var/log/snort. Ouvrir le fichier `alert`. Vérifier qu'il 
 ---
 
 **Réponse :**  
-On a une foultitude d'information sur la paquet qui a été capturé, donc IPs concernées, ports, TTL, flags TCP, etc...
+L'alerte détaille de manière très précise le paquet capturé avec par exemple : les IPs et ports de source et destination, les flags TCP, etc...
 
 ---
 
