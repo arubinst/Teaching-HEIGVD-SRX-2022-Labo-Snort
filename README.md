@@ -351,7 +351,7 @@ Vous pouvez aussi utiliser des captures Wireshark ou des fichiers snort.log.xxxx
 
 ---
 
-**Réponse :**  
+**Réponse :** Les préprocesseurs sont des portions de code qui sont exécutés par SNORT après décodage des paquets. Ils permettent aux utilisateurs et développeurs de rajouter des fonctionnalités à SNORT facilement sous forme de plug-ins.
 
 ---
 
@@ -359,7 +359,7 @@ Vous pouvez aussi utiliser des captures Wireshark ou des fichiers snort.log.xxxx
 
 ---
 
-**Réponse :**  
+**Réponse :** Car avec notre configuration personnalisée, nous ne chargeons aucun préprocesseur. Ce message nous avertit donc d'une potentielle mauvaise configuration.
 
 ---
 
@@ -375,7 +375,8 @@ alert tcp any any -> any any (msg:"Mon nom!"; content:"Rubinstein"; sid:4000015;
 
 ---
 
-**Réponse :**  
+**Réponse :** Cette règle s'applique au protocole TCP. Elle va considérer les paquets provenant de n'importe quelle adresse IP et port source, ainsi que n'importe quelle adresse IP et port de destination. Seul le trafic en provenance de la source est analysé, la réponse est ignorée.
+Cette règle va déclencher une alerte lorsque le contenu d'un paquet analysé comporte la chaîne "Rubinstein". L'alerte va alors afficher le message "Mon nom!".
 
 ---
 
