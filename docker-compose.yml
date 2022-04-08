@@ -57,6 +57,7 @@ services:
             - NET_ADMIN
         volumes:
             - shared-data:/var/log/snort
+            - scripts-containers/wireshark.sh:/opt/config.sh
         network_mode: service:ids
         environment:
             - PUID=0
@@ -65,8 +66,6 @@ services:
         #ports:
         #    - 3000:3000
         restart: unless-stopped
-        volumes:
-            - scripts-containers/wireshark.sh:/opt/config.sh
 
     firefox:
         hostname: 'firefox'
