@@ -459,6 +459,7 @@ Ecrire une règle qui alerte à chaque fois que votre machine IDS **reçoit** un
 ---
 
 **Réponse :**  
+alert icmp !192.168.220.2/32 any -> 192.168.220.2/32 any (msg: "Ping reçu par l'IDS !"; sid:4010017; rev:2;)
 
 ---
 
@@ -468,6 +469,8 @@ Ecrire une règle qui alerte à chaque fois que votre machine IDS **reçoit** un
 ---
 
 **Réponse :**  
+En mettant d'abord comme adresse "source" toutes les adresses, sauf l'adresse de l'IDS puis en mettant comme adresse cible l'adresse IP de l'IDS.
+J'ai également précisé "ICMP" comme protocole.
 
 ---
 
@@ -477,6 +480,7 @@ Ecrire une règle qui alerte à chaque fois que votre machine IDS **reçoit** un
 ---
 
 **Réponse :**  
+Le message est journalisé dans /var/log/snort/alert et le paquet est sauvegardé dans le même dossier, dans un fichier snort.log.timestamp sous format pcap.
 
 ---
 
@@ -486,7 +490,8 @@ Les journaux sont générés en format pcap. Vous pouvez donc les lire avec Wire
 
 ---
 
-**Réponse :**  
+**Réponse :**
+Seuls les Echo request sont journalisés. C'est logique puisque les echo reply ne répondent pas à la règle que j'ai écrit.
 
 ---
 
