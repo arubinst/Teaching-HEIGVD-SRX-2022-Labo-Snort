@@ -377,6 +377,8 @@ alert tcp any any -> any any (msg:"Mon nom!"; content:"Rubinstein"; sid:4000015;
 
 **Réponse :**  
 
+La règle envoie, si le paquet contient "Rubinstein" comme payload, un message d'alerte avec comme information "Mon nom!" et écrit dans le paquet dans le journal.
+
 ---
 
 Utiliser nano pour créer un fichier `myrules.rules` sur votre répertoire home (```/root```). Rajouter une règle comme celle montrée avant mais avec votre text, phrase ou mot clé que vous aimeriez détecter. Lancer Snort avec la commande suivante :
