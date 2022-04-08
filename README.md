@@ -437,7 +437,14 @@ Aller au répertoire /var/log/snort. Ouvrir le fichier `alert`. Vérifier qu'il 
 [Priority: 0]                                                       [2]
 04/08-09:12:31.324374 193.134.221.185:80 -> 192.168.220.2:37484     [3]
 TCP TTL:37 TOS:0x0 ID:43019 IpLen:20 DgmLen:417                     [4]
-***AP*** Seq: 0x1AFEFEBC  Ack: 0xA7195270  Win: 0xFFFF  TcpLen: 20  [5]
+***AP*** Seq: 0x1AFEFEBC  Ack: 0xA7195270  Win: 0xFFFF  TcpLen: 20  
+```
+
+[1] La signature de l'intrusion,  notamment le SID ainsi que le paramètre msg de la règle créée.
+[2] La priorité
+[3] La date de l'évenmment, l'ip.src:port -> l'ip.ds:portt
+[4] Un rapide apercu du header du paquet en question, le protocol ainsi que les TTLS, le Type Of Service, le numéro de séquence etc...
+
 
 
 ---
