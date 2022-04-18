@@ -377,7 +377,7 @@ alert tcp any any -> any any (msg:"Mon nom!"; content:"Rubinstein"; sid:4000015;
 
 ---
 
-**Réponse :**  Pour du traffic TCP, venant de n'importe quelle IP + port allant vers n'importe quelle IP + port. Cela crée une alerte pour tous les paquets contenants le mot "Rubinstein" dans l'en-tête. Le message "Mon nom!" sera journalisé dans le syslog. Le sid et le rev permettent d'identifier de manière unique la règle.
+**Réponse :**  Pour du traffic TCP, venant de n'importe quelle IP + port allant vers n'importe quelle IP + port (la flèche permet de savoir dans quel sens nous allons). Cela crée une alerte pour tous les paquets contenants le mot "Rubinstein" dans l'en-tête. Le message "Mon nom!" sera journalisé dans le syslog. Le sid et le rev permettent d'identifier de manière unique la règle.
 
 ---
 
@@ -434,7 +434,9 @@ Aller au répertoire /var/log/snort. Ouvrir le fichier `alert`. Vérifier qu'il 
 
 **Réponse :**  La règle utilisée: alert tcp any any -> any any (msg:"Detected Facebook!"; content:"Facebook"; sid:4000016; rev:1;)
 
-En permier on voit le sid, la rev et le message
+![Question 7](images/Q7.png)
+
+En premier on voit le sid, la rev et le message
 En dessous on voit la priorité (0 dans notre cas)
 Des informations sur le paquet TCP (TTL, TOS, ID...)
 
@@ -451,8 +453,13 @@ Ecrire deux règles qui journalisent (sans alerter) chacune un message à chaque
 
 ---
 
-**Réponse :**  règle dans l'état: log tcp 192.168.220.3 any -> 185.15.58.224 443 (msg:"Wikipedia detected on client"; sid:4000020; rev:1;)
-(juste changer le 3 en un 4 pour avoir firefox)
+**Réponse :**  
+
+Nous utilisons l'adresse IP de wikipedia, cependant en le faisant de cette manière si l'adresse IP de Wikipedia change il faudra modifier l'adresse IP de la règle.
+
+règle dans l'état: 
+client : log tcp 192.168.220.3 any -> 185.15.58.224 443 (msg:"Wikipedia detected on client"; sid:4000020; rev:1;)
+firefox : log tcp 192.168.220.4 any -> 185.15.58.224 443 (msg:"Wikipedia detected on firefox"; sid:4000021; rev:1;)
 
 ---
 
@@ -466,7 +473,9 @@ Ecrire une règle qui alerte à chaque fois que votre machine IDS **reçoit** un
 
 ---
 
-**Réponse :**  alert icmp [192.168.220.3,192.168.220.4] any -> 192.168.220.2 any (msg:"Ping local vers l'IDS"; sid:4000030;rev:1;)
+**Réponse :**  
+
+alert icmp [192.168.220.3,192.168.220.4] any -> 192.168.220.2 any (msg:"Ping local vers l'IDS"; sid:4000030;rev:1;)
 
 ---
 
@@ -477,6 +486,8 @@ Ecrire une règle qui alerte à chaque fois que votre machine IDS **reçoit** un
 
 **Réponse :**  
 
+En utilisant une flèche unidirectionnelle allant des machines du LAN vers l'IDS.
+
 ---
 
 
@@ -484,7 +495,9 @@ Ecrire une règle qui alerte à chaque fois que votre machine IDS **reçoit** un
 
 ---
 
-**Réponse :**  
+**Réponse :**
+
+Comme il s'agit d'une alerte, il se trouve dans le fichier /var/log/snort/alert, de plus le paquet a été écrit dans le journal (qui se trouve aussi dans /var/log/snort/).
 
 ---
 
@@ -509,6 +522,10 @@ Faites le nécessaire pour que les pings soient détectés dans les deux sens.
 ---
 
 **Réponse :**  
+
+Nous avons modifié la flèche unidirectionnelle en une flèche bidirectionnelle :
+
+alert icmp [192.168.220.3,192.168.220.4] any <> 192.168.220.2 any (msg:"Ping local vers l'IDS"; sid:4000030;rev:1;)
 
 ---
 
