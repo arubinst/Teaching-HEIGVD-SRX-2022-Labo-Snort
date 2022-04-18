@@ -351,7 +351,7 @@ Vous pouvez aussi utiliser des captures Wireshark ou des fichiers snort.log.xxxx
 
 ---
 
-**Réponse : ** Les préprocesseurs sont des modules d’extension pour arranger ou modifier les paquets de données
+**Réponse :** Les préprocesseurs sont des modules d’extension pour arranger ou modifier les paquets de données
 avant que le moteur de détection n’intervienne. Certains préprocesseurs détectent aussi des anomalies
 dans les entêtes des paquets et génèrent alors des alertes. Par exemple, ça permet à snort de detecter une attaque avec des paquets fragmentés
 
@@ -377,7 +377,7 @@ alert tcp any any -> any any (msg:"Mon nom!"; content:"Rubinstein"; sid:4000015;
 
 ---
 
-**Réponse :**  Traffic TCP, de n'importe quelle IP + port à n'importe quelle IP + port. ça cela créer une alerte pour tous les paquets contenants le mot "Rubinstein" dans l'en-tête. Le message "Mon nom!" sera journalisé dans le syslog. Le sid et le rev permettent d'identifier de manière unique.
+**Réponse :**  Pour du raffic TCP, venant de n'importe quelle IP + port allant vers n'importe quelle IP + port. Cela crée une alerte pour tous les paquets contenants le mot "Rubinstein" dans l'en-tête. Le message "Mon nom!" sera journalisé dans le syslog. Le sid et le rev permettent d'identifier de manière unique la règle.
 
 ---
 
@@ -391,7 +391,7 @@ sudo snort -c myrules.rules -i eth0
 
 ---
 
-**Réponse :**  C'est une sorte de résumé des règles actives.
+**Réponse :** Tout d'abord on nous dit dans quel mode est lancé snort (ici en mode IDS), puis il y a une liste de ce que snort initialise. Par exemple on nous dit quel fichier de règles est utilisé + l'endroit où l'on sauvegarde les logs. Ensuite nous avons un bref résumé de ce que snort à lu du fichier de règles, chez nous il n'y en a qu'une seule. Il y a aussi un résumé des ports qui sont concernés par les règles, dans notre cas il n'y a que le port "any" et du protocole tcp. Ensuite il y a une liste des différents filtres présent dans le fichier de règles (detection, rate, event, suppression), comme nous n'en avons défini aucun ces champs sont vides ou contiennent la valeur par défaut du memory-cap. Ensuite nous avons des informations sur la quantité de mémoire que snort va utiliser pour mémoriser les patterns afin de reconnaitre les paquets voulu, de plus il aussi noté quel algorithme est utilisé par snort (ici l'algorithme AC-BNFA). Et pour finir nous avons un résumé de la version de snort avec le PID de snort sur la machine.
 
 ---
 
