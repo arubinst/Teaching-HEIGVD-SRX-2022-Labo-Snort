@@ -377,7 +377,7 @@ alert tcp any any -> any any (msg:"Mon nom!"; content:"Rubinstein"; sid:4000015;
 
 ---
 
-**Réponse :**  Pour du raffic TCP, venant de n'importe quelle IP + port allant vers n'importe quelle IP + port. Cela crée une alerte pour tous les paquets contenants le mot "Rubinstein" dans l'en-tête. Le message "Mon nom!" sera journalisé dans le syslog. Le sid et le rev permettent d'identifier de manière unique la règle.
+**Réponse :**  Pour du traffic TCP, venant de n'importe quelle IP + port allant vers n'importe quelle IP + port. Cela crée une alerte pour tous les paquets contenants le mot "Rubinstein" dans l'en-tête. Le message "Mon nom!" sera journalisé dans le syslog. Le sid et le rev permettent d'identifier de manière unique la règle.
 
 ---
 
@@ -391,7 +391,11 @@ sudo snort -c myrules.rules -i eth0
 
 ---
 
-**Réponse :** Tout d'abord on nous dit dans quel mode est lancé snort (ici en mode IDS), puis il y a une liste de ce que snort initialise. Par exemple on nous dit quel fichier de règles est utilisé + l'endroit où l'on sauvegarde les logs. Ensuite nous avons un bref résumé de ce que snort à lu du fichier de règles, chez nous il n'y en a qu'une seule. Il y a aussi un résumé des ports qui sont concernés par les règles, dans notre cas il n'y a que le port "any" et du protocole tcp. Ensuite il y a une liste des différents filtres présent dans le fichier de règles (detection, rate, event, suppression), comme nous n'en avons défini aucun ces champs sont vides ou contiennent la valeur par défaut du memory-cap. Ensuite nous avons des informations sur la quantité de mémoire que snort va utiliser pour mémoriser les patterns afin de reconnaitre les paquets voulu, de plus il aussi noté quel algorithme est utilisé par snort (ici l'algorithme AC-BNFA). Et pour finir nous avons un résumé de la version de snort avec le PID de snort sur la machine.
+**Réponse :** 
+
+![Question 4](images/Q4.png)
+
+Tout d'abord on nous dit dans quel mode est lancé snort (ici en mode IDS), puis il y a une liste de ce que snort initialise. Par exemple on nous dit quel fichier de règles est utilisé + l'endroit où l'on sauvegarde les logs. Ensuite nous avons un bref résumé de ce que snort à lu du fichier de règles, chez nous il n'y en a qu'une seule. Il y a aussi un résumé des ports qui sont concernés par les règles, dans notre cas il n'y a que le port "any" et du protocole tcp. Ensuite il y a une liste des différents filtres présent dans le fichier de règles (detection, rate, event, suppression), comme nous n'en avons défini aucun ces champs sont vides ou contiennent la valeur par défaut du memory-cap. Ensuite nous avons des informations sur la quantité de mémoire que snort va utiliser pour mémoriser les patterns afin de reconnaitre les paquets voulu, de plus il aussi noté quel algorithme est utilisé par snort (ici l'algorithme AC-BNFA). Et pour finir nous avons un résumé de la version de snort avec le PID de snort sur la machine.
 
 ---
 
@@ -399,11 +403,11 @@ Aller à un site web contenant dans son text la phrase ou le mot clé que vous a
 
 Pour accéder à Firefox dans son conteneur, ouvrez votre navigateur web sur votre machine hôte et dirigez-le vers [http://localhost:4000](http://localhost:4000). Optionnellement, vous pouvez utiliser wget sur la machine client pour lancer la requête http ou le navigateur Web lynx - il suffit de taper ```lynx neverssl.com```. Le navigateur lynx est un navigateur basé sur text, sans interface graphique.
 
-**Question 5: Que voyez-vous sur votre terminal quand vous chargez le site depuis Firefox ou la machine Client? **
+**Question 5: Que voyez-vous sur votre terminal quand vous chargez le site depuis Firefox ou la machine Client?**
 
 ---
 
-**Réponse :**  Il ne s'affiche rien
+**Réponse :**  Il ne s'affiche rien, lorsque l'on utilise -c (paramètre pour utiliser un fichier de config) par défaut rien n'est affiché et tout se trouve dans les fichiers de logs de snort. Si l'on souhaite afficher les paquets alors il faut utiliser le paramètre -v (mais cela ralentit snort).
 
 ---
 
@@ -413,7 +417,11 @@ Arrêter Snort avec `CTRL-C`.
 
 ---
 
-**Réponse :**  Le temps que cela lui a pris pour process les paquets, le nombre de paquets processed, un résumé de l'utilisation mémoire, le total I/O paquets, une liste des protocoles, des statistiques d'actions, des limites et des verdicts.
+**Réponse :**  
+
+![Question 6](images/Q6.png)
+
+Le temps que cela lui a pris pour process les paquets, le nombre de paquets processed, un résumé de l'utilisation mémoire, le total I/O paquets, une liste des protocoles, des statistiques d'actions, des limites et des verdicts.
 
 ---
 
