@@ -458,7 +458,9 @@ Ecrire deux règles qui journalisent (sans alerter) chacune un message à chaque
 Nous utilisons l'adresse IP de wikipedia, cependant en le faisant de cette manière si l'adresse IP de Wikipedia change il faudra modifier l'adresse IP de la règle.
 
 règle dans l'état: 
+
 client : log tcp 192.168.220.3 any -> 185.15.58.224 443 (msg:"Wikipedia detected on client"; sid:4000020; rev:1;)
+
 firefox : log tcp 192.168.220.4 any -> 185.15.58.224 443 (msg:"Wikipedia detected on firefox"; sid:4000021; rev:1;)
 
 ---
@@ -503,12 +505,15 @@ Comme il s'agit d'une alerte, il se trouve dans le fichier /var/log/snort/alert,
 
 Les journaux sont générés en format pcap. Vous pouvez donc les lire avec Wireshark. Vous pouvez utiliser le conteneur wireshark en dirigeant le navigateur Web de votre hôte sur vers [http://localhost:3000](http://localhost:3000). Optionnellement, vous pouvez lire les fichiers log utilisant la commande `tshark -r nom_fichier_log` depuis votre IDS.
 
-**Question 12: Qu'est-ce qui a été journalisé ? **
+**Question 12: Qu'est-ce qui a été journalisé ?**
 
 ---
 
 **Réponse :**  
 
+![Question 12](images/Q12.png)
+
+On peut voir que tout les paquets des pings reçu pendant que snort était actif ont été enregistré, cependant les reply ne sont pas présents uniquement les request sont là. Les reply ne sont pas là car il s'agit d'un paquet ICMP envoyé par l'IDS et donc il ne répond pas à la règle que nous avons créé.
 ---
 
 --
@@ -525,7 +530,11 @@ Faites le nécessaire pour que les pings soient détectés dans les deux sens.
 
 Nous avons modifié la flèche unidirectionnelle en une flèche bidirectionnelle :
 
-alert icmp [192.168.220.3,192.168.220.4] any <> 192.168.220.2 any (msg:"Ping local vers l'IDS"; sid:4000030;rev:1;)
+alert icmp [192.168.220.3,192.168.220.4] any <> 192.168.220.2 any (msg:"Ping entre le reseau local et l'IDS"; sid:4000030;rev:1;)
+
+Maintenant on peut voir dans le fichier 'alert' que les reply s'affichent lors d'un ping entre une machine du réseau local et l'IDS et que le request s'affiche aussi lors d'un ping de l'IDS vers une machine du réseau local.
+
+![Question 13](images/Q13.png)
 
 ---
 
@@ -542,6 +551,15 @@ Essayer d'écrire une règle qui Alerte qu'une tentative de session SSH a été 
 
 **Réponse :**  
 
+alert tcp 192.168.220.3 any -> 192.168.220.2 22 (msg:"Tentative de connexion en SSH depuis le Client"; sid:4000031;rev:1;)
+
+On choisit 'alert' car nous souhaitons avoir une trace dans le fichier '/var/log/snort/alert' et avoir une journalisation.
+
+Puis on précise le protocole de transport, dans notre cas SSH utilise TCP. Nous souhaitons avoir une alerte lorsque nous avons
+une connexion depuis la machine client (donc 192.168.220.3) vers l'IDS (192.168.220.2). Depuis la machine cliente le port peut être 'any' tandis que pour l'IDS comme le service SSH se trouve sur le port 22 il faut le préciser. Pour la partie "complexe" de la règle nous avons mis le minimum, c'est à dire un message afin de savoir pourquoi l'alerte a été levée, un sid afin de le différencier de la règle du ping faites précédemment et un numéro de révision.
+
+Il ne faut pas oublier d'activer le service SSH sur l'IDS ('service ssh start')
+
 ---
 
 
@@ -549,7 +567,9 @@ Essayer d'écrire une règle qui Alerte qu'une tentative de session SSH a été 
 
 ---
 
-**Réponse :**  
+**Réponse :**
+
+![Question 15](images/Q15.png)
 
 ---
 
