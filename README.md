@@ -511,9 +511,10 @@ Les journaux sont générés en format pcap. Vous pouvez donc les lire avec Wire
 
 **Réponse :**  
 
-![Question 12](images/Q12.png)
+![Question 12](images/Q12.PNG)
 
 On peut voir que tout les paquets des pings reçu pendant que snort était actif ont été enregistré, cependant les reply ne sont pas présents uniquement les request sont là. Les reply ne sont pas là car il s'agit d'un paquet ICMP envoyé par l'IDS et donc il ne répond pas à la règle que nous avons créé.
+
 ---
 
 --
@@ -534,7 +535,7 @@ alert icmp [192.168.220.3,192.168.220.4] any <> 192.168.220.2 any (msg:"Ping ent
 
 Maintenant on peut voir dans le fichier 'alert' que les reply s'affichent lors d'un ping entre une machine du réseau local et l'IDS et que le request s'affiche aussi lors d'un ping de l'IDS vers une machine du réseau local.
 
-![Question 13](images/Q13.png)
+![Question 13](images/Q13.PNG)
 
 ---
 
@@ -569,7 +570,7 @@ Il ne faut pas oublier d'activer le service SSH sur l'IDS ('service ssh start')
 
 **Réponse :**
 
-![Question 15](images/Q15.png)
+![Question 15](images/Q15.PNG)
 
 ---
 
