@@ -690,6 +690,8 @@ L'outil nmap propose une option qui fragmente les messages afin d'essayer de con
 
 **Réponse :**  
 
+`alert tcp any any -> 192.168.220.2 22 (flags:S;msg:"Syn scan detecte"; sid:4000029;rev:1;)`
+
 ---
 
 
@@ -711,6 +713,8 @@ nmap -sS -f -p 22 --send-eth 192.168.220.2
 ---
 
 **Réponse :**  
+Pour la 1ère commande nmap on arrive détecter le scan.
+Snort n'a pas détecté le 2ème scan de nmap, cependant si l'on a la règle pour détecter la connexion SSH alors nous aurons quand même une entrée dans le fichier `alert`. Mais si nous avons uniquement la règle pour détecter spécifiquement les SYN scan alors rien ne s'affiche.
 
 ---
 
@@ -723,6 +727,8 @@ Modifier le fichier `myrules.rules` pour que snort utiliser le `Frag3 Preprocess
 ---
 
 **Réponse :**  
+
+
 
 ---
 
