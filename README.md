@@ -714,6 +714,9 @@ nmap -sS -f -p 22 --send-eth 192.168.220.2
 
 **Réponse :**  
 Pour la 1ère commande nmap on arrive détecter le scan.
+
+![Question 23](images/Q23.PNG)
+
 Snort n'a pas détecté le 2ème scan de nmap, cependant si l'on a la règle pour détecter la connexion SSH alors nous aurons quand même une entrée dans le fichier `alert`. Mais si nous avons uniquement la règle pour détecter spécifiquement les SYN scan alors rien ne s'affiche.
 
 ---
@@ -728,7 +731,15 @@ Modifier le fichier `myrules.rules` pour que snort utiliser le `Frag3 Preprocess
 
 **Réponse :**  
 
+Il suffit d'ajouter ces deux lignes au début du fichier `myrules.rules` :
+```
+preprocessor frag3_global
+preprocessor frag3_engine
+```
 
+Maintenant nous arrivons détecter le scan SYN fragmenté.
+
+![Question 24](images/Q24.PNG)
 
 ---
 
@@ -739,6 +750,8 @@ Modifier le fichier `myrules.rules` pour que snort utiliser le `Frag3 Preprocess
 
 **Réponse :**  
 
+Il s'agit d'un module de snort qui permet d'analyser le traffic SSL/TLS et il peut déterminer quand il faut arrêter de l'inspecter.
+
 ---
 
 
@@ -747,6 +760,8 @@ Modifier le fichier `myrules.rules` pour que snort utiliser le `Frag3 Preprocess
 ---
 
 **Réponse :**  
+
+Il s'agit d'un module de snort qui permet de dltecter et de filtrer les PII (Personally Identifiable Information). Il s'agit d'information sensible, par exemple les numéros de cartes de crédit, numéro de sécurité social, etc... Il est possible de définir nous même ce qui est des PII.
 
 ---
 
@@ -758,6 +773,8 @@ Modifier le fichier `myrules.rules` pour que snort utiliser le `Frag3 Preprocess
 ---
 
 **Réponse :**  
+
+Snort est un outil qui est très utile et puissant mais qui n'est pas infaillible. L'utilisation des préprocesseurs permet de combler de nombreuses failles. Les règles peuvent vite devenir complexes (de même que pour les fonctions avancées qui peuvent être dur à comprendre) mais il y a beaucoup d'aide disponible sur internet. Donc dans l'ensemble snort est un outil plutôt complet pour un IDS gratuit.
 
 ---
 
