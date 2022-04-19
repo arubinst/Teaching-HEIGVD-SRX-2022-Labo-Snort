@@ -616,7 +616,7 @@ Utiliser l'option correcte de Snort pour analyser le fichier de capture Wireshar
 
 **Réponse :**  
 
-On peut voir que le comportement est exactement le même, snort va faire la même analyse du fichier de règles (cf. question 4), puis il va effectuer l'analyse comme l'analyse en temps réel mais sur la capture. Et pour finir il affiche le même style de résumé que pour la question 6 puis snort s'arrête.
+On peut voir que le comportement est exactement le même, snort va faire la même analyse du fichier de règles (cf. question 4), puis il va effectuer l'analyse comme l'analyse en temps réel mais sur la capture. Et pour finir il affiche le même style de résumé que pour la question 6 puis il s'arrête.
 
 ---
 
@@ -646,6 +646,10 @@ Faire des recherches à propos des outils `fragroute` et `fragrouter`.
 
 **Réponse :**  
 
+Fragroute : Il s'agit d'un outil qui permet d'intercepter, de modifier et de réécrire le trafic de sortie destiné à un hôte spécifique. 
+
+Fragrouter : Il s'agit d'un outil permettant d'échapper à l'analyse des IDS.
+
 ---
 
 
@@ -655,6 +659,10 @@ Faire des recherches à propos des outils `fragroute` et `fragrouter`.
 
 **Réponse :**  
 
+Fragroute : Va permettre de fragmenter les paquets de notre machine (et uniquement de celle-ci), on va pouvoir effectuer d'autres manipulations (delay, duplicate, drop, overlap, print, reorder, segment, source-route) sur les paquets sortant. (site : https://launchpad.net/ubuntu/hardy/amd64/fragroute/1.2-7.1)
+
+Fragrouter : l'attaquant va envoyer ses paquets vers fragrouter qui va ensuite les fragmenters et les envoyer vers la destination.
+
 ---
 
 
@@ -663,6 +671,10 @@ Faire des recherches à propos des outils `fragroute` et `fragrouter`.
 ---
 
 **Réponse :**  
+
+Il s'agit d'un module de défragmentation de paquet pour Snort ayant pour but :
+- une exécution plus rapide avec une gestion des données moins complexe.
+- de contrer les techniques d'évasions d'IDS (comme fragroute et fragrouter).
 
 ---
 
