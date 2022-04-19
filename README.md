@@ -351,7 +351,9 @@ Vous pouvez aussi utiliser des captures Wireshark ou des fichiers snort.log.xxxx
 
 ---
 
-**Réponse :** Les préprocesseurs sont des modules d’extension pour arranger ou modifier les paquets de données
+**Réponse :** 
+
+Les préprocesseurs sont des modules d’extension pour arranger ou modifier les paquets de données
 avant que le moteur de détection n’intervienne. Certains préprocesseurs détectent aussi des anomalies
 dans les entêtes des paquets et génèrent alors des alertes. Par exemple, ça permet à snort de detecter une attaque avec des paquets fragmentés
 
@@ -361,7 +363,9 @@ dans les entêtes des paquets et génèrent alors des alertes. Par exemple, ça 
 
 ---
 
-**Réponse :** Car il n'y a pas de préprocesseur chargé.
+**Réponse :** 
+
+Car il n'y a pas de préprocesseur chargé.
 
 ---
 
@@ -377,7 +381,9 @@ alert tcp any any -> any any (msg:"Mon nom!"; content:"Rubinstein"; sid:4000015;
 
 ---
 
-**Réponse :**  Pour du traffic TCP, venant de n'importe quelle IP + port allant vers n'importe quelle IP + port (la flèche permet de savoir dans quel sens nous allons). Cela crée une alerte pour tous les paquets contenants le mot "Rubinstein" dans l'en-tête. Le message "Mon nom!" sera journalisé dans le syslog. Le sid et le rev permettent d'identifier de manière unique la règle.
+**Réponse :**  
+
+Pour du traffic TCP, venant de n'importe quelle IP + port allant vers n'importe quelle IP + port (la flèche permet de savoir dans quel sens nous allons). Cela crée une alerte pour tous les paquets contenants le mot "Rubinstein" dans l'en-tête. Le message "Mon nom!" sera journalisé dans le syslog. Le sid et le rev permettent d'identifier de manière unique la règle.
 
 ---
 
@@ -407,7 +413,9 @@ Pour accéder à Firefox dans son conteneur, ouvrez votre navigateur web sur vot
 
 ---
 
-**Réponse :**  Il ne s'affiche rien, lorsque l'on utilise -c (paramètre pour utiliser un fichier de config) par défaut rien n'est affiché et tout se trouve dans les fichiers de logs de snort. Si l'on souhaite afficher les paquets alors il faut utiliser le paramètre -v (mais cela ralentit snort).
+**Réponse :**  
+
+Il ne s'affiche rien, lorsque l'on utilise -c (paramètre pour utiliser un fichier de config) par défaut rien n'est affiché et tout se trouve dans les fichiers de logs de snort. Si l'on souhaite afficher les paquets alors il faut utiliser le paramètre -v (mais cela ralentit snort).
 
 ---
 
@@ -432,7 +440,9 @@ Aller au répertoire /var/log/snort. Ouvrir le fichier `alert`. Vérifier qu'il 
 
 ---
 
-**Réponse :**  La règle utilisée: alert tcp any any -> any any (msg:"Detected Facebook!"; content:"Facebook"; sid:4000016; rev:1;)
+**Réponse :**  
+
+La règle utilisée: `alert tcp any any -> any any (msg:"Detected Facebook!"; content:"Facebook"; sid:4000016; rev:1;)`
 
 ![Question 7](images/Q7.png)
 
@@ -459,9 +469,9 @@ Nous utilisons l'adresse IP de wikipedia, cependant en le faisant de cette mani�
 
 règle dans l'état: 
 
-client : log tcp 192.168.220.3 any -> 185.15.58.224 443 (msg:"Wikipedia detected on client"; sid:4000020; rev:1;)
+client : `log tcp 192.168.220.3 any -> 185.15.58.224 443 (msg:"Wikipedia detected on client"; sid:4000020; rev:1;)`
 
-firefox : log tcp 192.168.220.4 any -> 185.15.58.224 443 (msg:"Wikipedia detected on firefox"; sid:4000021; rev:1;)
+firefox : `log tcp 192.168.220.4 any -> 185.15.58.224 443 (msg:"Wikipedia detected on firefox"; sid:4000021; rev:1;)`
 
 ---
 
@@ -477,7 +487,7 @@ Ecrire une règle qui alerte à chaque fois que votre machine IDS **reçoit** un
 
 **Réponse :**  
 
-alert icmp [192.168.220.3,192.168.220.4] any -> 192.168.220.2 any (msg:"Ping local vers l'IDS"; sid:4000030;rev:1;)
+`alert icmp [192.168.220.3,192.168.220.4] any -> 192.168.220.2 any (msg:"Ping local vers l'IDS"; sid:4000030;rev:1;)`
 
 ---
 
@@ -499,7 +509,7 @@ En utilisant une flèche unidirectionnelle allant des machines du LAN vers l'IDS
 
 **Réponse :**
 
-Comme il s'agit d'une alerte, il se trouve dans le fichier /var/log/snort/alert, de plus le paquet a été écrit dans le journal (qui se trouve aussi dans /var/log/snort/).
+Comme il s'agit d'une alerte, il se trouve dans le fichier `/var/log/snort/alert`, de plus le paquet a été écrit dans le journal (qui se trouve aussi dans `/var/log/snort/`).
 
 ---
 
@@ -531,9 +541,9 @@ Faites le nécessaire pour que les pings soient détectés dans les deux sens.
 
 Nous avons modifié la flèche unidirectionnelle en une flèche bidirectionnelle :
 
-alert icmp [192.168.220.3,192.168.220.4] any <> 192.168.220.2 any (msg:"Ping entre le reseau local et l'IDS"; sid:4000030;rev:1;)
+`alert icmp [192.168.220.3,192.168.220.4] any <> 192.168.220.2 any (msg:"Ping entre le reseau local et l'IDS"; sid:4000030;rev:1;)`
 
-Maintenant on peut voir dans le fichier 'alert' que les reply s'affichent lors d'un ping entre une machine du réseau local et l'IDS et que le request s'affiche aussi lors d'un ping de l'IDS vers une machine du réseau local.
+Maintenant on peut voir dans le fichier `alert` que les reply s'affichent lors d'un ping entre une machine du réseau local et l'IDS et que le request s'affiche aussi lors d'un ping de l'IDS vers une machine du réseau local.
 
 ![Question 13](images/Q13.PNG)
 
@@ -552,12 +562,12 @@ Essayer d'écrire une règle qui Alerte qu'une tentative de session SSH a été 
 
 **Réponse :**  
 
-alert tcp 192.168.220.3 any -> 192.168.220.2 22 (msg:"Tentative de connexion en SSH depuis le Client"; sid:4000031;rev:1;)
+`alert tcp 192.168.220.3 any -> 192.168.220.2 22 (msg:"Tentative de connexion en SSH depuis le Client"; sid:4000031;rev:1;)`
 
-On choisit 'alert' car nous souhaitons avoir une trace dans le fichier '/var/log/snort/alert' et avoir une journalisation.
+On choisit `alert` car nous souhaitons avoir une trace dans le fichier `/var/log/snort/alert` et avoir une journalisation.
 
 Puis on précise le protocole de transport, dans notre cas SSH utilise TCP. Nous souhaitons avoir une alerte lorsque nous avons
-une connexion depuis la machine client (donc 192.168.220.3) vers l'IDS (192.168.220.2). Depuis la machine cliente le port peut être 'any' tandis que pour l'IDS comme le service SSH se trouve sur le port 22 il faut le préciser. Pour la partie "complexe" de la règle nous avons mis le minimum, c'est à dire un message afin de savoir pourquoi l'alerte a été levée, un sid afin de le différencier de la règle du ping faites précédemment et un numéro de révision.
+une connexion depuis la machine client (donc 192.168.220.3) vers l'IDS (192.168.220.2). Depuis la machine cliente le port peut être `any` tandis que pour l'IDS comme le service SSH se trouve sur le port 22 il faut le préciser. Pour la partie "complexe" de la règle nous avons mis le minimum, c'est à dire un message afin de savoir pourquoi l'alerte a été levée, un sid afin de le différencier de la règle du ping faites précédemment et un numéro de révision.
 
 Il ne faut pas oublier d'activer le service SSH sur l'IDS ('service ssh start')
 
@@ -594,6 +604,8 @@ Générez du trafic depuis le deuxième terminal qui corresponde à l'une des r�
 
 **Réponse :**  
 
+L'option -r `nom fichier`, on peut spécifier avec un fichier de règles à appliquer sur la capture `.pcap`.
+
 ---
 
 Utiliser l'option correcte de Snort pour analyser le fichier de capture Wireshark que vous venez de générer.
@@ -604,6 +616,8 @@ Utiliser l'option correcte de Snort pour analyser le fichier de capture Wireshar
 
 **Réponse :**  
 
+On peut voir que le comportement est exactement le même, snort va faire la même analyse du fichier de règles (cf. question 4), puis il va effectuer l'analyse comme l'analyse en temps réel mais sur la capture. Et pour finir il affiche le même style de résumé que pour la question 6 puis snort s'arrête.
+
 ---
 
 **Question 18: Est-ce que des alertes sont aussi enregistrées dans le fichier d'alertes?**
@@ -611,6 +625,12 @@ Utiliser l'option correcte de Snort pour analyser le fichier de capture Wireshar
 ---
 
 **Réponse :**  
+
+Oui, les alertes sont enregistrées dans le même fichier que pour l'analyse en temps réel. On peut voir que seulement le ping vers l'IDS et la connexion SSH à été prise en compte.
+
+Nous avons utilisé comme règle les deux règles que nous avons faites pour le ping + le SSH, ensuite nous avons effectué un ping depuis la machine client vers l'IDS puis un ping depuis la machine client vers 8.8.8.8 et pour finir nous avons effectué une connexion SSH depuis la machine client sur l'IDS. Nous pouvons voir que dans les alertes uniquement le ping vers l'IDS et la connexion SSH ont été pris en compte.
+
+![Question 18](images/Q18.PNG)
 
 ---
 
