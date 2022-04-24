@@ -351,7 +351,9 @@ Vous pouvez aussi utiliser des captures Wireshark ou des fichiers snort.log.xxxx
 
 ---
 
-**Réponse :**  
+**Réponse :** 
+
+Selon la [documentation officielle](https://www.snort.org/documents/snort-users-manual), les préprocesseurs permettent d'étendre les fonctionnalités de Snort en permettant aux utilisateurs et aux programmeurs de déposer assez facilement des plugins modulaires dans Snort. Le code du préprocesseur est exécuté avant que le moteur de détection ne soit appelé, mais après le traitement du paquet.
 
 ---
 
