@@ -414,11 +414,13 @@ sudo snort -c myrules.rules -i eth0
 ---
 
 **Réponse :**  
+
 GUILAIN:
 Ce sont tous les éléments de configuration qui sont appliqués. On voit que la
 plupart des éléments indiquent "none". La configuration s'initialise en fonction 
 de ce qui est nécessaire pour pouvoir appliquer la règles que nous appliquons 
 via notre fichier myrules.rules.
+
 ---
 
 Aller à un site web contenant dans son text la phrase ou le mot clé que vous avez choisi (il faudra chercher un peu pour trouver un site en http... Si vous n'y arrivez pas, vous pouvez utiliser [http://neverssl.com](http://neverssl.com) et modifier votre votre règle pour détecter un morceau de text contenu dans le site).
@@ -638,6 +640,11 @@ Antho:
 
 ```
 alert icmp 192.168.220.0/24 any -> 192.168.220.2 any (msg:"Alerte ping recu"; sid: 4000022;)
+
+ou
+
+alert icmp any any -> 192.168.220.2 any (msg:"Alerte ping recu"; sid: 4000023;)
+
 ```
 
 
@@ -669,6 +676,8 @@ Type:8  Code:0  ID:8628   Seq:0  ECHO
 Mehdi:
 
 En précisent comme destination l'ip de l'IDS, soit 192.168.220.2
+
+Anthony, précision: En utilisant également une flèche allant dans le sens source -> destination, oû la destination est l'IP de l'IDS.
 
 ---
 
@@ -723,11 +732,17 @@ Mehdi:
 En mettant simplement any des deux cotés de la règles, soit en entrée et en
 sortie
 
-```
 Mehdi:
-
+```
 alert icmp any any -> any any (msg:"Alerte ping recu"; sid: 4000022;)
 ```
+
+Antho:
+```
+alert icmp 192.168.220.0/24 any -> 192.168.220.2 any (msg:"Ping vers IDS"; sid: 4000025;)
+alert icmp 192.168.220.2 any -> 192.168.220.0/24 any (msg:"Ping depuis IDS"; sid: 4000026;)
+```
+
 
 ---
 
@@ -808,7 +823,7 @@ Utiliser l'option correcte de Snort pour analyser le fichier de capture Wireshar
 
 Mehdi:
 
-Snort affiche les logs puis un résumé du type du traffic et du nombre de
+Snort affiche les logs puis un résumé du type du trafic et du nombre de
 paquets. Le comportant est identique à celui en temps réel.
 
 ---
@@ -855,12 +870,12 @@ dupliqués, fragmentés, réordonnés, etc.
 
 Mehdi:
 
-Il est possible de configurer une machine pour qu'elle route son traffic au
-travers de Fragrouter. On peut ensuite configurer Fragrouter pour que le traffic
+Il est possible de configurer une machine pour qu'elle route son trafic au
+travers de Fragrouter. On peut ensuite configurer Fragrouter pour que le trafic
 à destination d'une certaine machine soit modifié de manière à correspondre à
 une attaque dont le but est d'échapper aux systèmes de détection d'intrusion. Un
 exemple d'attaque est de fragmenter les paquets en plusieurs petits paquets. Le
-système d'intrusion analyse ainsi du traffic qui ne correspond pas exactement à
+système d'intrusion analyse ainsi du trafic qui ne correspond pas exactement à
 ce que la cible va recevoir, et n'est pas en mesure de détecter des attaques
 sans au préalable ré assembler les paquets, s'il est capable de le faire et
 s'il est configuré pour le faire.
@@ -874,10 +889,10 @@ s'il est configuré pour le faire.
 
 **Réponse :**  
 
-Frag3 a pour but de défragmenter du traffic étant arrivé fragmenté et ce pour
+Frag3 a pour but de défragmenter du trafic étant arrivé fragmenté et ce pour
 contrer les techniques d'évasion de systèmes d'intrustion. Il fonctionne en
-ré assemblant les paquets qui ont été fragmenté. Cela permet ensuite d'appliquer
-les règles du systèmes de détection d'intrusion sur le traffic défragmenté.
+ré-assemblant les paquets qui ont été fragmentés. Cela permet ensuite d'appliquer
+les règles du systèmes de détection d'intrusion sur le trafic défragmenté.
 
 ---
 
@@ -897,8 +912,14 @@ Mehdi:
 A VERIFIER
 
 ```
-alert tcp any any -> 192l.168.220.2 any (msg:"SYN Scan"; flags:S, 12;sid:
+alert tcp any any -> 192.168.220.2 any (msg:"SYN Scan"; flags:S, 12;sid:
 1000003;)
+```
+Antho:
+
+```
+alert tcp any any -> 192.168.220.2 22 (msg:"SYN Scan"; flags:S;sid:1000004;)
+J'ai vu que 12 était déprécié, mais j'ai peur qu'en mettant seulement S, on détecte trop de choses.
 ```
 
 ---
@@ -942,8 +963,7 @@ Modifier le fichier `myrules.rules` pour que snort utiliser le `Frag3 Preprocess
 Mehdi:
 
 Snort est maintenant capable d'identifier le SYN scan de Nmap. Il indique aussi
-dans son rapport les statistiques de Frag3 et les paquets qui ont été ré
-assemblés.
+dans son rapport les statistiques de Frag3 et les paquets qui ont été réassemblés.
 
 ---
 
@@ -956,8 +976,8 @@ assemblés.
 
 Mehdi: 
 
-Ce préprocesseur sert à traiter le traffic afin de déterminer s'il s'agit de
-traffic avec protocol SSL/TLS. Ce traffic étant chiffré, il n'y a pas de raison
+Ce préprocesseur sert à traiter le trafic afin de déterminer s'il s'agit de
+trafic avec protocole SSL/TLS. Ce trafic étant chiffré, il n'y a pas de raison
 que Snort l'inspecte car il ne pourra rien en tirer, en plus de consommer des
 ressources inutilement.
 
@@ -973,7 +993,7 @@ ressources inutilement.
 Mehdi: 
 
 Ce préprocesseur sert à détecter des fuites de données sensibles, telles que des
-numéro de carte de crédit ou des numéros de sécurité sociale, afin de les modifier, 
+numéros de carte de crédit ou des numéros de sécurité sociale, afin de les modifier, 
 par exemple en remplaçant les premiers digits d'un numéro de carte de crédit par
 des XXXX. Cela permet d'éviter que ces données sensibles sortent du réseau en
 clair, par exemple en les ayant copié accidentellement dans un document.
