@@ -409,6 +409,9 @@ Pour accéder à Firefox dans son conteneur, ouvrez votre navigateur web sur vot
 
 **Réponse :**  
 
+Absolument rien (sauf des `No preprocessors configured for policy 0`.
+Cependant, l'alerte est loggée dans le fichier `/var/log/snort/alert`.
+
 ---
 
 Arrêter Snort avec `CTRL-C`.
