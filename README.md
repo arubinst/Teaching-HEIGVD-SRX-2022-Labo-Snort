@@ -422,6 +422,99 @@ Arrêter Snort avec `CTRL-C`.
 
 **Réponse :**  
 
+```
+===============================================================================
+Run time for packet processing was 6.1735 seconds
+Snort processed 1 packets.
+Snort ran for 0 days 0 hours 0 minutes 6 seconds
+   Pkts/sec:            0
+===============================================================================
+Memory usage summary:
+  Total non-mmapped bytes (arena):       4100096
+  Bytes in mapped regions (hblkhd):      30265344
+  Total allocated space (uordblks):      3349120
+  Total free space (fordblks):           750976
+  Topmost releasable block (keepcost):   593536
+===============================================================================
+Packet I/O Totals:
+   Received:            2
+   Analyzed:            1 ( 50.000%)
+    Dropped:            0 (  0.000%)
+   Filtered:            0 (  0.000%)
+Outstanding:            1 ( 50.000%)
+   Injected:            0
+===============================================================================
+Breakdown by protocol (includes rebuilt packets):
+        Eth:            1 (100.000%)
+       VLAN:            0 (  0.000%)
+        IP4:            0 (  0.000%)
+       Frag:            0 (  0.000%)
+       ICMP:            0 (  0.000%)
+        UDP:            0 (  0.000%)
+        TCP:            0 (  0.000%)
+        IP6:            0 (  0.000%)
+    IP6 Ext:            0 (  0.000%)
+   IP6 Opts:            0 (  0.000%)
+      Frag6:            0 (  0.000%)
+      ICMP6:            0 (  0.000%)
+       UDP6:            0 (  0.000%)
+       TCP6:            0 (  0.000%)
+     Teredo:            0 (  0.000%)
+    ICMP-IP:            0 (  0.000%)
+    IP4/IP4:            0 (  0.000%)
+    IP4/IP6:            0 (  0.000%)
+    IP6/IP4:            0 (  0.000%)
+    IP6/IP6:            0 (  0.000%)
+        GRE:            0 (  0.000%)
+    GRE Eth:            0 (  0.000%)
+   GRE VLAN:            0 (  0.000%)
+    GRE IP4:            0 (  0.000%)
+    GRE IP6:            0 (  0.000%)
+GRE IP6 Ext:            0 (  0.000%)
+   GRE PPTP:            0 (  0.000%)
+    GRE ARP:            0 (  0.000%)
+    GRE IPX:            0 (  0.000%)
+   GRE Loop:            0 (  0.000%)
+       MPLS:            0 (  0.000%)
+        ARP:            1 (100.000%)
+        IPX:            0 (  0.000%)
+   Eth Loop:            0 (  0.000%)
+   Eth Disc:            0 (  0.000%)
+   IP4 Disc:            0 (  0.000%)
+   IP6 Disc:            0 (  0.000%)
+   TCP Disc:            0 (  0.000%)
+   UDP Disc:            0 (  0.000%)
+  ICMP Disc:            0 (  0.000%)
+All Discard:            0 (  0.000%)
+      Other:            0 (  0.000%)
+Bad Chk Sum:            0 (  0.000%)
+    Bad TTL:            0 (  0.000%)
+     S5 G 1:            0 (  0.000%)
+     S5 G 2:            0 (  0.000%)
+      Total:            1
+===============================================================================
+Action Stats:
+     Alerts:            0 (  0.000%)
+     Logged:            0 (  0.000%)
+     Passed:            0 (  0.000%)
+Limits:
+      Match:            0
+      Queue:            0
+        Log:            0
+      Event:            0
+      Alert:            0
+Verdicts:
+      Allow:            1 ( 50.000%)
+      Block:            0 (  0.000%)
+    Replace:            0 (  0.000%)
+  Whitelist:            0 (  0.000%)
+  Blacklist:            0 (  0.000%)
+     Ignore:            0 (  0.000%)
+      Retry:            0 (  0.000%)
+===============================================================================
+Snort exiting
+```
+
 ---
 
 
@@ -432,6 +525,15 @@ Aller au répertoire /var/log/snort. Ouvrir le fichier `alert`. Vérifier qu'il 
 ---
 
 **Réponse :**  
+
+```
+[**] [1:1000001:1] Concerne l'HEIG-VD [**]
+[Priority: 0] 
+04/25-09:41:35.419896 193.134.221.132:80 -> 192.168.220.4:38724
+TCP TTL:47 TOS:0x0 ID:37118 IpLen:20 DgmLen:1308 DF
+***AP*** Seq: 0xB3450495  Ack: 0x1FD04902  Win: 0x1C5  TcpLen: 32
+TCP Options (3) => NOP NOP TS: 4066533714 2833739280
+```
 
 ---
 
