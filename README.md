@@ -351,7 +351,15 @@ Vous pouvez aussi utiliser des captures Wireshark ou des fichiers snort.log.xxxx
 
 ---
 
-**Réponse :**  
+**Réponse : Snort possède plusieurs composants autres que le moteur de règles.\
+Par exemple, certains paquets et applications doivent être décodés en texte clair pour que les règles Snort se déclenchent.\
+Le composant qui traite les paquets avant qu'ils n'atteignent le moteur de règles s'appelle le préprocesseur.
+
+Les préprocesseurs permettent d'étendre les fonctionnalités de Snort en permettant aux utilisateurs et aux programmeurs d'y intégrer assez facilement des plugins modulaires.\
+Le code du préprocesseur est exécuté avant que le moteur de détection ne soit appelé, mais après que le paquet ait été décodé.\
+Grâce à ce mécanisme, le paquet peut être modifié ou analysé de manière hors bande. 
+
+Informations tirées du [manuel](http://manual-snort-org.s3-website-us-east-1.amazonaws.com/node17.html)**
 
 ---
 
@@ -359,7 +367,14 @@ Vous pouvez aussi utiliser des captures Wireshark ou des fichiers snort.log.xxxx
 
 ---
 
-**Réponse :**  
+**Réponse : C'est parce qu'aucun préprocesseur snort n'est chargé dans notre fichier de règle.\
+Par exemple, dans le fichier de base `snort.conf`, on peut y retrouver des configuration de préprocesseur telle que :
+- preprocessor normalize_ip4
+- preprocessor normalize_icmp4
+- preprocessor frag3_global: max_frags 65536
+- preprocessor ftp_telnet: global inspection_type stateful encrypted_traffic no check_encrypted
+
+C'est pour ça que, si on charge ce fichier de configuration plutôt que le nôtre, nous n'avons plus le warning.**  
 
 ---
 
@@ -375,7 +390,9 @@ alert tcp any any -> any any (msg:"Mon nom!"; content:"Rubinstein"; sid:4000015;
 
 ---
 
-**Réponse :**  
+**Réponse : Cette ligne va envoyer une alerte et écrire dans le journal le message "Mon nom!"\
+si le mot "Rubinstein" est trouvé dans un paquet TCP envoyé par n'importe qui vers n'importe où.\
+L'id de cette règle est le 4000015 et c'est la première révision de cette règle.**  
 
 ---
 
