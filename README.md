@@ -351,7 +351,9 @@ Vous pouvez aussi utiliser des captures Wireshark ou des fichiers snort.log.xxxx
 
 ---
 
-**Réponse : Snort possède plusieurs composants autres que le moteur de règles.\
+**Réponse : **
+
+Snort possède plusieurs composants autres que le moteur de règles.\
 Par exemple, certains paquets et applications doivent être décodés en texte clair pour que les règles Snort se déclenchent.\
 Le composant qui traite les paquets avant qu'ils n'atteignent le moteur de règles s'appelle le préprocesseur.
 
@@ -359,7 +361,7 @@ Les préprocesseurs permettent d'étendre les fonctionnalités de Snort en perme
 Le code du préprocesseur est exécuté avant que le moteur de détection ne soit appelé, mais après que le paquet ait été décodé.\
 Grâce à ce mécanisme, le paquet peut être modifié ou analysé de manière hors bande. 
 
-Informations tirées du [manuel](http://manual-snort-org.s3-website-us-east-1.amazonaws.com/node17.html)**
+Informations tirées du [manuel](http://manual-snort-org.s3-website-us-east-1.amazonaws.com/node17.html)
 
 ---
 
@@ -367,14 +369,16 @@ Informations tirées du [manuel](http://manual-snort-org.s3-website-us-east-1.am
 
 ---
 
-**Réponse : C'est parce qu'aucun préprocesseur snort n'est chargé dans notre fichier de règle.\
+**Réponse :**
+
+C'est parce qu'aucun préprocesseur snort n'est chargé dans notre fichier de règle.\
 Par exemple, dans le fichier de base `snort.conf`, on peut y retrouver des configuration de préprocesseur telle que :
 - preprocessor normalize_ip4
 - preprocessor normalize_icmp4
 - preprocessor frag3_global: max_frags 65536
 - preprocessor ftp_telnet: global inspection_type stateful encrypted_traffic no check_encrypted
 
-C'est pour ça que, si on charge ce fichier de configuration plutôt que le nôtre, nous n'avons plus le warning.**  
+C'est pour ça que, si on charge ce fichier de configuration plutôt que le nôtre, nous n'avons plus le warning.
 
 ---
 
@@ -390,9 +394,11 @@ alert tcp any any -> any any (msg:"Mon nom!"; content:"Rubinstein"; sid:4000015;
 
 ---
 
-**Réponse : Cette ligne va envoyer une alerte et écrire dans le journal le message "Mon nom!"\
+**Réponse : **
+
+Cette ligne va envoyer une alerte et écrire dans le journal le message "Mon nom!"\
 si le mot "Rubinstein" est trouvé dans un paquet TCP envoyé par n'importe qui vers n'importe où.\
-L'id de cette règle est le 4000015 et c'est la première révision de cette règle.**  
+L'id de cette règle est le 4000015 et c'est la première révision de cette règle.
 
 ---
 
@@ -408,6 +414,15 @@ sudo snort -c myrules.rules -i eth0
 
 **Réponse :**  
 
+C'est un résumé des règles trouvées, des préprocesseurs configurés, des ports pris en considération\
+par les règles, le nombre des différents protocoles analysés par les règles comme tcp, udp, ou icmp, etc...
+
+De plus, il y a également l'interface qui est analysé (ici eth0).
+
+![Affichage du démarrage de Snort 1](./images/startSnort1.png)
+
+![Affichage du démarrage de Snort 2](./images/startSnort2.png)
+
 ---
 
 Aller à un site web contenant dans son text la phrase ou le mot clé que vous avez choisi (il faudra chercher un peu pour trouver un site en http... Si vous n'y arrivez pas, vous pouvez utiliser [http://neverssl.com](http://neverssl.com) et modifier votre votre règle pour détecter un morceau de text contenu dans le site).
@@ -418,7 +433,12 @@ Pour accéder à Firefox dans son conteneur, ouvrez votre navigateur web sur vot
 
 ---
 
-**Réponse :**  
+**Réponse : **
+
+Une série de Warning qui indique qu'aucun préprocesseur n'a été configuré.
+Cependant, les alertes sont bel et bien enregistré dans les fichiers de logs.
+
+![Message affiché dans le fichier log](./images/snortLogging.png)
 
 ---
 
@@ -430,6 +450,14 @@ Arrêter Snort avec `CTRL-C`.
 
 **Réponse :**  
 
+De nouveau un résumé, mais cette fois-ci de combien de paquet ont eu une correspondance\
+avec les règles de Snort, de combien de temps l'IDS est lancé, de quel protocole venait\
+les paquets qui ont été récupéré, etc...
+
+![Résumé de fin de session Snort 1](./images/afterCtrlC1.png)
+
+![Résumé de fin de session Snort 2](./images/afterCtrlC2.png)
+
 ---
 
 
@@ -440,6 +468,20 @@ Aller au répertoire /var/log/snort. Ouvrir le fichier `alert`. Vérifier qu'il 
 ---
 
 **Réponse :**  
+
+La règle écrite est la suivante : `alert tcp any any -> any any (msg:"Salut c'est Snort!"; content:"WorldWideWeb"; sid:4000042; rev:1;)`
+
+Et voici une des alerte obtenue :
+
+![Alert Snort](./images/alertSnort.png)
+
+On peut clairement voir le message qui s'affiche, mais également l'id de la règle ayant\
+détecté le paquet, la priorité de cette règle, en somme, tous ce qui peut servir pour reconnaître la règle utilisée.
+
+De plus, il y a également des informations sur l'heure et la date où cette alerte a été écrite,\
+ainsi que le protocole du paquet intercepté, son port, l'adresse IP source, celle de destination, etc...
+
+Et pour finir, une série d'information sur l'"apparence" du paquet, c'est-à-dire sa taille, sa séquence, le numéro de Ack, etc...
 
 ---
 
