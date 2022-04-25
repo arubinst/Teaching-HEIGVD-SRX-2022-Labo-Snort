@@ -363,6 +363,8 @@ Selon la [documentation officielle](https://www.snort.org/documents/snort-users-
 
 **Réponse :**  
 
+Parce que le fichier de configuration "fait-maison" (par ex. `mysnort.conf`) ne contient pas de directives `preprocessor <name>: <options>`.
+
 ---
 
 --
