@@ -353,6 +353,7 @@ Vous pouvez aussi utiliser des captures Wireshark ou des fichiers snort.log.xxxx
 
 **Réponse :**  
 Les préprocesseurs de Snort sont des composants qui interviennent avant l'application des règles. Un préprocesseur permet de traiter les paquets et flux qui nécessitent d'être traités dans un flux avant de pouvoir être envoyés aux règles.
+Un préprocesseur peut, par exemple, réunir un payload applicatif fragmenté dans plusieurs paquets. 
 
 ---
 
@@ -361,7 +362,7 @@ Les préprocesseurs de Snort sont des composants qui interviennent avant l'appli
 ---
 
 **Réponse :**  
-Car il faut toujours préciser et charger des préprocesseurs pour que Snort fonctionne ! La solution la plus simple étant de garder les préprocesseurs de bases définis dans /etc/snort/snort.conf.
+Car il manque la définition d'un pré-processeur dans notre fichier de règle. La solution la plus simple est de reprendre des préprocesseurs définis dans /etc/snort/snort.conf.
 
 ---
 
