@@ -445,6 +445,8 @@ Ecrire deux règles qui journalisent (sans alerter) chacune un message à chaque
 ---
 
 **Réponse :**  
+`log tcp 192.168.220.3 any -> 91.198.174.194 [80,443] (msg: "Client accède à Wikipédia"; sid: 4000002; rev: 1)`
+`log tcp 192.168.220.4 any -> 91.198.174.194 [80,443] (msg: "Firefox accède à Wikipédia"; sid: 4000003; rev: 1)`
 
 ---
 
