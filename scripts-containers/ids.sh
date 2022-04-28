@@ -26,4 +26,7 @@ log tcp $FIREFOX any -> $WIKIPEDIA $HTTP (msg:"Wikipedia visited"; sid:40000003;
 
 ipvar IDS 192.168.220.2
 alert icmp !$IDS any <> $IDS any (msg:"PING ALERT !"; itype:8; sid:40000004; rev:1;)
+
+portvar SSH 22
+alert tcp $CLIENT any -> $IDS $SSH (msg:"SSH ALERT !"; sid:40000005; rev:1;)
 ' > /root/myrules.rules

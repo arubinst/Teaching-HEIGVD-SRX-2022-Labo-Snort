@@ -784,6 +784,16 @@ Essayer d'écrire une règle qui Alerte qu'une tentative de session SSH a été 
 
 **Réponse :**  
 
+Notre règle est:
+```
+ipvar CLIENT 192.168.220.3
+ipvar IDS 192.168.220.2
+portvar SSH 22
+alert tcp $CLIENT any -> $IDS $SSH (msg:"SSH ALERT !"; sid:40000005; rev:1;)
+```
+
+# TODO: Expliquer en détail comment elle fonctionne
+
 ---
 
 
@@ -792,6 +802,15 @@ Essayer d'écrire une règle qui Alerte qu'une tentative de session SSH a été 
 ---
 
 **Réponse :**  
+
+```
+[**] [1:40000005:1] SSH ALERT ! [**]
+[Priority: 0] 
+04/28-08:26:30.555510 192.168.220.3:35946 -> 192.168.220.2:22
+TCP TTL:64 TOS:0x10 ID:3943 IpLen:20 DgmLen:60 DF
+******S* Seq: 0x3BF2EA7E  Ack: 0x0  Win: 0xFAF0  TcpLen: 40
+TCP Options (5) => MSS: 1460 SackOK TS: 2609854087 0 NOP WS: 7
+```
 
 ---
 
