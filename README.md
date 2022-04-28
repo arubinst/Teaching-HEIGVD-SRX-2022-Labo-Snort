@@ -642,10 +642,12 @@ Ecrire deux règles qui journalisent (sans alerter) chacune un message à chaque
 
 ```
 portvar HTTP [80,443]
-ipvar CLIENT_AND_FIREFOX [192.168.220.3,192.168.220.4]
-ipvar 
+ipvar CLIENT 192.168.220.3
+ipvar FIREFOX 192.168.220.4
+
 ipvar WIKIPEDIA 91.198.174.192
-log tcp $CLIENT_AND_FIREFOX any -> $WIKIPEDIA $HTTP (msg:\"Wikipedia visited\"; sid:40000002; rev:1;)
+log tcp $CLIENT any -> $WIKIPEDIA $HTTP (msg:"Wikipedia visited"; sid:40000002; rev:1;)
+log tcp $FIREFOX any -> $WIKIPEDIA $HTTP (msg:"Wikipedia visited"; sid:40000003; rev:1;)
 ```
 
 `tcpdump -r snort.log.1651128924 ` :
