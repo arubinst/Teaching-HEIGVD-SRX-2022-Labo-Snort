@@ -352,7 +352,8 @@ Vous pouvez aussi utiliser des captures Wireshark ou des fichiers snort.log.xxxx
 
 ---
 
-**Réponse :**  
+**Réponse :**
+
 Les préprocesseurs snort permettent des faire des "precheck" des packets 
 avant qu'ils n'atteignent le moteur de detection. <br>
 Gérer les erreurs en amont avec un préprocesseur plutot qu'avec des règles de bases permet d'améliorer l'efficacité et la rapidité de snort.
@@ -363,6 +364,7 @@ Gérer les erreurs en amont avec un préprocesseur plutot qu'avec des règles de
 ---
 
 **Réponse :**  
+
 C'est parce que dans le fichier "mysnort.conf" aucun preprocesseur n'est
 spécifié et donc il n'y a pas de préprocesseur chargé pour la policy 0.
 <br>
@@ -381,6 +383,7 @@ alert tcp any any -> any any (msg:"Mon nom!"; content:"Rubinstein"; sid:4000015;
 ---
 
 **Réponse :**  
+
 Cette règle indique qu'il faut générer une alerte en provenance de n'importe quelle ip / port en destination de n'importe
 quelle ip / port en loggant le message "Mon nom!" si il y a la string "Rubinstein" dans le packet payload. <br>
 Son sid (identifiant) est 4000015 <br>
@@ -398,6 +401,7 @@ sudo snort -c myrules.rules -i eth0
 ---
 
 **Réponse :**  
+
 ![question4](images/question4.jpg)<br>
 ![question4](images/question4_2.jpg)<br>
 On peut voir donc voir la configuration appliquée à partir de notre fichier de règles.
@@ -424,6 +428,7 @@ Arrêter Snort avec `CTRL-C`.
 ---
 
 **Réponse :**  
+
 ![question4](images/question6.jpg)<br>
 ![question4](images/question6_2.jpg)<br>
 On peut constater que c'est un compte rendu du traitement des packets.<br>
@@ -440,6 +445,7 @@ Aller au répertoire /var/log/snort. Ouvrir le fichier `alert`. Vérifier qu'il 
 ---
 
 **Réponse :**  
+
 ![question4](images/question7.jpg)<br>
 La première ligne montre le message d'alerte choisi ainsi que son sid et son rev.<br>
 On voit que la priorité de l'alerte est de 0 (risque faible). <br>
