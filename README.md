@@ -692,6 +692,11 @@ Ecrire une règle qui alerte à chaque fois que votre machine IDS **reçoit** un
 
 **Réponse :**  
 
+```
+ipvar IDS 192.168.220.2
+alert icmp !$IDS any -> $IDS any (msg:"PING ALERT !"; itype:8; sid:40000004; rev:1;)
+```
+
 ---
 
 
@@ -701,6 +706,8 @@ Ecrire une règle qui alerte à chaque fois que votre machine IDS **reçoit** un
 
 **Réponse :**  
 
+# TODO: itype:8 + !$IDS
+
 ---
 
 
@@ -709,6 +716,8 @@ Ecrire une règle qui alerte à chaque fois que votre machine IDS **reçoit** un
 ---
 
 **Réponse :**  
+
+Dans `/var/log/snort/alert` et dans `snort.log.xxxxxxxxxx`.
 
 ---
 
@@ -720,6 +729,21 @@ Les journaux sont générés en format pcap. Vous pouvez donc les lire avec Wire
 
 **Réponse :**  
 
+`tcpdump -r snort.log.1651133359`:
+```
+reading from file snort.log.1651133359, link-type EN10MB (Ethernet), snapshot length 1514
+08:09:21.497813 IP firefox.snortlan > IDS: ICMP echo request, id 5903, seq 0, length 64
+08:09:22.498073 IP firefox.snortlan > IDS: ICMP echo request, id 5903, seq 1, length 64
+08:09:23.498305 IP firefox.snortlan > IDS: ICMP echo request, id 5903, seq 2, length 64
+```
+
+`tshark -r snort.log.1651133359`:
+```
+Running as user "root" and group "root". This could be dangerous.
+    1   0.000000 192.168.220.4 ? 192.168.220.2 ICMP 98 Echo (ping) request  id=0x170f, seq=0/0, ttl=64
+    2   1.000260 192.168.220.4 ? 192.168.220.2 ICMP 98 Echo (ping) request  id=0x170f, seq=1/256, ttl=64
+    3   2.000492 192.168.220.4 ? 192.168.220.2 ICMP 98 Echo (ping) request  id=0x170f, seq=2/512, ttl=64
+```
 ---
 
 --
