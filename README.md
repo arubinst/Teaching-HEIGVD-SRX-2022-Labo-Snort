@@ -834,6 +834,9 @@ Générez du trafic depuis le deuxième terminal qui corresponde à l'une des r�
 
 **Réponse :**  
 
+L'option `-r`.
+Utilisation : `snort -r nom_fichier.{pcap|log}`
+
 ---
 
 Utiliser l'option correcte de Snort pour analyser le fichier de capture Wireshark que vous venez de générer.
@@ -844,6 +847,35 @@ Utiliser l'option correcte de Snort pour analyser le fichier de capture Wireshar
 
 **Réponse :**  
 
+Avec un fichier de capture, Snort affiche dans la console le détail de chaque paquet séparé par `=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+`. Exemple:
+```
+WARNING: No preprocessors configured for policy 0.
+04/28-08:38:31.856358 192.168.220.4 -> 192.168.220.2
+ICMP TTL:64 TOS:0x0 ID:54502 IpLen:20 DgmLen:84 DF
+Type:8  Code:0  ID:7438   Seq:0  ECHO
+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+
+WARNING: No preprocessors configured for policy 0.
+04/28-08:38:31.856413 192.168.220.2 -> 192.168.220.4
+ICMP TTL:64 TOS:0x0 ID:40635 IpLen:20 DgmLen:84
+Type:0  Code:0  ID:7438  Seq:0  ECHO REPLY
+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+
+WARNING: No preprocessors configured for policy 0.
+04/28-08:38:32.856574 192.168.220.4 -> 192.168.220.2
+ICMP TTL:64 TOS:0x0 ID:54549 IpLen:20 DgmLen:84 DF
+Type:8  Code:0  ID:7438   Seq:1  ECHO
+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+
+WARNING: No preprocessors configured for policy 0.
+04/28-08:38:32.856608 192.168.220.2 -> 192.168.220.4
+ICMP TTL:64 TOS:0x0 ID:40646 IpLen:20 DgmLen:84
+Type:0  Code:0  ID:7438  Seq:1  ECHO REPLY
+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+```
+
+Contrairement à l'analyse en temps réel, Snort ne génère aucun log ni aucune alerte avec l'option `-r`.
+
 ---
 
 **Question 18: Est-ce que des alertes sont aussi enregistrées dans le fichier d'alertes?**
@@ -851,6 +883,8 @@ Utiliser l'option correcte de Snort pour analyser le fichier de capture Wireshar
 ---
 
 **Réponse :**  
+
+Non.
 
 ---
 
