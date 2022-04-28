@@ -25,5 +25,5 @@ log tcp $CLIENT any -> $WIKIPEDIA $HTTP (msg:"Wikipedia visited"; sid:40000002; 
 log tcp $FIREFOX any -> $WIKIPEDIA $HTTP (msg:"Wikipedia visited"; sid:40000003; rev:1;)
 
 ipvar IDS 192.168.220.2
-alert icmp !$IDS any -> $IDS any (msg:"PING ALERT !"; itype:8; sid:40000004; rev:1;)
+alert icmp !$IDS any <> $IDS any (msg:"PING ALERT !"; itype:8; sid:40000004; rev:1;)
 ' > /root/myrules.rules

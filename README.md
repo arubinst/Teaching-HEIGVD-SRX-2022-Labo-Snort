@@ -758,6 +758,17 @@ Faites le nécessaire pour que les pings soient détectés dans les deux sens.
 
 **Réponse :**  
 
+Il suffit de changer `->` par `<>`:
+```
+ipvar IDS 192.168.220.2
+alert icmp !$IDS any <> $IDS any (msg:"PING ALERT !"; itype:8; sid:40000004; rev:1;)
+```
+
+Cela revient à faire:
+```
+alert icmp any any -> any any (msg:"PING ALERT !"; itype:8; sid:40000004; rev:1;)
+```
+
 ---
 
 
