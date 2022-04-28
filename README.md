@@ -388,7 +388,7 @@ La règle envoie, si le paquet contient "Rubinstein" comme payload, un message d
 Utiliser nano pour créer un fichier `myrules.rules` sur votre répertoire home (```/root```). Rajouter une règle comme celle montrée avant mais avec votre text, phrase ou mot clé que vous aimeriez détecter. Lancer Snort avec la commande suivante :
 
 ```
-sudo snort -c myrules.rules -i eth0
+snort -c myrules.rules -i eth0 -k none
 ```
 
 **Question 4: Que voyez-vous quand le logiciel est lancé ? Qu'est-ce que tous ces messages affichés veulent dire ?**
@@ -396,6 +396,92 @@ sudo snort -c myrules.rules -i eth0
 ---
 
 **Réponse :**  
+
+```
+Running in IDS mode
+
+        --== Initializing Snort ==--
+Initializing Output Plugins!
+Initializing Preprocessors!
+Initializing Plug-ins!
+Parsing Rules file "myrules.rules"
+Tagged Packet Limit: 256
+Log directory = /var/log/snort
+
++++++++++++++++++++++++++++++++++++++++++++++++++++
+Initializing rule chains...
+1 Snort rules read
+    1 detection rules
+    0 decoder rules
+    0 preprocessor rules
+1 Option Chains linked into 1 Chain Headers
++++++++++++++++++++++++++++++++++++++++++++++++++++
+
++-------------------[Rule Port Counts]---------------------------------------
+|             tcp     udp    icmp      ip
+|     src       0       0       0       0
+|     dst       0       0       0       0
+|     any       1       0       0       0
+|      nc       0       0       0       0
+|     s+d       0       0       0       0
++----------------------------------------------------------------------------
+
++-----------------------[detection-filter-config]------------------------------
+| memory-cap : 1048576 bytes
++-----------------------[detection-filter-rules]-------------------------------
+| none
+-------------------------------------------------------------------------------
+
++-----------------------[rate-filter-config]-----------------------------------
+| memory-cap : 1048576 bytes
++-----------------------[rate-filter-rules]------------------------------------
+| none
+-------------------------------------------------------------------------------
+
++-----------------------[event-filter-config]----------------------------------
+| memory-cap : 1048576 bytes
++-----------------------[event-filter-global]----------------------------------
++-----------------------[event-filter-local]-----------------------------------
+| none
++-----------------------[suppression]------------------------------------------
+| none
+-------------------------------------------------------------------------------
+Rule application order: pass->drop->sdrop->reject->alert->log
+Verifying Preprocessor Configurations!
+
+[ Port Based Pattern Matching Memory ]
++-[AC-BNFA Search Info Summary]------------------------------
+| Instances        : 1
+| Patterns         : 1
+| Pattern Chars    : 8
+| Num States       : 8
+| Num Match States : 1
+| Memory           :   1.62Kbytes
+|   Patterns       :   0.05K
+|   Match Lists    :   0.09K
+|   Transitions    :   1.09K
++-------------------------------------------------
+pcap DAQ configured to passive.
+Acquiring network traffic from "eth0".
+Reload thread starting...
+Reload thread started, thread 0x7f6a2849c640 (20)
+Decoding Ethernet
+
+        --== Initialization Complete ==--
+
+   ,,_     -*> Snort! <*-
+  o"  )~   Version 2.9.15.1 GRE (Build 15125) 
+   ''''    By Martin Roesch & The Snort Team: http://www.snort.org/contact#team
+           Copyright (C) 2014-2019 Cisco and/or its affiliates. All rights reserved.
+           Copyright (C) 1998-2013 Sourcefire, Inc., et al.
+           Using libpcap version 1.10.1 (with TPACKET_V3)
+           Using PCRE version: 8.39 2016-06-14
+           Using ZLIB version: 1.2.11
+
+Commencing packet processing (pid=19)
+```
+
+# TODO: suppr output et répondre à la question
 
 ---
 
@@ -515,6 +601,8 @@ Verdicts:
 Snort exiting
 ```
 
+# TODO: suppr output et répondre à la question (voir chap 1.7 Basic Output dans manuel)
+
 ---
 
 
@@ -535,6 +623,8 @@ TCP TTL:47 TOS:0x0 ID:37118 IpLen:20 DgmLen:1308 DF
 TCP Options (3) => NOP NOP TS: 4066533714 2833739280
 ```
 
+# TODO: répondre à la question (laisser output)
+
 ---
 
 
@@ -550,9 +640,45 @@ Ecrire deux règles qui journalisent (sans alerter) chacune un message à chaque
 
 **Réponse :**  
 
+```
+portvar HTTP [80,443]
+ipvar CLIENT_AND_FIREFOX [192.168.220.3,192.168.220.4]
+ipvar 
+ipvar WIKIPEDIA 91.198.174.192
+log tcp $CLIENT_AND_FIREFOX any -> $WIKIPEDIA $HTTP (msg:\"Wikipedia visited\"; sid:40000002; rev:1;)
+```
+
+`tcpdump -r snort.log.1651128924 ` :
+
+```
+reading from file snort.log.1651128924, link-type EN10MB (Ethernet), snapshot length 1514
+06:55:29.586884 IP firefox.snortlan.32782 > text-lb.esams.wikimedia.org.https: Flags [P.], seq 2504514308:2504514523, ack 913394832, win 501, options [nop,nop,TS val 1175129956 ecr 2832372735], length 215
+06:55:29.587502 IP firefox.snortlan.32782 > text-lb.esams.wikimedia.org.https: Flags [P.], seq 215:250, ack 1, win 501, options [nop,nop,TS val 1175129957 ecr 2832372735], length 35
+06:55:29.589227 IP firefox.snortlan.32782 > text-lb.esams.wikimedia.org.https: Flags [P.], seq 250:333, ack 1, win 501, options [nop,nop,TS val 1175129958 ecr 2832372735], length 83
+06:55:29.612648 IP firefox.snortlan.32782 > text-lb.esams.wikimedia.org.https: Flags [.], ack 1371, win 493, options [nop,nop,TS val 1175129982 ecr 2832388835], length 0
+06:55:29.614543 IP firefox.snortlan.32782 > text-lb.esams.wikimedia.org.https: Flags [.], ack 2819, win 493, options [nop,nop,TS val 1175129984 ecr 2832388838], length 0
+06:55:29.614825 IP firefox.snortlan.32782 > text-lb.esams.wikimedia.org.https: Flags [.], ack 4267, win 493, options [nop,nop,TS val 1175129984 ecr 2832388838], length 0
+06:55:29.614947 IP firefox.snortlan.32782 > text-lb.esams.wikimedia.org.https: Flags [.], ack 5715, win 493, options [nop,nop,TS val 1175129984 ecr 2832388838], length 0
+06:55:29.615698 IP firefox.snortlan.32782 > text-lb.esams.wikimedia.org.https: Flags [.], ack 8611, win 477, options [nop,nop,TS val 1175129985 ecr 2832388838], length 0
+06:55:29.616416 IP firefox.snortlan.32782 > text-lb.esams.wikimedia.org.https: Flags [.], ack 15851, win 429, options [nop,nop,TS val 1175129986 ecr 2832388838], length 0
+06:55:29.618242 IP firefox.snortlan.32782 > text-lb.esams.wikimedia.org.https: Flags [.], ack 17299, win 493, options [nop,nop,TS val 1175129987 ecr 2832388838], length 0
+06:55:29.618364 IP firefox.snortlan.32782 > text-lb.esams.wikimedia.org.https: Flags [.], ack 18747, win 493, options [nop,nop,TS val 1175129988 ecr 2832388838], length 0
+06:55:29.619873 IP firefox.snortlan.32782 > text-lb.esams.wikimedia.org.https: Flags [.], ack 20195, win 493, options [nop,nop,TS val 1175129989 ecr 2832388838], length 0
+06:55:29.620474 IP firefox.snortlan.32782 > text-lb.esams.wikimedia.org.https: Flags [.], ack 21387, win 493, options [nop,nop,TS val 1175129990 ecr 2832388838], length 0
+06:55:29.641705 IP firefox.snortlan.32782 > text-lb.esams.wikimedia.org.https: Flags [P.], seq 333:475, ack 21387, win 501, options [nop,nop,TS val 1175130011 ecr 2832388838], length 142
+06:55:29.642003 IP firefox.snortlan.32782 > text-lb.esams.wikimedia.org.https: Flags [P.], seq 475:578, ack 21387, win 501, options [nop,nop,TS val 1175130011 ecr 2832388838], length 103
+06:55:29.642066 IP firefox.snortlan.32782 > text-lb.esams.wikimedia.org.https: Flags [P.], seq 578:613, ack 21387, win 501, options [nop,nop,TS val 1175130011 ecr 2832388838], length 35
+06:55:29.642176 IP firefox.snortlan.32782 > text-lb.esams.wikimedia.org.https: Flags [P.], seq 613:648, ack 21387, win 501, options [nop,nop,TS val 1175130011 ecr 2832388838], length 35
+06:55:29.704932 IP firefox.snortlan.32782 > text-lb.esams.wikimedia.org.https: Flags [P.], seq 648:764, ack 21387, win 501, options [nop,nop,TS val 1175130074 ecr 2832388896], length 116
+06:55:29.705060 IP firefox.snortlan.32782 > text-lb.esams.wikimedia.org.https: Flags [P.], seq 764:850, ack 21387, win 501, options [nop,nop,TS val 1175130074 ecr 2832388896], length 86
+06:55:29.705088 IP firefox.snortlan.32782 > text-lb.esams.wikimedia.org.https: Flags [P.], seq 850:885, ack 21387, win 501, options [nop,nop,TS val 1175130074 ecr 2832388896], length 35
+06:55:29.705534 IP firefox.snortlan.32782 > text-lb.esams.wikimedia.org.https: Flags [P.], seq 885:920, ack 21387, win 501, options [nop,nop,TS val 1175130075 ecr 2832388896], length 35
+```
+
+# TODO: Répondre à la question
+
 ---
 
---
 
 ### Détecter un ping d'un autre système
 
