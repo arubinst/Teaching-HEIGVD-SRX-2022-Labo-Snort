@@ -64,6 +64,7 @@ Ce laboratoire utilise docker-compose, un outil pour la gestion d'applications u
 
 ![Plan d'adressage](images/docker-snort.png)
 
+
 Nous allons commencer par lancer docker-compose. Il suffit de taper la commande suivante dans le répertoire racine du labo, celui qui contient le fichier [docker-compose.yml](docker-compose.yml). Optionnelement vous pouvez lancer le script [up.sh](scripts/up.sh) qui se trouve dans le répertoire [scripts](scripts), ainsi que d'autres scripts utiles pour vous :
 
 ```bash
@@ -352,7 +353,9 @@ Vous pouvez aussi utiliser des captures Wireshark ou des fichiers snort.log.xxxx
 ---
 
 **Réponse :**  
-
+Les préprocesseurs snort permettent des faire des "precheck" des packets 
+avant qu'ils n'atteignent le moteur de detection. <br>
+Gérer les erreurs en amont avec un préprocesseur plutot qu'avec des règles de bases permet d'améliorer l'efficacité et la rapidité de snort.
 ---
 
 **Question 2: Pourquoi êtes vous confronté au WARNING suivant `"No preprocessors configured for policy 0"` lorsque vous exécutez la commande `snort` avec un fichier de règles ou de configuration "fait-maison" ?**
@@ -360,7 +363,9 @@ Vous pouvez aussi utiliser des captures Wireshark ou des fichiers snort.log.xxxx
 ---
 
 **Réponse :**  
-
+C'est parce que dans le fichier "mysnort.conf" aucun preprocesseur n'est
+spécifié et donc il n'y a pas de préprocesseur chargé pour la policy 0.
+<br>
 ---
 
 --
@@ -376,7 +381,10 @@ alert tcp any any -> any any (msg:"Mon nom!"; content:"Rubinstein"; sid:4000015;
 ---
 
 **Réponse :**  
-
+Cette règle indique qu'il faut générer une alerte en provenance de n'importe quelle ip / port en destination de n'importe
+quelle ip / port en loggant le message "Mon nom!" si il y a la string "Rubinstein" dans le packet payload. <br>
+Son sid (identifiant) est 4000015 <br>
+Son rev (version) est 1.
 ---
 
 Utiliser nano pour créer un fichier `myrules.rules` sur votre répertoire home (```/root```). Rajouter une règle comme celle montrée avant mais avec votre text, phrase ou mot clé que vous aimeriez détecter. Lancer Snort avec la commande suivante :
@@ -390,6 +398,10 @@ sudo snort -c myrules.rules -i eth0
 ---
 
 **Réponse :**  
+![question4](images/question4.jpg)<br>
+![question4](images/question4_2.jpg)<br>
+On peut voir donc voir la configuration appliquée à partir de notre fichier de règles.
+<br> C'est un résumé de la configuration appliquée on peut donc constater qu'il n'y a qu'une règle tcp any et rien d'autre
 
 ---
 
@@ -412,6 +424,11 @@ Arrêter Snort avec `CTRL-C`.
 ---
 
 **Réponse :**  
+![question4](images/question6.jpg)<br>
+![question4](images/question6_2.jpg)<br>
+On peut constater que c'est un compte rendu du traitement des packets.<br>
+Il y a eut 352 packets reçus dont 351 analysés. <br>
+Il y a également eut 2 alertes et 2 packets loggés.
 
 ---
 
@@ -423,7 +440,11 @@ Aller au répertoire /var/log/snort. Ouvrir le fichier `alert`. Vérifier qu'il 
 ---
 
 **Réponse :**  
-
+![question4](images/question7.jpg)<br>
+La première ligne montre le message d'alerte choisi ainsi que son sid et son rev.<br>
+On voit que la priorité de l'alerte est de 0 (risque faible). <br>
+Il y a également la date / heure de l'alerte.<br>
+188.185.21.108:80 -> 192.168.220.2:58798 indique l'ip / port source / destination.<br>
 ---
 
 
