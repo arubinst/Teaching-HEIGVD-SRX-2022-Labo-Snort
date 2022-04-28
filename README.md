@@ -384,7 +384,7 @@ alert tcp any any -> any any (msg:"Mon nom!"; content:"Rubinstein"; sid:4000015;
 
 **Réponse :**  
 
-Cette règle indique qu'il faut générer une alerte en provenance de n'importe quelle ip / port en destination de n'importe
+<br>Cette règle indique qu'il faut générer une alerte en provenance de n'importe quelle ip / port en destination de n'importe
 quelle ip / port en loggant le message "Mon nom!" si il y a la string "Rubinstein" dans le packet payload. <br>
 Son sid (identifiant) est 4000015 <br>
 Son rev (version) est 1.
