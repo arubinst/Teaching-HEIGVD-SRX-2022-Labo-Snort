@@ -29,4 +29,9 @@ alert icmp !$IDS any <> $IDS any (msg:"PING ALERT !"; itype:8; sid:40000004; rev
 
 portvar SSH 22
 alert tcp $CLIENT any -> $IDS $SSH (msg:"SSH ALERT !"; sid:40000005; rev:1;)
+
+alert tcp any any -> $IDS $SSH (msg:"SYN packet on SSH port"; flags:S; sid:40000006; rev:1;)
+
+preprocessor frag3_global
+preprocessor frag3_engine
 ' > /root/myrules.rules

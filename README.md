@@ -900,6 +900,10 @@ Faire des recherches à propos des outils `fragroute` et `fragrouter`.
 
 **Réponse :**  
 
+`fragroute` est un outil qui intercepte, modifie, et re-écrit le trafic de sortie.
+`fragrouter` est un toolkit qui permet de ne pas se faire détecter par un NIDS.
+# TODO: améliorer réponses
+
 ---
 
 
@@ -909,6 +913,8 @@ Faire des recherches à propos des outils `fragroute` et `fragrouter`.
 
 **Réponse :**  
 
+# TODO
+
 ---
 
 
@@ -917,6 +923,8 @@ Faire des recherches à propos des outils `fragroute` et `fragrouter`.
 ---
 
 **Réponse :**  
+
+# TODO
 
 ---
 
@@ -931,6 +939,12 @@ L'outil nmap propose une option qui fragmente les messages afin d'essayer de con
 ---
 
 **Réponse :**  
+
+```
+ipvar IDS 192.168.220.2
+portvar SSH 22
+alert tcp any any -> $IDS $SSH (msg:"SYN packet on SSH port"; flags:S; sid:40000006; rev:1;)
+```
 
 ---
 
@@ -954,6 +968,16 @@ nmap -sS -f -p 22 --send-eth 192.168.220.2
 
 **Réponse :**  
 
+Le paquet SYN est détecté si et seulement si le paquet n'est pas fragmenté.
+```
+[**] [1:40000006:1] SYN packet on SSH port [**]
+[Priority: 0] 
+04/28-11:31:38.142265 192.168.220.3:48255 -> 192.168.220.2:22
+TCP TTL:43 TOS:0x0 ID:11034 IpLen:20 DgmLen:44
+******S* Seq: 0xE936B454  Ack: 0x0  Win: 0x400  TcpLen: 24
+TCP Options (1) => MSS: 1460
+```
+
 ---
 
 
@@ -965,6 +989,16 @@ Modifier le fichier `myrules.rules` pour que snort utiliser le `Frag3 Preprocess
 ---
 
 **Réponse :**  
+
+Le paquet framenté est détecté:
+```
+[**] [1:40000006:1] SYN packet on SSH port [**]
+[Priority: 0] 
+04/28-11:42:21.322002 192.168.220.3:47096 -> 192.168.220.2:22
+TCP TTL:45 TOS:0x0 ID:4639 IpLen:20 DgmLen:44
+******S* Seq: 0x7885591A  Ack: 0x0  Win: 0x400  TcpLen: 24
+TCP Options (1) => MSS: 1460
+```
 
 ---
 
