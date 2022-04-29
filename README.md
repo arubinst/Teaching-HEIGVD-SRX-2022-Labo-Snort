@@ -352,19 +352,15 @@ Vous pouvez aussi utiliser des captures Wireshark ou des fichiers snort.log.xxxx
 ---
 
 **Réponse :** 
-GUILAIN:
-Les preprocesseurs dans le context de Snort sont les composants qui traîtent les
-paquets avant qu'ils ne soient traîtés par les règles.
+Les preprocesseurs dans le context de Snort sont les composants qui traitent les
+paquets avant qu'ils ne soient traités par les règles.
 Il y a par exemple un preprocesseur qui permet de détecter et réassembler 
 les paquets fragmentés qui tentent d'éviter une détection. Ce preprocesseur 
 s'appelle Frag2.
 
-Mehdi, précision:
 Le préprocesseurs est utile car certaines attaques ne peuvent pas être traitées
-par le moteur de règles avant d'avoir étés transformées au préalables.
-
-C'est le cas par exemple du traffic qui a été fragmenté et qui peut être
-défragmenté grâce à Frag3.
+par le moteur de règles avant d'avoir étés transformées au préalables. C'est le
+cas par exemple avec le traffic fragmenté.
 
 ---
 
@@ -373,10 +369,10 @@ défragmenté grâce à Frag3.
 ---
 
 **Réponse :**  
-GUILAIN:
+
 Car contrairement au fichier snort.conf, le fichier mysnort.conf ne charge aucun
 preprocesseur. Snort nous indique donc qu'aucun preprocesseur n'est chargé pour 
-la policy 0, mais fonctionne quand même sans traîter les paquets avant le set de 
+la policy 0, mais fonctionne quand même sans traiter les paquets avant le set de 
 règles que nous avons renseignées.
 
 ---
@@ -394,7 +390,7 @@ alert tcp any any -> any any (msg:"Mon nom!"; content:"Rubinstein"; sid:4000015;
 ---
 
 **Réponse :**  
-GUILAIN:
+
 La règle indique à snort de logger le message "Mon nom!" dans le fichier d'alert tous les paquets
 tcp provenant de n'importe quelle ip source et port source vers n'importe quelle
 ip de destination et port de destination si la payload contient la string 
@@ -415,7 +411,6 @@ sudo snort -c myrules.rules -i eth0
 
 **Réponse :**  
 
-GUILAIN:
 Ce sont tous les éléments de configuration qui sont appliqués. On voit que la
 plupart des éléments indiquent "none". La configuration s'initialise en fonction 
 de ce qui est nécessaire pour pouvoir appliquer la règles que nous appliquons 
@@ -432,7 +427,7 @@ Pour accéder à Firefox dans son conteneur, ouvrez votre navigateur web sur vot
 ---
 
 **Réponse :**  
-GUILAIN:
+
 WARNING: No preprocessors configured for policy 0.
 ---
 
@@ -443,8 +438,10 @@ Arrêter Snort avec `CTRL-C`.
 ---
 
 **Réponse :**  
-GUILAIN:
-Un compte rendu de ce qui a été détecté:
+
+Snort fournit un compte rendu de ce qui a été détecté avec des statistiques et
+chiffres.
+
 ```
 ===============================================================================
 Run time for packet processing was 83.14207 seconds
