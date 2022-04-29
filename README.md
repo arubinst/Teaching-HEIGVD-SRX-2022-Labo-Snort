@@ -481,7 +481,8 @@ Decoding Ethernet
 Commencing packet processing (pid=19)
 ```
 
-# TODO: suppr output et répondre à la question
+On voit une vue très générale de ce qui est analysé par Snort.
+# TODO: améliorer analyse et suppr output
 
 ---
 
@@ -508,100 +509,16 @@ Arrêter Snort avec `CTRL-C`.
 
 **Réponse :**  
 
-```
-===============================================================================
-Run time for packet processing was 6.1735 seconds
-Snort processed 1 packets.
-Snort ran for 0 days 0 hours 0 minutes 6 seconds
-   Pkts/sec:            0
-===============================================================================
-Memory usage summary:
-  Total non-mmapped bytes (arena):       4100096
-  Bytes in mapped regions (hblkhd):      30265344
-  Total allocated space (uordblks):      3349120
-  Total free space (fordblks):           750976
-  Topmost releasable block (keepcost):   593536
-===============================================================================
-Packet I/O Totals:
-   Received:            2
-   Analyzed:            1 ( 50.000%)
-    Dropped:            0 (  0.000%)
-   Filtered:            0 (  0.000%)
-Outstanding:            1 ( 50.000%)
-   Injected:            0
-===============================================================================
-Breakdown by protocol (includes rebuilt packets):
-        Eth:            1 (100.000%)
-       VLAN:            0 (  0.000%)
-        IP4:            0 (  0.000%)
-       Frag:            0 (  0.000%)
-       ICMP:            0 (  0.000%)
-        UDP:            0 (  0.000%)
-        TCP:            0 (  0.000%)
-        IP6:            0 (  0.000%)
-    IP6 Ext:            0 (  0.000%)
-   IP6 Opts:            0 (  0.000%)
-      Frag6:            0 (  0.000%)
-      ICMP6:            0 (  0.000%)
-       UDP6:            0 (  0.000%)
-       TCP6:            0 (  0.000%)
-     Teredo:            0 (  0.000%)
-    ICMP-IP:            0 (  0.000%)
-    IP4/IP4:            0 (  0.000%)
-    IP4/IP6:            0 (  0.000%)
-    IP6/IP4:            0 (  0.000%)
-    IP6/IP6:            0 (  0.000%)
-        GRE:            0 (  0.000%)
-    GRE Eth:            0 (  0.000%)
-   GRE VLAN:            0 (  0.000%)
-    GRE IP4:            0 (  0.000%)
-    GRE IP6:            0 (  0.000%)
-GRE IP6 Ext:            0 (  0.000%)
-   GRE PPTP:            0 (  0.000%)
-    GRE ARP:            0 (  0.000%)
-    GRE IPX:            0 (  0.000%)
-   GRE Loop:            0 (  0.000%)
-       MPLS:            0 (  0.000%)
-        ARP:            1 (100.000%)
-        IPX:            0 (  0.000%)
-   Eth Loop:            0 (  0.000%)
-   Eth Disc:            0 (  0.000%)
-   IP4 Disc:            0 (  0.000%)
-   IP6 Disc:            0 (  0.000%)
-   TCP Disc:            0 (  0.000%)
-   UDP Disc:            0 (  0.000%)
-  ICMP Disc:            0 (  0.000%)
-All Discard:            0 (  0.000%)
-      Other:            0 (  0.000%)
-Bad Chk Sum:            0 (  0.000%)
-    Bad TTL:            0 (  0.000%)
-     S5 G 1:            0 (  0.000%)
-     S5 G 2:            0 (  0.000%)
-      Total:            1
-===============================================================================
-Action Stats:
-     Alerts:            0 (  0.000%)
-     Logged:            0 (  0.000%)
-     Passed:            0 (  0.000%)
-Limits:
-      Match:            0
-      Queue:            0
-        Log:            0
-      Event:            0
-      Alert:            0
-Verdicts:
-      Allow:            1 ( 50.000%)
-      Block:            0 (  0.000%)
-    Replace:            0 (  0.000%)
-  Whitelist:            0 (  0.000%)
-  Blacklist:            0 (  0.000%)
-     Ignore:            0 (  0.000%)
-      Retry:            0 (  0.000%)
-===============================================================================
-Snort exiting
-```
+Lorsqu'on arrête Snort, on voit des statistiques sur ce qui a été analysé, plus précisément :
 
-# TODO: suppr output et répondre à la question (voir chap 1.7 Basic Output dans manuel)
+- le nombre total de paquets traités, ainsi que la moyenne du nombre de paquets reçu par minutes et par secondes
+- un résumé sur l'utilisation de la RAM
+- le nombre total de paquets reçus, analysés, droppés, filtrés, en suspend, et injectés
+- la répartition des protocoles décodés par Snort
+- un résumé sur :
+  - ce que Snort a effectué comme action (alerter, logger, laisser passer) sur les paquets.
+  - ce qui n'a pas pu être traité dû aux limitations du système (mémoire RAM libre, temps de calcul, ...)
+  - le verdict des paquets (accepté, bloqué, remplacé, ignoré, ...)
 
 ---
 
