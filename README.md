@@ -625,7 +625,7 @@ alert icmp !$IDS any -> $IDS any (msg:"PING ALERT !"; itype:8; sid:40000004; rev
 
 **Réponse :**  
 
-# TODO: itype:8 + !$IDS
+Nous avons utilisé le mot clé `itype:8` (ICMP type 8 = requête echo) et le caractère `!` qui nous a permis d'exclure l'IP de l'IDS comme IP source.
 
 ---
 
