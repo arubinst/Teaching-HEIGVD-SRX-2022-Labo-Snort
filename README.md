@@ -637,7 +637,15 @@ Ce sont deux outils permettant de fragmenter / réordonner / délayer des packet
 
 De base dans le protocol IP, il est parfois nécéssaire de fragmenter un / des paquets (suivant le MTU définit et la taille des paquets en questions), c'est à l'hôte recevant le/les paquet de reconstruire le paquet final en remettant tout les fragments ensemble. 
 
-Ici ces deux outils profitent de ce méchanisme pour altérer la détéction de signature par un IDS, justement en fragmentant / réordonnant des packets  
+Ici ces deux outils profitent de ce méchanisme pour altérer la détéction de signature par un IDS, justement en fragmentant / réordonnant des packets.
+
+Par exemple:
+Admettons que snort aie une règle détéctant une suite d'actions consistants en 3 packets tcp x,y,z. 
+Si l'on envoie x,y,z alors snort detecte "l'attaque" et log/alerte (il detecte "la signature" de l'attaque). 
+
+Par contre si on fragmente les paquets en x1,x2,x3, y1,y2, z alors la signature de l'attaque est altérée est snort ne va a priori pas la détecter.
+
+L'hote final va pourtant bien reconstituer les packets x,y,z et donc potentiellement subir l'attaque désirée.
 
 ---
 
