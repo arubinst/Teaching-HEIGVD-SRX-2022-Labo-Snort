@@ -903,7 +903,6 @@ nmap -sS -f -p 22 --send-eth 192.168.220.2
 
 **Réponse :**  
 
-Mehdi:
 
 En utilisant la fragmentation avec Nmap, Snort ne détecte plus le scan.
 
@@ -919,7 +918,6 @@ Modifier le fichier `myrules.rules` pour que snort utiliser le `Frag3 Preprocess
 
 **Réponse :**  
 
-Mehdi:
 
 Snort est maintenant capable d'identifier le SYN scan de Nmap. Il indique aussi
 dans son rapport les statistiques de Frag3 et les paquets qui ont été réassemblés.
@@ -933,7 +931,6 @@ dans son rapport les statistiques de Frag3 et les paquets qui ont été réassem
 
 **Réponse :**  
 
-Mehdi: 
 
 Ce préprocesseur sert à traiter le trafic afin de déterminer s'il s'agit de
 trafic avec protocole SSL/TLS. Ce trafic étant chiffré, il n'y a pas de raison
@@ -949,7 +946,6 @@ ressources inutilement.
 
 **Réponse :**  
 
-Mehdi: 
 
 Ce préprocesseur sert à détecter des fuites de données sensibles, telles que des
 numéros de carte de crédit ou des numéros de sécurité sociale, afin de les modifier, 
@@ -969,8 +965,7 @@ règles personnalisées.
 ---
 
 **Réponse :**  
-
-Mehdi: 
+ 
 
 Snort est un outil puissant de détection d'intrusion. C'est devenu le standard
 de facto. Adoptant la philosophie Unix, il est possible de tout configurer et
