@@ -460,7 +460,14 @@ Ecrire deux règles qui journalisent (sans alerter) chacune un message à chaque
 
 ---
 
-**Réponse :**  
+**Réponse :**  La règle se base sur l'adresse IP du serveur de Wikipedia, étant donné que nous ne pouvons pas utiliser une règle se basant sur l'URL.
+Elle va journaliser le trafic TCP bidirectionnel (car si l'on ne prend que le trafic sortant la règle ne fonctionne pas pour des raisons obscures), en provenance des IPs de notre client et de la machine Firefox et à destination de Wikipedia.
+```
+# client
+log tcp 192.168.220.3 any <> 91.198.174.192 any (sid:4000001; rev:1)
+# firefox
+log tcp 192.168.220.4 any <> 91.198.174.192 any (sid:4000002; rev:1)
+```
 
 ---
 
@@ -474,7 +481,11 @@ Ecrire une règle qui alerte à chaque fois que votre machine IDS **reçoit** un
 
 ---
 
-**Réponse :**  
+**Réponse :**
+
+```
+alert icmp [192.168.220.0/24,![192.168.220.2]] any > 192.168.220.2 any (msg:"Ping vers IDS"; sid:40000001; rev:1;)
+```
 
 ---
 
@@ -483,7 +494,7 @@ Ecrire une règle qui alerte à chaque fois que votre machine IDS **reçoit** un
 
 ---
 
-**Réponse :**  
+**Réponse :**  On spécifie que cette règle ne concerne que le trafic à destination de l'IDS. De plus, on exclut l'IP de l'IDS des adresses sources pour éviter qu'un ping de l'IDS vers lui même ne déclenche une alerte.
 
 ---
 
@@ -492,7 +503,15 @@ Ecrire une règle qui alerte à chaque fois que votre machine IDS **reçoit** un
 
 ---
 
-**Réponse :**  
+**Réponse :**  Dans le fichier `/var/log/snort/alert`, chaque alerte s'affiche de la sorte :
+
+```
+[**] [1:40000001:1] Ping vers IDS [**]
+[Priority: 0]
+04/29-09:06:25.292294 192.168.220.3 -> 192.168.220.2
+ICMP TTL:64 TOS:0x0 ID:15566 IpLen:20 DgmLen:84 DF
+Type:8  Code:0  ID:20   Seq:1  ECHO
+```
 
 ---
 
@@ -502,7 +521,15 @@ Les journaux sont générés en format pcap. Vous pouvez donc les lire avec Wire
 
 ---
 
-**Réponse :**  
+**Réponse :**  Les trames ICMP Echo ayant déclenché l'alerte précédente. 
+
+```bash
+$ tshark -r snort.log.1651223182
+1   0.000000 192.168.220.3 ? 192.168.220.2 ICMP 98 Echo (ping) request  id=0x0014, seq=1/256, ttl=64
+2   1.056946 192.168.220.3 ? 192.168.220.2 ICMP 98 Echo (ping) request  id=0x0014, seq=2/512, ttl=64
+3   2.082969 192.168.220.3 ? 192.168.220.2 ICMP 98 Echo (ping) request  id=0x0014, seq=3/768, ttl=64
+4   3.104098 192.168.220.3 ? 192.168.220.2 ICMP 98 Echo (ping) request  id=0x0014, seq=4/1024, ttl=64
+```
 
 ---
 
@@ -516,7 +543,12 @@ Faites le nécessaire pour que les pings soient détectés dans les deux sens.
 
 ---
 
-**Réponse :**  
+**Réponse :** On rajoute une règle qui alerte sur le trafic ICMP en provenance de l'IDS vers une IP quelconque du réseau.
+
+```
+alert icmp [192.168.220.0/24] any -> 192.168.220.2 any (msg:"Ping vers IDS"; sid:40000001; rev:1;)
+alert icmp 192.168.220.2 any -> [192.168.220.0/24] any (msg:"Ping depuis IDS"; sid:40000002; rev:1;)
+```
 
 ---
 
