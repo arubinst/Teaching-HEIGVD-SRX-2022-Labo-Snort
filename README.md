@@ -669,13 +669,11 @@ une flèche allant dans le sens source -> destination, oû la destination est l'
 
 ---
 
-
 **Question 11: Où le message a-t-il été journalisé ?**
 
 ---
 
 **Réponse :**  
-Mehdi:
 
 Dans /var/log/snort/alert
 
@@ -715,17 +713,7 @@ Faites le nécessaire pour que les pings soient détectés dans les deux sens.
 ---
 
 **Réponse :**  
-Mehdi:
 
-En mettant simplement any des deux cotés de la règles, soit en entrée et en
-sortie
-
-Mehdi:
-```
-alert icmp any any -> any any (msg:"Alerte ping recu"; sid: 4000022;)
-```
-
-Antho:
 ```
 alert icmp 192.168.220.0/24 any -> 192.168.220.2 any (msg:"Ping vers IDS"; sid: 4000025;)
 alert icmp 192.168.220.2 any -> 192.168.220.0/24 any (msg:"Ping depuis IDS"; sid: 4000026;)
