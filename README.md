@@ -352,23 +352,17 @@ Vous pouvez aussi utiliser des captures Wireshark ou des fichiers snort.log.xxxx
 
 ---
 
-**Réponse :**
-
----
-
-Les préprocesseurs snort permettent des faire des "precheck" des packets 
+**Réponse :** Les préprocesseurs snort permettent des faire des "precheck" des packets 
 avant qu'ils n'atteignent le moteur de detection. <br>
 Gérer les erreurs en amont avec un préprocesseur plutot qu'avec des règles de bases permet d'améliorer l'efficacité et la rapidité de snort.
+
+---
 
 **Question 2: Pourquoi êtes vous confronté au WARNING suivant `"No preprocessors configured for policy 0"` lorsque vous exécutez la commande `snort` avec un fichier de règles ou de configuration "fait-maison" ?**
 
 ---
 
-**Réponse :**  
-
----
-
-C'est parce que dans le fichier "mysnort.conf" aucun preprocesseur n'est
+**Réponse :**  C'est parce que dans le fichier "mysnort.conf" aucun preprocesseur n'est
 spécifié et donc il n'y a pas de préprocesseur chargé pour la policy 0.
 
 --- 
@@ -377,20 +371,20 @@ spécifié et donc il n'y a pas de préprocesseur chargé pour la policy 0.
 
 Considérer la règle simple suivante:
 
+```
 alert tcp any any -> any any (msg:"Mon nom!"; content:"Rubinstein"; sid:4000015; rev:1;)
+```
 
 **Question 3: Qu'est-ce qu'elle fait la règle et comment ça fonctionne ?**
 
 ---
 
-**Réponse :**  
-
-<br>Cette règle indique qu'il faut générer une alerte en provenance de n'importe quelle ip / port en destination de n'importe
+**Réponse :**  Cette règle indique qu'il faut générer une alerte en provenance de n'importe quelle ip / port en destination de n'importe
 quelle ip / port en loggant le message "Mon nom!" si il y a la string "Rubinstein" dans le packet payload. <br>
 Son sid (identifiant) est 4000015 <br>
 Son rev (version) est 1.
----
 
+---
 Utiliser nano pour créer un fichier `myrules.rules` sur votre répertoire home (```/root```). Rajouter une règle comme celle montrée avant mais avec votre text, phrase ou mot clé que vous aimeriez détecter. Lancer Snort avec la commande suivante :
 
 ```
@@ -418,7 +412,10 @@ Pour accéder à Firefox dans son conteneur, ouvrez votre navigateur web sur vot
 
 ---
 
-**Réponse :**  
+**Réponse :**  Il n'y a rien d'intéressant à voir sur la console.
+```
+No preprocessors configured for policy 0
+```
 
 ---
 
@@ -445,17 +442,13 @@ Aller au répertoire /var/log/snort. Ouvrir le fichier `alert`. Vérifier qu'il 
 
 ---
 
-**Réponse :**  
-
-![question4](images/question7.jpg)<br>
+**Réponse :**  ![question7](images/question7.jpg)<br>
 La première ligne montre le message d'alerte choisi ainsi que son sid et son rev.<br>
 On voit que la priorité de l'alerte est de 0 (risque faible). <br>
 Il y a également la date / heure de l'alerte.<br>
 188.185.21.108:80 -> 192.168.220.2:58798 indique l'ip / port source / destination.<br>
----
 
-
---
+--- 
 
 ### Detecter une visite à Wikipedia
 
@@ -469,8 +462,6 @@ Ecrire deux règles qui journalisent (sans alerter) chacune un message à chaque
 
 ---
 
---
-
 ### Détecter un ping d'un autre système
 
 Ecrire une règle qui alerte à chaque fois que votre machine IDS **reçoit** un ping depuis une autre machine (n'import laquelle des autres machines de votre réseau). Assurez-vous que **ça n'alerte pas** quand c'est vous qui **envoyez** le ping depuis l'IDS vers un autre système !
@@ -479,7 +470,7 @@ Ecrire une règle qui alerte à chaque fois que votre machine IDS **reçoit** un
 
 ---
 
-**Réponse :**  
+**Réponse :**  ![question9](images/question9.jpg)
 
 ---
 
@@ -488,7 +479,7 @@ Ecrire une règle qui alerte à chaque fois que votre machine IDS **reçoit** un
 
 ---
 
-**Réponse :**  
+**Réponse :**  On bloque l'adresse de l'IDS et autorise seulement les echo ICMP.
 
 ---
 
@@ -498,8 +489,12 @@ Ecrire une règle qui alerte à chaque fois que votre machine IDS **reçoit** un
 ---
 
 **Réponse :**  
+```
+var/log/snort/alert
+```
 
 ---
+
 
 Les journaux sont générés en format pcap. Vous pouvez donc les lire avec Wireshark. Vous pouvez utiliser le conteneur wireshark en dirigeant le navigateur Web de votre hôte sur vers [http://localhost:3000](http://localhost:3000). Optionnellement, vous pouvez lire les fichiers log utilisant la commande `tshark -r nom_fichier_log` depuis votre IDS.
 
@@ -507,11 +502,9 @@ Les journaux sont générés en format pcap. Vous pouvez donc les lire avec Wire
 
 ---
 
-**Réponse :**  
+**Réponse :**  Seulement les reply sont log. ![question9](images/question9.jpg)
 
 ---
-
---
 
 ### Detecter les ping dans les deux sens
 
