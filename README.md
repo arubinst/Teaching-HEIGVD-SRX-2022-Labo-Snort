@@ -578,7 +578,15 @@ Générez du trafic depuis le deuxième terminal qui corresponde à l'une des r�
 
 ---
 
-**Réponse :**  
+**Réponse :** 
+
+L'option -r <fichier.pcap> permet de lire une capture.
+
+Exemple :
+
+```
+snort -c /etc/snort/snort.conf -r myfile.pcap
+```
 
 ---
 
