@@ -995,7 +995,8 @@ par exemple en remplaçant les premiers digits d'un numéro de carte de crédit 
 des XXXX. Cela permet d'éviter que ces données sensibles sortent du réseau en
 clair, par exemple en les ayant copié accidentellement dans un document.
 Certaines données sont inclues de base et il est possible d'en rajouter des
-customs.
+règles personnalisées.
+
 ---
 
 ### Conclusions
