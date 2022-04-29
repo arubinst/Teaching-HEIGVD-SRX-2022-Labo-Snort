@@ -703,15 +703,14 @@ Essayer d'écrire une règle qui Alerte qu'une tentative de session SSH a été 
 
 **Réponse :**  
 
-Notre règle est:
+Notre règle est la suivante :
 ```
 ipvar CLIENT 192.168.220.3
 ipvar IDS 192.168.220.2
 portvar SSH 22
 alert tcp $CLIENT any -> $IDS $SSH (msg:"SSH ALERT !"; sid:40000005; rev:1;)
 ```
-
-# TODO: Expliquer en détail comment elle fonctionne
+Elle nous alerte si un paquet provient de la machine `Client` et est à destination du port 22 (SSH) de notre IDS.
 
 ---
 
