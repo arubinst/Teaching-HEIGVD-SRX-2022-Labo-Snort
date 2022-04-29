@@ -462,7 +462,7 @@ Ecrire une règle qui alerte à chaque fois que votre machine IDS **reçoit** un
 ---
 
 **Réponse :**  
-alert icmp !192.168.220.2/32 any -> 192.168.220.2/32 any (msg: "Ping reçu par l'IDS !"; sid:4010017; rev:2;)
+alert icmp !192.168.220.2/32 any -> 192.168.220.2/32 any (msg: "IDS received ping"; sid:4010017; rev:2;)
 
 ---
 
