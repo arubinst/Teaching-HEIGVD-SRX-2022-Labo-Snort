@@ -1029,6 +1029,8 @@ TCP Options (1) => MSS: 1460
 
 **Réponse :**  
 
+Snort est un outil très puissant, mais la documentation est assez pauvre et, par conséquent, il est difficile de le configurer avec des règles très précises.
+
 ---
 
 ### Cleanup
