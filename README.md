@@ -407,7 +407,8 @@ Pour accéder à Firefox dans son conteneur, ouvrez votre navigateur web sur vot
 ---
 
 **Réponse :**  
-Dans le terminal, il n'y a que des messages d'avertissement disant qu'il n'y a pas de processeur. Les alertes vont dans le dossier de log.
+Dans le terminal, il n'y a que des messages d'avertissement disant qu'il n'y a pas de processeur. Les alertes vont dans le dossier de log.  
+Mais si snort est lancé en mode "verbose" (-v), on peut voir l'alerte qui sera logguée dans le terminal.
 
 ---
 
