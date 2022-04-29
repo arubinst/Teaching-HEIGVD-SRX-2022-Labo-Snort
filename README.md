@@ -494,7 +494,7 @@ Les journaux sont générés en format pcap. Vous pouvez donc les lire avec Wire
 ---
 
 **Réponse :**
-Seuls les Echo request sont journalisés. C'est logique puisque les echo reply ne répondent pas à la règle que j'ai écrit.
+Seuls les "echo request" sont journalisés. C'est logique puisque les echo reply ne répondent pas à la règle que j'ai écrit.
 
 ---
 
@@ -535,6 +535,9 @@ Essayer d'écrire une règle qui Alerte qu'une tentative de session SSH a été 
 ---
 
 **Réponse :**  
+alert icmp 192.168.220.2 any -> !192.168.220.2 any (msg: "outgoing ICMP traffic"; sid:4010021; rev:2;)  
+alert icmp !192.168.220.2 any -> 192.168.220.2 any (msg: "incoming ICMP traffic"; sid:4010022; rev:2;)  
+Ces deux lignes permettent de détecter le traffic ICMP dans les deux sens en ajoutant la règle de sortie. 
 
 ---
 
