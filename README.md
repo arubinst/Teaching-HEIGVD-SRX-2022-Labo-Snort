@@ -635,6 +635,10 @@ Ce sont deux outils permettant de fragmenter / réordonner / délayer des packet
 
 **Réponse :** 
 
+De base dans le protocol IP, il est parfois nécéssaire de fragmenter un / des paquets (suivant le MTU définit et la taille des paquets en questions), c'est à l'hôte recevant le/les paquet de reconstruire le paquet final en remettant tout les fragments ensemble. 
+
+Ici ces deux outils profitent de ce méchanisme pour altérer la détéction de signature par un IDS, justement en fragmentant / réordonnant des packets  
+
 ---
 
 
