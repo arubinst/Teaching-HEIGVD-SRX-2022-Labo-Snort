@@ -560,7 +560,7 @@ Générez du trafic depuis le deuxième terminal qui corresponde à l'une des r�
 ---
 
 **Réponse :**  
-
+L'option est "-r nom_fichier.pcap" ou "--pcap-single=nom_fichier.pcap". Il faut toujours utiliser nos autres options pour l'analyse ! Notamment "-c rules"
 ---
 
 Utiliser l'option correcte de Snort pour analyser le fichier de capture Wireshark que vous venez de générer.
@@ -570,6 +570,7 @@ Utiliser l'option correcte de Snort pour analyser le fichier de capture Wireshar
 ---
 
 **Réponse :**  
+Si l'on lit le fichier avec les mêmes options que pour la live capture, le comportement est exactement le même.  
 
 ---
 
@@ -578,6 +579,8 @@ Utiliser l'option correcte de Snort pour analyser le fichier de capture Wireshar
 ---
 
 **Réponse :**  
+Les alertes sont également logguées dans /var/log/snort/alert et le fichier snort.log.timestamp est aussi généré.  
+On peut voir que le comportement est vraiment identique à une analyse en temps réel. La seule différence est la source des données.
 
 ---
 
@@ -686,7 +689,7 @@ Modifier le fichier `myrules.rules` pour que snort utiliser le `Frag3 Preprocess
 
 ---
 
-**Réponse :**  
+**Réponse :**
 
 ---
 
