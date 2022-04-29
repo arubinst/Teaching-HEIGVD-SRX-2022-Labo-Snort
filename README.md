@@ -531,8 +531,9 @@ Aller au répertoire /var/log/snort. Ouvrir le fichier `alert`. Vérifier qu'il 
 
 **Réponse :**  
 
+L'alerte ressemble à ceci :
 ```
-[**] [1:1000001:1] Concerne l'HEIG-VD [**]
+[**] [1:4000001:1] Concerne l'HEIG-VD [**]
 [Priority: 0] 
 04/25-09:41:35.419896 193.134.221.132:80 -> 192.168.220.4:38724
 TCP TTL:47 TOS:0x0 ID:37118 IpLen:20 DgmLen:1308 DF
@@ -540,7 +541,7 @@ TCP TTL:47 TOS:0x0 ID:37118 IpLen:20 DgmLen:1308 DF
 TCP Options (3) => NOP NOP TS: 4066533714 2833739280
 ```
 
-# TODO: répondre à la question (laisser output)
+On voit le SID et la REV (`[1:4000001:1]`) de la règle, le message (`Concerne l'HEIG-VD`), la priorité (`[Priority: 0]`), la date et l'heure de la réception du paquet (`04/25-09:41:35.419896`), l'ip/port source et destination (`193.134.221.132:80 -> 192.168.220.4:38724`), puis tous les détails (séquence, acknowledge, ...) du header du paquet TCP concerné.
 
 ---
 
