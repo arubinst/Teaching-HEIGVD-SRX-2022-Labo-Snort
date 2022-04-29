@@ -598,6 +598,7 @@ Utiliser l'option correcte de Snort pour analyser le fichier de capture Wireshar
 
 **Réponse :**  
 
+Snort se comporte de la meme manière qu'en "live", il lit les packets comme si ils arrivaient les uns apres les autres sur une interface.
 ---
 
 **Question 18: Est-ce que des alertes sont aussi enregistrées dans le fichier d'alertes?**
@@ -605,6 +606,8 @@ Utiliser l'option correcte de Snort pour analyser le fichier de capture Wireshar
 ---
 
 **Réponse :**  
+
+Non il n'y a pas d'alertes enregistrées dans le fichier d'alerte (/var/log/snort/alert)
 
 ---
 
@@ -620,6 +623,9 @@ Faire des recherches à propos des outils `fragroute` et `fragrouter`.
 
 **Réponse :**  
 
+Ce sont deux outils permettant de fragmenter / réordonner / délayer des packets pour par exemple éviter / contourner les règles d'un IDS. 
+
+
 ---
 
 
@@ -627,7 +633,7 @@ Faire des recherches à propos des outils `fragroute` et `fragrouter`.
 
 ---
 
-**Réponse :**  
+**Réponse :** 
 
 ---
 
