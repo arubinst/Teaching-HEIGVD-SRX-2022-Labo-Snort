@@ -532,6 +532,13 @@ Essayer d'écrire une règle qui Alerte qu'une tentative de session SSH a été 
 ---
 
 **Réponse :**  
+```
+ipvar CLIENT 192.168.220.3
+ipvar IDS 192.168.220.2
+portvar SSH 22
+
+alert tcp $CLIENT any -> $IDS $SSH (msg:"Client tried ssh into IDS"; sid:60014; rev:2;)
+```
 
 ---
 
@@ -541,6 +548,15 @@ Essayer d'écrire une règle qui Alerte qu'une tentative de session SSH a été 
 ---
 
 **Réponse :**  
+
+```
+[**] [1:60014:2] Client tried ssh into IDS [**]
+[Priority: 0] 
+04/29-08:53:11.848691 192.168.220.3:37134 -> 192.168.220.2:22
+TCP TTL:64 TOS:0x10 ID:0 IpLen:20 DgmLen:52 DF
+***A**** Seq: 0xBE4D1C89  Ack: 0xBE8C8AA  Win: 0x1F5  TcpLen: 32
+TCP Options (3) => NOP NOP TS: 3535718362 2580475208
+```
 
 ---
 
