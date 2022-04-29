@@ -872,19 +872,14 @@ L'outil nmap propose une option qui fragmente les messages afin d'essayer de con
 
 **Réponse :**  
 
-Mehdi:
-A VERIFIER
-
-```
-alert tcp any any -> 192.168.220.2 any (msg:"SYN Scan"; flags:S, 12;sid:
-1000003;)
-```
-Antho:
+En détectant le flag SYN:
 
 ```
 alert tcp any any -> 192.168.220.2 22 (msg:"SYN Scan"; flags:S;sid:1000004;)
-J'ai vu que 12 était déprécié, mais j'ai peur qu'en mettant seulement S, on détecte trop de choses.
+
 ```
+
+Note: il y a aussi le module SFPORTSCAN qui permet de détecter des scans.
 
 ---
 
