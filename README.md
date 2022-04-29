@@ -679,6 +679,9 @@ Modifier le fichier `myrules.rules` pour que snort utiliser le `Frag3 Preprocess
 ---
 
 **Réponse :**  
+Il permet de ne pas analyser de l'information inutile qui transite sur SSL/TLS:
+C'est du traffic chiffré, donc inexploitable en grande partie. Ce preproc configure
+Snort pour qu'il n'analyse que le handshake SSL/TLS, dont on peut retirer quelques infos.
 
 ---
 
@@ -688,6 +691,8 @@ Modifier le fichier `myrules.rules` pour que snort utiliser le `Frag3 Preprocess
 ---
 
 **Réponse :**  
+Il permet la détection d'informations sensibles, comme son nom l'indique.
+On parle donc d'adresse mail, de numéro de téléphone, de N° de CC, etc...
 
 ---
 
