@@ -636,6 +636,8 @@ L'outil nmap propose une option qui fragmente les messages afin d'essayer de con
 ---
 
 **Réponse :**  
+alert tcp any any -> 192.168.220.2 22 (flags: R; msg: "Possible SYN scan";sid:4001022;rev:1;)  
+La règle se base sur le flag reset. On considère que recevoir un flag RST dans un paquet est une potentielle attaque.
 
 ---
 
@@ -657,7 +659,10 @@ nmap -sS -f -p 22 --send-eth 192.168.220.2
 
 ---
 
-**Réponse :**  
+**Réponse :**
+Malgré la fragmentation, le paquet est détecté étant donné que la règle se base sur les headers qui, eux, ne peuvent pas être fragmentés.  
+Le résultat de la détection est le même, peu importe si le paquet est fragmenté ou non.
+TODO : C'est censé ne pas marcher, ne pas détecter... Je crois ?
 
 ---
 
