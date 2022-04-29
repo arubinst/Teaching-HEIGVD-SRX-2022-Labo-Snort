@@ -879,7 +879,7 @@ alert tcp any any -> 192.168.220.2 22 (msg:"SYN Scan"; flags:S;sid:1000004;)
 
 ```
 
-Note: il y a aussi le module SFPORTSCAN qui permet de détecter des scans.
+Note: il y a aussi le preprocesseur SFPORTSCAN qui permet de détecter des scans.
 
 ---
 
