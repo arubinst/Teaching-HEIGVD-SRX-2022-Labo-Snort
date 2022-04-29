@@ -844,7 +844,9 @@ Faire des recherches à propos des outils `fragroute` et `fragrouter`.
 
 **Réponse :**  
 
-# TODO
+Le préprocesseur `Frag3` permet de détecter les paquets qui ont étés fragmentés.
+Il fonctionne en récupérant tous les fragments de paquets pour ensuite reconstituer le paquet original.
+Par la suite, le paquet original analysé par Snort.
 
 ---
 
@@ -910,7 +912,7 @@ Modifier le fichier `myrules.rules` pour que snort utiliser le `Frag3 Preprocess
 
 **Réponse :**  
 
-Le paquet framenté est détecté:
+Le paquet fragmenté est détecté:
 ```
 [**] [1:40000006:1] SYN packet on SSH port [**]
 [Priority: 0] 
