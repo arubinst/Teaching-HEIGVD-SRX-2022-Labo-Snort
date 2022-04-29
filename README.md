@@ -546,7 +546,7 @@ Aller au répertoire /var/log/snort. Ouvrir le fichier `alert`. Vérifier qu'il 
 ---
 
 **Réponse :**  
-GUILAIN:
+
 ```
 [**] [1:4000015:1] Mon Alert! [**]
 [Priority: 0]
@@ -628,12 +628,6 @@ Ecrire une règle qui alerte à chaque fois que votre machine IDS **reçoit** un
 
 **Réponse :**  
 
-Mehdi:
-
-```
-alert icmp any any -> 192.168.220.2 any (msg:"Alerte ping recu"; sid: 4000022;)
-```
-Antho:
 
 ```
 alert icmp 192.168.220.0/24 any -> 192.168.220.2 any (msg:"Alerte ping recu"; sid: 4000022;)
@@ -643,7 +637,6 @@ ou
 alert icmp any any -> 192.168.220.2 any (msg:"Alerte ping recu"; sid: 4000023;)
 
 ```
-
 
 Résultat du fichier alert:
 
@@ -670,11 +663,9 @@ Type:8  Code:0  ID:8628   Seq:0  ECHO
 ---
 
 **Réponse :**  
-Mehdi:
 
-En précisent comme destination l'ip de l'IDS, soit 192.168.220.2
-
-Anthony, précision: En utilisant également une flèche allant dans le sens source -> destination, oû la destination est l'IP de l'IDS.
+En précisent comme destination l'ip de l'IDS, soit 192.168.220.2 ainsi qu'avec
+une flèche allant dans le sens source -> destination, oû la destination est l'IP de l'IDS.
 
 ---
 
