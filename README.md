@@ -558,6 +558,7 @@ Ecrire deux règles qui journalisent (sans alerter) chacune un message à chaque
 
 **Réponse :**  
 
+Notre règle est la suivante :
 ```
 portvar HTTP [80,443]
 ipvar CLIENT 192.168.220.3
@@ -568,6 +569,7 @@ log tcp $CLIENT any -> $WIKIPEDIA $HTTP (msg:"Wikipedia visited"; sid:40000002; 
 log tcp $FIREFOX any -> $WIKIPEDIA $HTTP (msg:"Wikipedia visited"; sid:40000003; rev:1;)
 ```
 
+Tout le contenu qui répondait à la règle écrite ci-dessus a été journalisé :
 `tcpdump -r snort.log.1651128924 ` :
 
 ```
@@ -594,8 +596,7 @@ reading from file snort.log.1651128924, link-type EN10MB (Ethernet), snapshot le
 06:55:29.705088 IP firefox.snortlan.32782 > text-lb.esams.wikimedia.org.https: Flags [P.], seq 850:885, ack 21387, win 501, options [nop,nop,TS val 1175130074 ecr 2832388896], length 35
 06:55:29.705534 IP firefox.snortlan.32782 > text-lb.esams.wikimedia.org.https: Flags [P.], seq 885:920, ack 21387, win 501, options [nop,nop,TS val 1175130075 ecr 2832388896], length 35
 ```
-
-# TODO: Répondre à la question
+Nous pouvons remarquer que Wikipédia est hébergé chez Wikimedia (l'organisation mère).
 
 ---
 
