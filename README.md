@@ -736,8 +736,6 @@ Essayer d'écrire une règle qui Alerte qu'une tentative de session SSH a été 
 
 **Réponse :**  
 
-Mehdi:
-
 ```
 alert tcp 192.168.220.3 any -> 192.168.220.2 22 (msg: "Alerte SSH Client->IDS";sid :4000024;)
 ```
@@ -750,7 +748,6 @@ alert tcp 192.168.220.3 any -> 192.168.220.2 22 (msg: "Alerte SSH Client->IDS";s
 ---
 
 **Réponse :**  
-Mehdi:
 
 ```
 
@@ -784,8 +781,6 @@ Générez du trafic depuis le deuxième terminal qui corresponde à l'une des r�
 
 **Réponse :**  
 
-Mehdi:
-
 snort -r nom_fichier.pcap
 
 ---
@@ -798,8 +793,6 @@ Utiliser l'option correcte de Snort pour analyser le fichier de capture Wireshar
 
 **Réponse :**  
 
-Mehdi:
-
 Snort affiche les logs puis un résumé du type du trafic et du nombre de
 paquets. Le comportant est identique à celui en temps réel.
 
@@ -810,8 +803,6 @@ paquets. Le comportant est identique à celui en temps réel.
 ---
 
 **Réponse :**  
-
-Mehdi:
 
 Non étant donné que ce n'est pas Snort qui a été lancé pour faire la capture,
 mais Tshark.
@@ -830,8 +821,6 @@ Faire des recherches à propos des outils `fragroute` et `fragrouter`.
 
 **Réponse :**  
 
-Mehdi:
-
 Ces outils servent à échapper aux systèmes de détection d'intrusion en
 modifiant les paquets à destination d'une cible. Les paquets peuvent être
 dupliqués, fragmentés, réordonnés, etc.
@@ -844,8 +833,6 @@ dupliqués, fragmentés, réordonnés, etc.
 ---
 
 **Réponse :**  
-
-Mehdi:
 
 Il est possible de configurer une machine pour qu'elle route son trafic au
 travers de Fragrouter. On peut ensuite configurer Fragrouter pour que le trafic
