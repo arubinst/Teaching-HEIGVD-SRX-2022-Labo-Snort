@@ -351,7 +351,7 @@ Vous pouvez aussi utiliser des captures Wireshark ou des fichiers snort.log.xxxx
 
 ---
 
-**Réponse : **
+** Réponse : **
 
 Snort possède plusieurs composants autres que le moteur de règles.\
 Par exemple, certains paquets et applications doivent être décodés en texte clair pour que les règles Snort se déclenchent.\
@@ -394,7 +394,7 @@ alert tcp any any -> any any (msg:"Mon nom!"; content:"Rubinstein"; sid:4000015;
 
 ---
 
-**Réponse : **
+** Réponse : **
 
 Cette ligne va envoyer une alerte et écrire dans le journal le message "Mon nom!"\
 si le mot "Rubinstein" est trouvé dans un paquet TCP envoyé par n'importe qui vers n'importe où.\
@@ -414,8 +414,8 @@ sudo snort -c myrules.rules -i eth0
 
 **Réponse :**  
 
-C'est un résumé des règles trouvées, des préprocesseurs configurés, des ports pris en considération\
-par les règles, le nombre des différents protocoles analysés par les règles comme tcp, udp, ou icmp, etc...
+C'est un résumé des règles trouvées, des préprocesseurs configurés, des ports pris en considération par les règles,\
+le nombre des différents protocoles analysés par les règles comme tcp, udp, ou icmp, etc...
 
 De plus, il y a également l'interface qui est analysé (ici eth0).
 
@@ -433,7 +433,7 @@ Pour accéder à Firefox dans son conteneur, ouvrez votre navigateur web sur vot
 
 ---
 
-**Réponse : **
+** Réponse : **
 
 Une série de Warning qui indique qu'aucun préprocesseur n'a été configuré.
 Cependant, les alertes sont bel et bien enregistré dans les fichiers de logs.
@@ -496,7 +496,20 @@ Ecrire deux règles qui journalisent (sans alerter) chacune un message à chaque
 
 ---
 
-**Réponse :**  
+**Réponse :** 
+ 
+```Shell
+portvar Http [80,443]
+ipvar Wiki 91.198.174.192
+
+log tcp 192.168.220.3 any -> $Wiki $Http (msg:"Le client veut aller sur Wikipedia"; content:"wikipedia"; nocase; sid:4000024; rev:1;)
+log tcp 192.168.220.4 any -> $Wiki $Http (msg:"Firefox veut aller sur Wikipedia"; content:"wikipedia"; nocase; sid:4000059; rev:1;)
+```
+Les logs sont inscrits sous `var/log/snort/snort.log.XXXXXXXXXXX`
+
+On peut les voir avec `tcpdump -r snort.log.XXXXXXXXXXX`
+
+![Log sur Wikipedia](./images/logWikipedia.png)
 
 ---
 
@@ -512,6 +525,10 @@ Ecrire une règle qui alerte à chaque fois que votre machine IDS **reçoit** un
 
 **Réponse :**  
 
+`alert icmp 192.168.220.0/24 any -> 192.168.220.2 any (msg:"Paquet ICMP vers IDS"; itype:8; sid:4000011; rev:1;)`
+
+![Alerte ping vers IDS](./images/alertSnort.png)
+
 ---
 
 
@@ -520,6 +537,9 @@ Ecrire une règle qui alerte à chaque fois que votre machine IDS **reçoit** un
 ---
 
 **Réponse :**  
+
+La règle tient compte uniquement des pings venant du réseau 192.168.220.0/24 comme IP source, et en direction de l'IDS uniquement.\
+Par ailleurs, il y a également l'option `iptype:8` pour spécifier le type *ECHO Request* de la requête *ICMP*.
 
 ---
 
@@ -530,6 +550,8 @@ Ecrire une règle qui alerte à chaque fois que votre machine IDS **reçoit** un
 
 **Réponse :**  
 
+Dans le fichier `/var/log/snort/alert` qu'on peut afficher avec un simple `cat`. (Il y a également l'information dans les logs sous `/var/log/snort/snort.log.XXXXXXXXXXX`)
+
 ---
 
 Les journaux sont générés en format pcap. Vous pouvez donc les lire avec Wireshark. Vous pouvez utiliser le conteneur wireshark en dirigeant le navigateur Web de votre hôte sur vers [http://localhost:3000](http://localhost:3000). Optionnellement, vous pouvez lire les fichiers log utilisant la commande `tshark -r nom_fichier_log` depuis votre IDS.
@@ -539,6 +561,10 @@ Les journaux sont générés en format pcap. Vous pouvez donc les lire avec Wire
 ---
 
 **Réponse :**  
+
+Voici ce qui a été journalisé en utilisant `tshark -r snort.log.XXXXXXXXXXX` :
+
+![Log affiché avec TShark](./images/outputTShark.png)
 
 ---
 
@@ -553,6 +579,12 @@ Faites le nécessaire pour que les pings soient détectés dans les deux sens.
 ---
 
 **Réponse :**  
+
+Cela revient au même que la précedente commande, on remplace juste `->` par `<>`.\
+`alert icmp 192.168.220.0/24 any <> 192.168.220.2 any (msg:"Paquet ICMP depuis/vers IDS"; itype:8; sid:4000011; rev:1;)`
+
+
+``
 
 ---
 
@@ -569,6 +601,16 @@ Essayer d'écrire une règle qui Alerte qu'une tentative de session SSH a été 
 
 **Réponse :**  
 
+```Shell
+ipvar $IDS 192.168.220.2
+ipvar $Client 192.168.220.3
+
+alert tcp $Client any -> $IDS 22 (msg:"Tentative de SSH du client vers IDS"; sid:4000005; rev:1;)
+```
+
+La règle provoque une alerte dès que l'IP correpondant à celle du client essaie d'accéder au port 22 (port SSH) de l'adresse IP de la machine IDS.
+Cela provoque une alerte en tout les cas, que la requête SSH a abouti ou a été refusée/droppé.
+
 ---
 
 
@@ -576,7 +618,9 @@ Essayer d'écrire une règle qui Alerte qu'une tentative de session SSH a été 
 
 ---
 
-**Réponse :**  
+**Réponse :** 
+
+![Tentative de SSH](./images/tentativeSSH.png)
 
 ---
 
@@ -600,6 +644,8 @@ Générez du trafic depuis le deuxième terminal qui corresponde à l'une des r�
 
 **Réponse :**  
 
+Il faut utiliser l'option `-r`, par exemple `snort -r mon_fichier.pcap` ou `snort -r mon_fichier.log`
+
 ---
 
 Utiliser l'option correcte de Snort pour analyser le fichier de capture Wireshark que vous venez de générer.
@@ -610,6 +656,44 @@ Utiliser l'option correcte de Snort pour analyser le fichier de capture Wireshar
 
 **Réponse :**  
 
+Après l'entête de Snort (qui a les mêmes infos que celle avec le temps réel), tous les paquets avec les informations sont affichés,\
+séparé par une ligne `=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+`.
+
+Voici un exemple où on peut observer la demande de connexion SSH :
+```Shell
+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+
+04/29-09:14:25.327006 192.168.220.2:3000 -> 192.168.220.1:63508
+TCP TTL:64 TOS:0x0 ID:11701 IpLen:20 DgmLen:52 DF
+***A**** Seq: 0x46E04DE8  Ack: 0xEA2820AA  Win: 0x1F5  TcpLen: 32
+TCP Options (3) => NOP NOP TS: 3938241695 2403371491
+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+
+04/29-09:14:25.391273 192.168.220.3:48620 -> 192.168.220.2:22
+TCP TTL:64 TOS:0x10 ID:3857 IpLen:20 DgmLen:60 DF
+******S* Seq: 0x4A15024C  Ack: 0x0  Win: 0xFAF0  TcpLen: 40
+TCP Options (5) => MSS: 1460 SackOK TS: 2691684354 0 NOP WS: 7
+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+
+WARNING: No preprocessors configured for policy 0.
+04/29-09:14:25.391301 192.168.220.2:22 -> 192.168.220.3:48620
+TCP TTL:64 TOS:0x10 ID:0 IpLen:20 DgmLen:40 DF
+***A*R** Seq: 0x0  Ack: 0x4A15024D  Win: 0x0  TcpLen: 20
+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+
+WARNING: No preprocessors configured for policy 0.
+WARNING: No preprocessors configured for policy 0.
+WARNING: No preprocessors configured for policy 0.
+WARNING: No preprocessors configured for policy 0.
+04/29-09:14:25.571369 192.168.220.2:3000 -> 192.168.220.1:63508
+TCP TTL:64 TOS:0x0 ID:11702 IpLen:20 DgmLen:78 DF
+***AP*** Seq: 0x46E04DE8  Ack: 0xEA2820AA  Win: 0x1F5  TcpLen: 32
+TCP Options (3) => NOP NOP TS: 3938241939 2403371491
+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+```
+
+Et pour finir, il y a les mêmes informations de fin que la version en temps réel.
+
 ---
 
 **Question 18: Est-ce que des alertes sont aussi enregistrées dans le fichier d'alertes?**
@@ -617,6 +701,8 @@ Utiliser l'option correcte de Snort pour analyser le fichier de capture Wireshar
 ---
 
 **Réponse :**  
+
+Non, en utilisant un `-r`, les alertes et les logs ne sont pas journalisés.
 
 ---
 
