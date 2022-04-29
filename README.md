@@ -765,7 +765,9 @@ Utiliser l'option correcte de Snort pour analyser le fichier de capture Wireshar
 
 **Réponse :**  
 
-Avec un fichier de capture, Snort affiche dans la console le détail de chaque paquet séparé par `=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+`. Exemple:
+Avec un fichier de capture, Snort affiche dans la console le détail de chaque paquet séparé par `=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+`.
+Exemple :
+
 ```
 WARNING: No preprocessors configured for policy 0.
 04/28-08:38:31.856358 192.168.220.4 -> 192.168.220.2
@@ -927,6 +929,8 @@ TCP Options (1) => MSS: 1460
 
 **Réponse :**  
 
+# TODO
+
 ---
 
 
@@ -935,6 +939,8 @@ TCP Options (1) => MSS: 1460
 ---
 
 **Réponse :**  
+
+# TODO
 
 ---
 
