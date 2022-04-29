@@ -891,7 +891,7 @@ Mehdi:
 A VERIFIER
 
 ```
-alert tcp any any -> 192l.168.220.2 any (msg:"SYN Scan"; flags:S, 12;sid:
+alert tcp any any -> 192.168.220.2 any (msg:"SYN Scan"; flags:S, 12;sid:
 1000003;)
 ```
 
