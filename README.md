@@ -985,6 +985,8 @@ numéros de carte de crédit ou des numéros de sécurité sociale, afin de les 
 par exemple en remplaçant les premiers digits d'un numéro de carte de crédit par
 des XXXX. Cela permet d'éviter que ces données sensibles sortent du réseau en
 clair, par exemple en les ayant copié accidentellement dans un document.
+Certaines données sont inclues de base et il est possible d'en rajouter des
+règles personnalisées.
 
 ---
 
@@ -1004,7 +1006,7 @@ de facto. Adoptant la philosophie Unix, il est possible de tout configurer et
 customiser, ce qui en fait un outil très flexible. Les règles et la syntaxes de
 base sont relativement simple à comprendre mais elles deviennent vite complexe
 lorsqu'il faut créer des règles plus élaborée. La documentation n'est pas
-évidente à comprendre et il manque souvent des exemples. Une des grandes force
+évidente à comprendre et il manque souvent des exemples. Une des grandes forces
 est la communauté qui fournis de nombreuses règles prêtes à l'emploi. Tout cela
 fait qu'il est donc possible d'installer Snort sur un réseau avec une
 configuration de base assez solide et tout cela à bas prix.
