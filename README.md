@@ -610,7 +610,7 @@ Faire des recherches à propos des outils `fragroute` et `fragrouter`.
 ---
 
 **Réponse :**  
-Ils fragment volontairement les paquets envoyés pour tenter de brouiller la détection de contenu.
+Ils fragmentent volontairement les paquets envoyés pour tenter de brouiller la détection de contenu.
 
 ---
 
