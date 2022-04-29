@@ -719,6 +719,7 @@ alert icmp 192.168.220.0/24 any -> 192.168.220.2 any (msg:"Ping vers IDS"; sid: 
 alert icmp 192.168.220.2 any -> 192.168.220.0/24 any (msg:"Ping depuis IDS"; sid: 4000026;)
 ```
 
+Note: il est aussi possible d'utiliser l'opérateur bidirectionnel
 
 ---
 
