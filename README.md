@@ -354,10 +354,11 @@ Vous pouvez aussi utiliser des captures Wireshark ou des fichiers snort.log.xxxx
 
 **Réponse :**
 
+---
+
 Les préprocesseurs snort permettent des faire des "precheck" des packets 
 avant qu'ils n'atteignent le moteur de detection. <br>
 Gérer les erreurs en amont avec un préprocesseur plutot qu'avec des règles de bases permet d'améliorer l'efficacité et la rapidité de snort.
----
 
 **Question 2: Pourquoi êtes vous confronté au WARNING suivant `"No preprocessors configured for policy 0"` lorsque vous exécutez la commande `snort` avec un fichier de règles ou de configuration "fait-maison" ?**
 
@@ -365,12 +366,12 @@ Gérer les erreurs en amont avec un préprocesseur plutot qu'avec des règles de
 
 **Réponse :**  
 
-C'est parce que dans le fichier "mysnort.conf" aucun preprocesseur n'est
-spécifié et donc il n'y a pas de préprocesseur chargé pour la policy 0.
-<br>
 ---
 
---
+C'est parce que dans le fichier "mysnort.conf" aucun preprocesseur n'est
+spécifié et donc il n'y a pas de préprocesseur chargé pour la policy 0.
+
+--- 
 
 ### Trouver du contenu :
 
