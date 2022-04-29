@@ -379,7 +379,7 @@ alert tcp any any -> any any (msg:"Mon nom!"; content:"Rubinstein"; sid:4000015;
 ---
 
 **Réponse :**  
- Cette règle journalise une alerte pour tout le traffic TCP qui contient "Rubinstein" comme payload.
+ Cette règle journalise une alerte pour tout le traffic TCP provenant de toute source et en direction de toute source, qui contient "Rubinstein" comme payload. L'alerte logguée portera le nom "Mon nom!"
 
 ---
 
