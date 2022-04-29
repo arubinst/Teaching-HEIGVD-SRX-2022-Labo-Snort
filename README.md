@@ -419,8 +419,12 @@ Arrêter Snort avec `CTRL-C`.
 ---
 
 **Réponse :**  
-Un rundown complet de tous les paquets qui ont été capturés.
-
+Nous voyons :
+- Le temps d'exécution
+- L'utilisation mémoire
+- Le nombre de paquets passés dans l'IO
+- Un breakdown par protocole de tous les paquets vus
+- Et finalement, un résumé de ce que snort a fait selon les paquets passés
 ---
 
 
