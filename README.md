@@ -564,6 +564,13 @@ Essayer d'écrire une règle qui Alerte qu'une tentative de session SSH a été 
 ---
 
 **Réponse :**  
+```
+ipvar CLIENT 192.168.220.3
+ipvar IDS 192.168.220.2
+portvar SSH 22
+
+alert tcp $CLIENT any -> $IDS $SSH (msg:"Client tried ssh into IDS"; sid:60014; rev:2;)
+```
 
 ---
 
@@ -573,6 +580,15 @@ Essayer d'écrire une règle qui Alerte qu'une tentative de session SSH a été 
 ---
 
 **Réponse :**  
+
+```
+[**] [1:60014:2] Client tried ssh into IDS [**]
+[Priority: 0] 
+04/29-08:53:11.848691 192.168.220.3:37134 -> 192.168.220.2:22
+TCP TTL:64 TOS:0x10 ID:0 IpLen:20 DgmLen:52 DF
+***A**** Seq: 0xBE4D1C89  Ack: 0xBE8C8AA  Win: 0x1F5  TcpLen: 32
+TCP Options (3) => NOP NOP TS: 3535718362 2580475208
+```
 
 ---
 
@@ -594,7 +610,15 @@ Générez du trafic depuis le deuxième terminal qui corresponde à l'une des r�
 
 ---
 
-**Réponse :**  
+**Réponse :** 
+
+L'option -r <fichier.pcap> permet de lire une capture.
+
+Exemple :
+
+```
+snort -c /etc/snort/snort.conf -r myfile.pcap
+```
 
 ---
 
@@ -606,6 +630,7 @@ Utiliser l'option correcte de Snort pour analyser le fichier de capture Wireshar
 
 **Réponse :**  
 
+Snort se comporte de la meme manière qu'en "live", il lit les packets comme si ils arrivaient les uns apres les autres sur une interface.
 ---
 
 **Question 18: Est-ce que des alertes sont aussi enregistrées dans le fichier d'alertes?**
@@ -613,6 +638,8 @@ Utiliser l'option correcte de Snort pour analyser le fichier de capture Wireshar
 ---
 
 **Réponse :**  
+
+Non il n'y a pas d'alertes enregistrées dans le fichier d'alerte (/var/log/snort/alert)
 
 ---
 
@@ -628,6 +655,9 @@ Faire des recherches à propos des outils `fragroute` et `fragrouter`.
 
 **Réponse :**  
 
+Ce sont deux outils permettant de fragmenter / réordonner / délayer des packets pour par exemple éviter / contourner les règles d'un IDS. 
+
+
 ---
 
 
@@ -635,7 +665,11 @@ Faire des recherches à propos des outils `fragroute` et `fragrouter`.
 
 ---
 
-**Réponse :**  
+**Réponse :** 
+
+De base dans le protocol IP, il est parfois nécéssaire de fragmenter un / des paquets (suivant le MTU définit et la taille des paquets en questions), c'est à l'hôte recevant le/les paquet de reconstruire le paquet final en remettant tout les fragments ensemble. 
+
+Ici ces deux outils profitent de ce méchanisme pour altérer la détéction de signature par un IDS, justement en fragmentant / réordonnant des packets  
 
 ---
 
