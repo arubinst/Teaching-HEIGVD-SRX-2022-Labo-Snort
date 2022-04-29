@@ -595,6 +595,7 @@ Faire des recherches à propos des outils `fragroute` et `fragrouter`.
 ---
 
 **Réponse :**  
+À contourner les IDSs et Firewalls.
 
 ---
 
@@ -604,6 +605,7 @@ Faire des recherches à propos des outils `fragroute` et `fragrouter`.
 ---
 
 **Réponse :**  
+Ils fragment volontairement les paquets envoyés pour tenter de brouiller la détection de contenu.
 
 ---
 
@@ -613,6 +615,8 @@ Faire des recherches à propos des outils `fragroute` et `fragrouter`.
 ---
 
 **Réponse :**  
+C'est un preprocessor Snort qui tente de concaténer les paquets fragmentés et pouvoir tout de même
+analyser leur contenu malgré la fragmentation.
 
 ---
 
