@@ -446,8 +446,8 @@ Ecrire deux règles qui journalisent (sans alerter) chacune un message à chaque
 ---
 
 **Réponse :**  
-`log tcp 192.168.220.3 any -> 91.198.174.194 [80,443] (msg: "Client accède à Wikipédia"; sid: 4000002; rev: 1)`
-`log tcp 192.168.220.4 any -> 91.198.174.194 [80,443] (msg: "Firefox accède à Wikipédia"; sid: 4000003; rev: 1)`
+`log tcp 192.168.220.3 any -> 91.198.174.192 [80,443] (msg: "Client accede a Wikipedia"; sid: 4000002; rev: 1;)`  
+`log tcp 192.168.220.4 any -> 91.198.174.192 [80,443] (msg: "Firefox accede a Wikipedia"; sid: 4000003; rev: 1;)`
 
 ---
 
@@ -462,7 +462,7 @@ Ecrire une règle qui alerte à chaque fois que votre machine IDS **reçoit** un
 ---
 
 **Réponse :**  
-alert icmp !192.168.220.2/32 any -> 192.168.220.2/32 any (msg: "IDS received ping"; sid:4010017; rev:2;)
+alert icmp !192.168.220.2 any -> 192.168.220.2 any (msg: "Ping reçu par l'IDS !"; sid:4010017; rev:2;)
 
 ---
 
@@ -508,7 +508,8 @@ Faites le nécessaire pour que les pings soient détectés dans les deux sens.
 
 ---
 
-**Réponse :**  
+**Réponse :** 
+`alert icmp any any -> any any (msg: "Ping traverse par l'IDS !"; sid:4010018; rev:2;)`
 
 ---
 
@@ -524,6 +525,7 @@ Essayer d'écrire une règle qui Alerte qu'une tentative de session SSH a été 
 ---
 
 **Réponse :**  
+`alert tcp 192.168.220.3 any -> 192.168.220.2 22 (msg: "Tentative de connexion SSH par le Client"; sid: 4000123; rev: 2;)`
 
 ---
 
