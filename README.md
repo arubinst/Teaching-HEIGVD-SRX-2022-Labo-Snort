@@ -351,7 +351,7 @@ Vous pouvez aussi utiliser des captures Wireshark ou des fichiers snort.log.xxxx
 
 ---
 
-** Réponse : **
+**Réponse :**
 
 Snort possède plusieurs composants autres que le moteur de règles.\
 Par exemple, certains paquets et applications doivent être décodés en texte clair pour que les règles Snort se déclenchent.\
@@ -394,7 +394,7 @@ alert tcp any any -> any any (msg:"Mon nom!"; content:"Rubinstein"; sid:4000015;
 
 ---
 
-** Réponse : **
+**Réponse :**
 
 Cette ligne va envoyer une alerte et écrire dans le journal le message "Mon nom!"\
 si le mot "Rubinstein" est trouvé dans un paquet TCP envoyé par n'importe qui vers n'importe où.\
@@ -433,7 +433,7 @@ Pour accéder à Firefox dans son conteneur, ouvrez votre navigateur web sur vot
 
 ---
 
-** Réponse : **
+**Réponse :**
 
 Une série de Warning qui indique qu'aucun préprocesseur n'a été configuré.
 Cependant, les alertes sont bel et bien enregistré dans les fichiers de logs.
@@ -582,9 +582,6 @@ Faites le nécessaire pour que les pings soient détectés dans les deux sens.
 
 Cela revient au même que la précedente commande, on remplace juste `->` par `<>`.\
 `alert icmp 192.168.220.0/24 any <> 192.168.220.2 any (msg:"Paquet ICMP depuis/vers IDS"; itype:8; sid:4000011; rev:1;)`
-
-
-``
 
 ---
 
@@ -737,7 +734,7 @@ Ces deux outils sont très utiles afin d'effectuer des attaques discrètement su
 
 **Réponse :**  
 
-Fragroute a un langage d'ensemble de règles simple pour le délai de routage, la réplication, le rejet, la fragmentation, etc..., sur tous les paquets sortants destinés à l'hôte de destination.\
+Fragroute possède un ensemble de règles simple pour le délai de routage, la réplication, le rejet, la fragmentation, etc..., sur tous les paquets sortants destinés à l'hôte de destination.\
 Un comportement aléatoire ou stochastique est pris en charge.
 
 Fragrouter est une sorte de routeur de fragmentation unidirectionnel.\
@@ -759,6 +756,7 @@ Le préprocesseur frag3 est un module de défragmentation IP basé sur les cible
 Frag3 utilise la structure de données sfxhash et des listes liées pour la gestion des données en interne, ce qui lui permet d'avoir des performances beaucoup plus prévisibles et déterministes dans n'importe quel environnement, ce qui devrait nous aider à gérer les environnements fortement fragmentés.
 
 Source : https://www.snort.org/faq/readme-frag3
+
 ---
 
 
@@ -798,6 +796,7 @@ nmap -sS -f -p 22 --send-eth 192.168.220.2
 **Réponse :**  
 
 En utilisant le scan normal, la règle a bien fonctionné :
+
 ![Scan SSH reporté](./images/alertSSH.png)
 
 Cependant, avec la deuxième commande, en fragmentant le paquet, _Snort_ n'a rien reporté, **il n'y a aucune alerte**.
@@ -820,7 +819,8 @@ preprocessor frag3_global
 preprocessor frag3_engine
 ```
 
-Le scan apparaît dans les alertes :
+Le scan apparaît finalement dans les alertes :
+
 ![Scan fragmenté](./images/alertSSHFragmenter.png)
 
 ---
