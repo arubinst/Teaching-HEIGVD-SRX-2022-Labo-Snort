@@ -132,7 +132,7 @@ On va maintenant installer Snort sur le conteneur IDS.
 
 La manière la plus simple c'est d'installer Snort en ligne de commandes. Il suffit d'utiliser la commande suivante :
 
-```
+```bash
 apt update && apt install snort
 ```
 
@@ -150,13 +150,13 @@ Une fois installé, vous pouvez lancer Snort comme un simple "sniffer". Pourtant
 
 Snort se comporte de différentes manières en fonction des options que vous passez en ligne de commande au démarrage. Vous pouvez voir la grande liste d'options avec la commande suivante :
 
-```
+```bash
 snort --help
 ```
 
 On va commencer par observer tout simplement les entêtes des paquets IP utilisant la commande :
 
-```
+```bash
 snort -v -i eth0
 ```
 
@@ -351,7 +351,15 @@ Vous pouvez aussi utiliser des captures Wireshark ou des fichiers snort.log.xxxx
 
 ---
 
-**Réponse :**  
+**Réponse :**  http://manual-snort-org.s3-website-us-east-1.amazonaws.com/node17.html
+
+They allow the functionality of Snort to be extended by allowing users and programmers to drop modular plugins into Snort fairly easily.  Preprocessor code is run before the detection engine is called, but after the packet has been decoded. The packet can be modified or analyzed in an out-of-band manner using this mechanism.
+
+Preprocessors are loaded and configured using the `preprocessor` keyword. The format of the preprocessor directive in the Snort config file is:
+
+```
+    preprocessor <name>: <options>
+```
 
 ---
 
@@ -359,7 +367,7 @@ Vous pouvez aussi utiliser des captures Wireshark ou des fichiers snort.log.xxxx
 
 ---
 
-**Réponse :**  
+**Réponse :**  Car il n'y a pas de `preprocessor` chargé (commande `preprocessor <name>: <options>`)
 
 ---
 
@@ -375,7 +383,12 @@ alert tcp any any -> any any (msg:"Mon nom!"; content:"Rubinstein"; sid:4000015;
 
 ---
 
-**Réponse :**  
+**Réponse :**  Pour toute connexion tcp, peu importe son origine (ip/port) et destination (ip/port) une alerte est lancée si le packet contient "Rubinstein". Les options de la règle sont:
+
+* **[msg](http://manual-snort-org.s3-website-us-east-1.amazonaws.com/node31.html#SECTION00441000000000000000)**:"Mon nom!" => Message supplémentaire ajouté à l'alerte
+* **[content](https://paginas.fe.up.pt/~mgi98020/pgr/writing_snort_rules.htm#content)**:"Rubinstein" => Indique la condition pour lancer l'alerte
+* **[sid](http://manual-snort-org.s3-website-us-east-1.amazonaws.com/node31.html#SECTION00444000000000000000)**:4000015 => Identifiant unique de la règle
+* **[rev](http://manual-snort-org.s3-website-us-east-1.amazonaws.com/node31.html#SECTION00445000000000000000)**:1 => numéro de révision (unique) de la règle
 
 ---
 
@@ -391,6 +404,22 @@ sudo snort -c myrules.rules -i eth0
 
 **Réponse :**  
 
+![Q4](images/Q4.png)
+
+Nous avons:
+
+1. Les logs de l'initialisation
+2. Le compte des règles initialisées (détection, décodeur et préprocesseur)
+3. Une matrice indiquant le nombre des protocoles utilisés dans les règles.
+4. Paramètre et configuration des différents types de filtres (detection, rate, event)
+5. L'indication de l'ordre de traitement des règles
+6. Résumé des performances des algorithmes de recherche([source](https://www.researchgate.net/publication/343529936_Performance_Evaluation_of_Different_Pattern_Matching_Algorithms_of_Snort))
+7. Préparer l'écoute du trafic.
+
+Fin de l'initialisation.
+
+
+
 ---
 
 Aller à un site web contenant dans son text la phrase ou le mot clé que vous avez choisi (il faudra chercher un peu pour trouver un site en http... Si vous n'y arrivez pas, vous pouvez utiliser [http://neverssl.com](http://neverssl.com) et modifier votre votre règle pour détecter un morceau de text contenu dans le site).
@@ -401,7 +430,9 @@ Pour accéder à Firefox dans son conteneur, ouvrez votre navigateur web sur vot
 
 ---
 
-**Réponse :**  
+**Réponse :**  On ne voit rien à l'exception des warnings.
+
+![Q5](images/Q5.png)
 
 ---
 
@@ -411,7 +442,23 @@ Arrêter Snort avec `CTRL-C`.
 
 ---
 
-**Réponse :**  
+**Réponse :**  Il affiche un résumé de son éxecution
+
+* Durée d’exécution et nombre de paquets traités
+* Utilisation de la mémoire (RAM).
+* Détail des paquets reçus et du traitement appliqué
+
+![Q6_1](images/Q6_1.png)
+
+* Découpage par protocoles des paquets traités
+
+![Q6_2](images/Q6_2.png)
+
+* Résumé des actions entreprises pour chaque paquet traité par une règle
+
+![Q6_3](images/Q6_3.png)
+
+On voit notamment que 2 alertes ont été levées
 
 ---
 
@@ -422,10 +469,19 @@ Aller au répertoire /var/log/snort. Ouvrir le fichier `alert`. Vérifier qu'il 
 
 ---
 
-**Réponse :**  
+**Réponse :**  (affiché avec la commande `cat /var/log/snort/alert | grep -A6 Fishing`)
+
+![Q7](images/Q7.png)
+
+```bash
+[**] [1:4000019:1] Fishing [**]										# numéro:sid:revision et message de la règle
+[Priority: 0] 														# Priorité de la règle (par rapport aux autres)
+04/29-09:13:19.838314 192.99.200.113:80 -> 192.168.220.2:34618		# Timestamp, source et destination (ip:port) du paquet
+TCP TTL:46 TOS:0x18 ID:38275 IpLen:20 DgmLen:40 DF					# Infos du header ip du paquet (protocol, TTL, TOS, ID, ...)
+***A***F Seq: 0xA2C9A5F4  Ack: 0xE2927168  Win: 0xE5  TcpLen: 20	# Infos du header du protocol sous-jacent
+```
 
 ---
-
 
 --
 
@@ -439,6 +495,19 @@ Ecrire deux règles qui journalisent (sans alerter) chacune un message à chaque
 
 **Réponse :**  
 
+```bash
+log tcp 192.168.220.3 any -> 91.198.174.192 [80,443] (msg: "Client accessed Wikipedia.org"; sid:4000023; rev:1;)
+log tcp 192.168.220.4 any -> 91.198.174.192 [80,443] (msg: "Firefox accessed Wikipedia.org"; sid:4000024; rev:1;)
+```
+
+Nb: `91.198.174.192` est l'adresse ip de wikipedia.org obtenue avec `nslookup`
+
+![Q8_snort_result](images/Q8_snort_result.png)
+
+![Q8_snort_log](images/Q8_snort_log.png)
+
+Les paquets ont été conservés dans un fichier sous /var/log/snort
+
 ---
 
 --
@@ -451,7 +520,14 @@ Ecrire une règle qui alerte à chaque fois que votre machine IDS **reçoit** un
 
 ---
 
-**Réponse :**  
+**Réponse :**  Les règles sont les suivantes:
+
+```bash
+pass icmp 192.168.220.2 any -> 192.168.220.2 any (sid:4000034; rev:1;)
+alert icmp any any -> 192.168.220.2 any (itype: 8; msg: "Someone pinged IDS"; sid:4000035; rev:1;)
+```
+
+La première règle ignore les ping d'IDS en direction de lui-même. La deuxième règle alerte des paquets ICMP à destination de la machine IDS.
 
 ---
 
@@ -460,7 +536,7 @@ Ecrire une règle qui alerte à chaque fois que votre machine IDS **reçoit** un
 
 ---
 
-**Réponse :**  
+**Réponse :**  On veut que les paquets entrant dans la machine IDS créent une alerte, il faut que l'adresse de destination soit celle de la machine IDS. Ainsi tous les paquets entrant dans IDS sont traités. Pour éviter que les réponses aux pings sortant d'IDS ne soient traités, il ne faut traiter que les paquets icmp de type request (8). Pour cela, il faut l'option `itype: 8`.
 
 ---
 
@@ -469,7 +545,7 @@ Ecrire une règle qui alerte à chaque fois que votre machine IDS **reçoit** un
 
 ---
 
-**Réponse :**  
+**Réponse :**  Comme il s'agit d'alertes, les messages sont gardés dans `/var/log/snort/alert`
 
 ---
 
@@ -479,7 +555,11 @@ Les journaux sont générés en format pcap. Vous pouvez donc les lire avec Wire
 
 ---
 
-**Réponse :**  
+**Réponse :**  Les paquets interceptés ont été journalisés. Nous avons l'heure, l'ip(/host) source et destination, le protocole (et son type pour ICMP), l'id, la séquence et la longeur du paquet.
+
+![Q12](images/Q12.png)
+
+Nb: Nous avons utilisé tcpdump mais l'output de la commande est sensiblement la même.
 
 ---
 
@@ -493,7 +573,15 @@ Faites le nécessaire pour que les pings soient détectés dans les deux sens.
 
 ---
 
-**Réponse :**  
+**Réponse :**  Il faut rajouter la règle inverse.
+
+```bash
+pass icmp 192.168.220.2 any -> 192.168.220.2 any (sid:4000034; rev:1;)
+alert icmp any any -> 192.168.220.2 any (msg: "Someone pinged IDS"; sid:4000035; rev:1;)
+alert icmp 192.168.220.2 any -> any any (msg: "IDS pinged someone"; sid:4000036; rev:1;)
+```
+
+Nb: Nous avons enlevé le itype. De notre compréhension de la question, nous avons compris que nous devions à présent traiter les ICMP de type echo reply.
 
 ---
 
@@ -508,7 +596,13 @@ Essayer d'écrire une règle qui Alerte qu'une tentative de session SSH a été 
 
 ---
 
-**Réponse :**  
+**Réponse :**  SSH est un protocole TCP généralement sur port 22. La règle doit donc détecter les connexions TCP de la machine Client vers le port 22 de la machine IDS.
+
+```bash
+alert tcp 192.168.220.3 any -> 192.168.220.2 22 (msg:"Client tried to connect to IDS using ssh"; sid:4000040; rev:1;)
+```
+
+
 
 ---
 
@@ -518,6 +612,8 @@ Essayer d'écrire une règle qui Alerte qu'une tentative de session SSH a été 
 ---
 
 **Réponse :**  
+
+![Q14](images/Q15.png)
 
 ---
 
@@ -539,7 +635,9 @@ Générez du trafic depuis le deuxième terminal qui corresponde à l'une des r�
 
 ---
 
-**Réponse :**  
+**Réponse :**  C'est l'option `-r mycapture.pcap`
+
+![Q16_tshark](images/Q16_tshark.png)
 
 ---
 
@@ -549,7 +647,8 @@ Utiliser l'option correcte de Snort pour analyser le fichier de capture Wireshar
 
 ---
 
-**Réponse :**  
+**Réponse :**  Il se comporte avec le fichier pcap comme lors de l'analyse temps réel. Il n'y a pas de différence.
+Snort va même créer le fichier de log dans `/var/log/snort` qui est une version filtrée du fichier lu.
 
 ---
 
@@ -557,7 +656,11 @@ Utiliser l'option correcte de Snort pour analyser le fichier de capture Wireshar
 
 ---
 
-**Réponse :**  
+**Réponse :**  Oui
+
+![Q18_alerts](images/Q18_alerts.png)
+
+
 
 ---
 
@@ -573,6 +676,19 @@ Faire des recherches à propos des outils `fragroute` et `fragrouter`.
 
 **Réponse :**  
 
+* **[fragroute](https://www.monkey.org/~dugsong/fragroute/)**: Il permet de manipuler le trafic entrant pour un host spécifique de plusieurs façons.
+
+  > fragroute intercepts, modifies, and rewrites egress traffic destined for a specified host [...]
+  > delay, duplicate, drop, fragment, overlap, print, reorder, segment, source-route, or otherwise monkey with all outbound packets destined for a target host
+
+  
+
+* **[fragrouter](https://linux.die.net/man/8/fragrouter)**: Il permet de modifier le routage pour contourner la plupart des IDS
+
+  > *Fragrouter* is a program for routing network traffic in such a way as to elude most network intrusion detection systems.
+
+Ces 2 outils implémentent les attaques décrites dans le document ''Insertion, Evasion, and Denial of Service: Eluding Network Intrusion Detection" (1988)
+
 ---
 
 
@@ -580,16 +696,20 @@ Faire des recherches à propos des outils `fragroute` et `fragrouter`.
 
 ---
 
-**Réponse :**  
+**Réponse :**  Ces outils reposent sur la difficulté des outils de détection à traiter les variations de la fragmentation IP et à faire le réassemblage ([source](http://www.ouah.org/IP_frag.htm))
 
 ---
-
 
 **Question 21: Qu'est-ce que le `Frag3 Preprocessor` ? A quoi ça sert et comment ça fonctionne ?**
 
 ---
 
-**Réponse :**  
+**Réponse :**  C'est un préprocesseur de snort, i.e. un module permettant de traiter les paquets reçus en amont des règles définies. Frag3 preprocessor a les 2 buts suivants:
+
+* Exécution rapide avec un traitement moins complexe des données
+* Protéger des systèmes d'évasion d'IDS (comme fragroute et fragrouter)
+
+([source](http://manual-snort-org.s3-website-us-east-1.amazonaws.com/node17.html#SECTION00321000000000000000))
 
 ---
 
@@ -604,6 +724,12 @@ L'outil nmap propose une option qui fragmente les messages afin d'essayer de con
 ---
 
 **Réponse :**  
+
+```bash
+alert tcp any any -> 192.168.220.2 22 (msg:"SCAN SYN"; flags:S; sid:4000050; rev:1;)
+```
+
+Sources: [flags](https://paginas.fe.up.pt/~mgi98020/pgr/writing_snort_rules.htm#flags), [examples](https://github.com/eldondev/Snort/blob/master/rules/scan.rules), [other rules](https://www.hackingarticles.in/detect-nmap-scan-using-snort/), [prevent scan only](https://stackoverflow.com/questions/52411580/how-to-use-snort-to-detect-nmap-default-syn-scan), [flow option (not used, need stream preprocessor)](https://security.stackexchange.com/questions/158729/how-does-the-flow-option-of-snort-work)
 
 ---
 
@@ -627,17 +753,46 @@ nmap -sS -f -p 22 --send-eth 192.168.220.2
 
 **Réponse :**  
 
+Vérification que la règle fonctionne:
+
+![Q22_verification1](images/Q22_verification1.png)
+
+![Q22_verification2](images/Q22_verification2.png)
+
+Résultat de l'attaque:
+
+![Q22_attack](images/Q22_attack.png)
+
+
+
 ---
 
 
 Modifier le fichier `myrules.rules` pour que snort utiliser le `Frag3 Preprocessor` et refaire la tentative.
-
 
 **Question 24: Quel est le résultat ?**
 
 ---
 
 **Réponse :**  
+
+Configuration: Activation du préprocesseur (basé sur la configuration par défaut)
+
+```bash
+# Target-based IP defragmentation.  For more inforation, see README.frag3
+preprocessor frag3_global: max_frags 65536
+preprocessor frag3_engine: policy windows detect_anomalies overlap_limit 10 min_fragment_length 100 timeout 180
+```
+
+
+
+Résultat de l'attaque (`nmap -sS -f -p 22 --send-eth 192.168.220.2`):
+
+![Q24_summary](images/Q24_summary.png)
+
+![Q24_alert](images/Q24_alert.png)
+
+
 
 ---
 
@@ -646,7 +801,7 @@ Modifier le fichier `myrules.rules` pour que snort utiliser le `Frag3 Preprocess
 
 ---
 
-**Réponse :**  
+**Réponse :**  Permet d'identifier plus rapidement les paquets chiffrés par SSL/TLS et d'éviter de perdre des ressources à les traiter ([source](http://manual-snort-org.s3-website-us-east-1.amazonaws.com/node17.html#SECTION003214000000000000000))
 
 ---
 
@@ -655,7 +810,7 @@ Modifier le fichier `myrules.rules` pour que snort utiliser le `Frag3 Preprocess
 
 ---
 
-**Réponse :**  
+**Réponse :**  Détecte et filtre les "Personally Identifiable Information (PII)", soit nos informations personnelles. ([source](http://manual-snort-org.s3-website-us-east-1.amazonaws.com/node17.html#SECTION003217000000000000000))
 
 ---
 
@@ -666,13 +821,12 @@ Modifier le fichier `myrules.rules` pour que snort utiliser le `Frag3 Preprocess
 
 ---
 
-**Réponse :**  
+**Réponse :**  Snort est un outil plutôt simple à configurer mais efficace. Cela permet d'avoir une très bonne visibilité du réseau sur les éléments précis plutôt que faire tourner un wireshark complet. 
 
 ---
 
 ### Cleanup
 
 Pour nettoyer votre système et effacer les fichiers générés par Docker, vous pouvez exécuter le script [cleanup.sh](scripts/cleanup.sh). **ATTENTION : l'effet de cette commande est irréversible***.
-
 
 <sub>This guide draws heavily on http://cs.mvnu.edu/twiki/bin/view/Main/CisLab82014</sub>

@@ -6,8 +6,8 @@ services:
         privileged: true
         container_name : IDS
         build: .
-        cap_add : 
-            - NET_ADMIN 
+        cap_add :
+            - NET_ADMIN
         stdin_open: true
         tty: true
         ports:
@@ -24,15 +24,17 @@ services:
             net.ipv4.conf.all.accept_redirects: '0'
             net.ipv4.conf.default.send_redirects: '0'
             net.ipv4.conf.eth0.send_redirects: '0'
+        labels:
+        - "SRX="
 
     client:
         hostname: 'Client'
         privileged: true
         container_name : Client
         build: .
-        cap_add : 
+        cap_add :
             - NET_ADMIN
-        depends_on: 
+        depends_on:
             - ids
         stdin_open: true
         tty: true
@@ -46,6 +48,8 @@ services:
             net.ipv4.conf.all.accept_redirects: '0'
             net.ipv4.conf.default.send_redirects: '0'
             net.ipv4.conf.eth0.send_redirects: '0'
+        labels:
+        - "SRX="
 
     wireshark:
         image: lscr.io/linuxserver/wireshark
@@ -62,6 +66,8 @@ services:
         #ports:
         #    - 3000:3000
         restart: unless-stopped
+        labels:
+        - "SRX="
 
     firefox:
         hostname: 'firefox'
@@ -71,6 +77,8 @@ services:
             - PUID=1000
             - PGID=1000
             - TZ=Europe/Zurich
+        labels:
+        - "SRX="
     #volumes:
     #  - /path/to/config:/config
         networks:
@@ -79,9 +87,9 @@ services:
         ports:
             - 4000:3000
         shm_size: "1gb"
-        cap_add : 
+        cap_add :
             - NET_ADMIN
-        depends_on: 
+        depends_on:
             - ids
         sysctls:
             net.ipv4.conf.all.send_redirects: '0'
@@ -90,6 +98,8 @@ services:
             net.ipv4.conf.default.send_redirects: '0'
             net.ipv4.conf.eth0.send_redirects: '0'
         restart: unless-stopped
+        labels:
+        - "SRX="
 
 volumes:
   shared-data:
@@ -100,5 +110,7 @@ networks:
         name: snortlan
         ipam:
             config:
-                - 
+                -
                  subnet: 192.168.220.0/24
+        labels:
+        - "SRX="
