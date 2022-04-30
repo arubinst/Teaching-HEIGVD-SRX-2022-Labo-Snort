@@ -716,7 +716,17 @@ Faire des recherches à propos des outils `fragroute` et `fragrouter`.
 
 ---
 
-**Réponse :**  
+**Réponse :** 
+
+- **fragroute** : Permet l'interception, l'édition, puis le renvoie du traffic de sortie destiné à un hôte.
+
+Source : https://kalilinuxtutorials.com/fragroute/
+
+- **fragrouter** : Kit d'outils pour la détection des intrusions dans les réseaux.
+
+Source : https://www.kali.org/tools/fragrouter/
+
+Ces deux outils sont très utiles afin d'effectuer des attaques discrètement sur un réseau avec des détecteurs d'instrusion.
 
 ---
 
@@ -727,6 +737,12 @@ Faire des recherches à propos des outils `fragroute` et `fragrouter`.
 
 **Réponse :**  
 
+Fragroute a un langage d'ensemble de règles simple pour le délai de routage, la réplication, le rejet, la fragmentation, etc..., sur tous les paquets sortants destinés à l'hôte de destination.\
+Un comportement aléatoire ou stochastique est pris en charge.
+
+Fragrouter est une sorte de routeur de fragmentation unidirectionnel.\
+Les paquets IP sont envoyés par l'attaquant à Fragrouter, qui les traduit en un flux de données fragmenté pour finalement être transmis à la victime.
+
 ---
 
 
@@ -735,7 +751,14 @@ Faire des recherches à propos des outils `fragroute` et `fragrouter`.
 ---
 
 **Réponse :**  
+Le préprocesseur frag3 est un module de défragmentation IP basé sur les cibles pour Snort. Frag3 est conçu avec les objectifs suivants :
 
+1) Une exécution plus rapide avec une gestion des données moins complexe.
+2) Techniques anti-évasion de modélisation de l'hôte basées sur la cible.
+
+Frag3 utilise la structure de données sfxhash et des listes liées pour la gestion des données en interne, ce qui lui permet d'avoir des performances beaucoup plus prévisibles et déterministes dans n'importe quel environnement, ce qui devrait nous aider à gérer les environnements fortement fragmentés.
+
+Source : https://www.snort.org/faq/readme-frag3
 ---
 
 
@@ -749,6 +772,8 @@ L'outil nmap propose une option qui fragmente les messages afin d'essayer de con
 ---
 
 **Réponse :**  
+
+`alert tcp any any -> 192.168.220.2 22 (flags:S; msg:"Tentative de SSH vers IDS"; sid:4000006; rev:1;)`
 
 ---
 
@@ -772,6 +797,11 @@ nmap -sS -f -p 22 --send-eth 192.168.220.2
 
 **Réponse :**  
 
+En utilisant le scan normal, la règle a bien fonctionné :
+![Scan SSH reporté](./images/alertSSH.png)
+
+Cependant, avec la deuxième commande, en fragmentant le paquet, _Snort_ n'a rien reporté, **il n'y a aucune alerte**.
+
 ---
 
 
@@ -784,6 +814,15 @@ Modifier le fichier `myrules.rules` pour que snort utiliser le `Frag3 Preprocess
 
 **Réponse :**  
 
+En rajoutant les lignes :
+```Shell
+preprocessor frag3_global
+preprocessor frag3_engine
+```
+
+Le scan apparaît dans les alertes :
+![Scan fragmenté](./images/alertSSHFragmenter.png)
+
 ---
 
 
@@ -793,6 +832,22 @@ Modifier le fichier `myrules.rules` pour que snort utiliser le `Frag3 Preprocess
 
 **Réponse :**  
 
+Le trafic chiffré est ignoré par défaut par _Snort_ pour des raisons de performances et pour réduire les faux positifs.\
+Ce pré-processeur permet d'inspecter le trafic SSL/TLS.
+
+Par ailleurs, chaque paquet contenant du trafic SSL comporte une partie non chiffrée qui fournit certaines informations sur le trafic lui-même et l'état de la connexion.\
+SSLPP utilise ces informations pour déterminer si un handshake est en cours ou si il a déjà eu lieu.
+
+Par défaut, SSLPP recherche un handshake suivie d'un trafic chiffré circulant des deux côtés.\
+Si un côté répond en indiquant que quelque chose a échoué, comme le handshake, la session n'est pas marquée comme chiffrée.
+
+La vérification de l'envoi d'un trafic chiffré sans faille depuis les deux points d'extrémité garantit deux choses :
+- Le dernier paquet du handshake côté client n'a pas été conçu pour échapper à Snort
+- Le trafic est légitimement chiffré
+
+
+Source : https://www.snort.org/faq/readme-ssl
+
 ---
 
 
@@ -801,6 +856,12 @@ Modifier le fichier `myrules.rules` pour que snort utiliser le `Frag3 Preprocess
 ---
 
 **Réponse :**  
+
+Le _Sensitive Data preprocessor_ effectue la détection et le filtrage des informations personnellement identifiables (PII).\
+Ces informations incluent les numéros de carte de crédit, les numéros de sécurité sociale des États-Unis et les adresses e-mail.\
+Une syntaxe d'expression régulière limitée est également incluse pour définir nos propres informations personnelles.
+
+Source : https://www.snort.org/faq/readme-sensitive_data
 
 ---
 
@@ -813,6 +874,33 @@ Modifier le fichier `myrules.rules` pour que snort utiliser le `Frag3 Preprocess
 
 **Réponse :**  
 
+Snort est un outil complet qui offre de nombreuses fonctionnalités pour la détection des attaques et une grande liberté pour les utilisateurs dans la configuration des règles.
+
+Nous avons trouvé que Snort était également très efficace dans la gestion des logs. La syntaxe des règles est plutôt simple et intuitive.\
+Cependant, des règles mal configurées peuvent vite générer de fausses alertes, ne rien logger et/ou compliquer l'analyse des journaux.
+
+La possibilité d'analyser le contenu des paquets après leur passage plutôt que directement est une idée très intéressante pour suivre les intrusions tout en maintenant les performances du trafic.
+
+
+Etat final du fichier myrules.rules :
+```Shell
+preprocessor frag3_global
+preprocessor frag3_engine
+
+portvar Http [80,443]
+ipvar Wiki 91.198.174.192
+
+ipvar IDS 192.168.220.2
+ipvar Client 192.168.220.3
+ipvar Firefox 192.168.220.4
+
+alert tcp any any -> any any (msg:"Salut c'est Snort!"; content:"WorldWideWeb"; sid:4000001; rev:1;)
+log tcp $Client any -> $Wiki $Http (msg:"Le client veut aller sur Wikipedia"; content:"wikipedia"; nocase; sid:4000002; rev:1;)
+log tcp $Firefox any -> $Wiki $Http (msg:"Firefox veut aller sur Wikipedia"; content:"wikipedia"; nocase; sid:4000003; rev:1;)
+alert icmp 192.168.220.0/24 any <> $IDS any (msg:"Paquet ICMP depuis/vers IDS"; itype:8; sid:4000004; rev:2;)
+alert tcp $Client any -> $IDS 22 (msg:"Tentative de SSH du client vers IDS"; sid:4000005; rev:1;)
+alert tcp any any -> $IDS 22 (flags:S; msg:"Tentative de SSH vers IDS"; sid:4000006; rev:1;)
+```
 ---
 
 ### Cleanup
