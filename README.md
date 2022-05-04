@@ -776,7 +776,14 @@ Utiliser l'option correcte de Snort pour analyser le fichier de capture Wireshar
 
 **Réponse :**  
 
-Avec un fichier de capture, Snort affiche dans la console le détail de chaque paquet séparé par `=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+`.
+Si Snort est lancé en mode IDS sur un fichier de capture (`snort -c rules -r capture.pcap`) :
+- Snort a le même comportement que l'analyse en temps réel, sauf que les paquets sont lus depuis la capture
+- Des alertes et journalisations sont générées comme si les paquets venaient de l'analyse en temps réel
+- Après avoir lu la capture, Snort se termine automatiquement
+
+Si Snort est lancé en mode sniffer sur un fichier de capture (`snort -r capture.pcap`):
+
+Snort affiche dans la console le détail de chaque paquet séparé par `=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+`.
 Exemple :
 
 ```
@@ -805,7 +812,6 @@ Type:0  Code:0  ID:7438  Seq:1  ECHO REPLY
 =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 ```
 
-Contrairement à l'analyse en temps réel, Snort ne génère aucun log ni aucune alerte avec l'option `-r`.
 
 ---
 
@@ -815,7 +821,7 @@ Contrairement à l'analyse en temps réel, Snort ne génère aucun log ni aucune
 
 **Réponse :**  
 
-Non.
+Oui si Snort est lancé en mode IDS avec -c
 
 ---
 
