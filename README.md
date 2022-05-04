@@ -966,7 +966,7 @@ Inspecter le traffic chiffré est inutile, risque de déclencher des faux positi
 
 **Réponse :**  
 
-# TODO
+Il permet de détecter lorsque des informations personnelles identifiables comme des numéros de carte de crédit, numéro de sécurité social, etc. sont transmises sur le réseau. Il est aussi possible de masquer ces informations en les remplaçant partiellement pas des "X".
 
 ---
 
