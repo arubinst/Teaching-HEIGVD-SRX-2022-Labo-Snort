@@ -381,7 +381,7 @@ alert tcp any any -> any any (msg:"Mon nom!"; content:"Rubinstein"; sid:4000015;
 
 **Réponse :**  
 
-La règle envoie, si le paquet contient "Rubinstein" comme payload, un message d'alerte avec comme information "Mon nom!" et écrit dans le paquet dans le journal.
+Si un paquet TCP ayant n'importe quel port et n'importe quelle adresse ip comme source ou destination contient "Rubinstein" dans la payload, un message d'alerte avec comme information "Mon nom!" est généré et le paquet est écrit dans le journal.
 
 ---
 
