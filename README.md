@@ -481,8 +481,13 @@ Decoding Ethernet
 Commencing packet processing (pid=19)
 ```
 
-On voit une vue très générale de ce qui est analysé par Snort.
-# TODO: améliorer analyse et suppr output
+On voit entre autres, dans l'ordre :
+- Des informations sur l'initialisation de Snort, notamment le fichier d'origine des règles ainsi que le répertoire de log
+- Le nombre de règles lues, en l'occurrence 1 règle de détection
+- Les catégories de règles, en l'occurrence il y a une règle TCP
+- L'interface depuis laquelle Snort écoute
+- La version de Snort et d'autres logiciels utilisés
+- Le PID de Snort
 
 ---
 
@@ -613,7 +618,8 @@ Ecrire une règle qui alerte à chaque fois que votre machine IDS **reçoit** un
 
 ```
 ipvar IDS 192.168.220.2
-alert icmp !$IDS any -> $IDS any (msg:"PING ALERT !"; itype:8; sid:40000004; rev:1;)
+ipvar LOCAL_NETWORK 192.168.220.0/24
+alert icmp $LOCAL_NETWORK any -> $IDS any (msg:"PING ALERT !"; itype:8; sid:40000004; rev:1;)
 ```
 
 ---
@@ -625,7 +631,7 @@ alert icmp !$IDS any -> $IDS any (msg:"PING ALERT !"; itype:8; sid:40000004; rev
 
 **Réponse :**  
 
-Nous avons utilisé le mot clé `itype:8` (ICMP type 8 = requête echo) et le caractère `!` qui nous a permis d'exclure l'IP de l'IDS comme IP source.
+Nous avons utilisé le mot clé `itype:8` (ICMP type 8 = requête echo) pour éviter de détecter les réponses à des pings.
 
 ---
 
