@@ -672,6 +672,9 @@ Running as user "root" and group "root". This could be dangerous.
     2   1.000260 192.168.220.4 ? 192.168.220.2 ICMP 98 Echo (ping) request  id=0x170f, seq=1/256, ttl=64
     3   2.000492 192.168.220.4 ? 192.168.220.2 ICMP 98 Echo (ping) request  id=0x170f, seq=2/512, ttl=64
 ```
+
+Les paquets entiers qui correspondent à la règle ont été journalisés, on peut relire les headers et les payloads.
+
 ---
 
 --
