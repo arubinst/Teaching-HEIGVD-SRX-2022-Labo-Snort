@@ -1,10 +1,6 @@
 #!/bin/bash
 
-nft flush ruleset
 
-nft add table nat
-nft 'add chain nat postrouting { type nat hook postrouting priority 100 ; }'
-nft add rule nat postrouting meta oifname "eth0" masquerade
 
 apt update && apt install snort -y
 
@@ -35,3 +31,9 @@ alert tcp any any -> $IDS $SSH (msg:"SYN packet on SSH port"; flags:S; sid:40000
 preprocessor frag3_global
 preprocessor frag3_engine
 ' > /root/myrules.rules
+
+nft flush ruleset
+
+nft add table nat
+nft 'add chain nat postrouting { type nat hook postrouting priority 100 ; }'
+nft add rule nat postrouting meta oifname "eth0" masquerade
