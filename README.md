@@ -955,7 +955,7 @@ TCP Options (1) => MSS: 1460
 
 **Réponse :**  
 
-# TODO
+Inspecter le traffic chiffré est inutile, risque de déclencher des faux positifs et gaspille des performances. Ce préprocesseur sert à détecter le traffic chiffré avec TLS/SSL pour que Snort arrête de l'inspecter. 
 
 ---
 
