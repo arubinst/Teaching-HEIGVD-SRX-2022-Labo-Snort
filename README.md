@@ -642,7 +642,10 @@ Nous avons utilisé le mot clé `itype:8` (ICMP type 8 = requête echo) pour év
 
 **Réponse :**  
 
-Dans `/var/log/snort/alert` et dans `snort.log.xxxxxxxxxx`.
+
+Dans `var/log/snort/snort.log.xxxxxxxxxx`
+
+(une alerte a également été ajoutée dans `/var/log/snort/alert`)
 
 ---
 
