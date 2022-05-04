@@ -620,8 +620,8 @@ Ils fragmentent volontairement les paquets envoyés pour tenter de brouiller la 
 ---
 
 **Réponse :**  
-C'est un preprocessor Snort qui tente de concaténer les paquets fragmentés et pouvoir tout de même
-analyser leur contenu malgré la fragmentation.
+C'est un préprocesseur Snort qui recompose les paquets IP fragmentés afin de permettre aux règles se basant sur les headers de fonctionner correctement.  
+Frag3 intercepte le traffic et retient les paquets fragmentés pour les recomposer avant de transmettre les paquets complets au rules-engine.
 
 ---
 
@@ -635,12 +635,14 @@ L'outil nmap propose une option qui fragmente les messages afin d'essayer de con
 
 ---
 
-**Réponse :**  
-alert tcp any any -> 192.168.220.2 22 (flags: R; msg: "Possible SYN scan";sid:4001022;rev:1;)  
-La règle se base sur le flag reset. On considère que recevoir un flag RST dans un paquet est une potentielle attaque.
+**Réponse :**
+```config
+alert tcp any any -> 192.168.220.2 22 (flags: S; msg: "Possible SYN scan on port 22";sid:4001022;rev:1;)    
+```
+Cette règle détecte toutes les tentatives de connexion sur le port 22 en se basant sur le flag SYN.  
+En omettant le flag, toutes les connexions et tentatives de connexion seront logguées. En cas de scan fragmenté, seul le RST sera loggué par la règle sans flag.
 
 ---
-
 
 Ensuite, servez-vous du logiciel nmap pour lancer un SYN scan sur le port 22 depuis la machine Client :
 
@@ -660,9 +662,8 @@ nmap -sS -f -p 22 --send-eth 192.168.220.2
 ---
 
 **Réponse :**
-Malgré la fragmentation, le paquet est détecté étant donné que la règle se base sur les headers qui, eux, ne peuvent pas être fragmentés.  
-Le résultat de la détection est le même, peu importe si le paquet est fragmenté ou non.
-TODO : C'est censé ne pas marcher, ne pas détecter... Je crois ?
+Le paquet SYN étant fragmenté, il n'est plus détecté par la règle qui ne voit plus le flag qu'il cherche.  
+Seul le paquet avec le flag RST pourrait être détecté vu que nmap ne le fragmente pas.
 
 ---
 
@@ -675,6 +676,8 @@ Modifier le fichier `myrules.rules` pour que snort utiliser le `Frag3 Preprocess
 ---
 
 **Réponse :**  
+Après avoir ajouté le préprocesseur Frag3 au fichier de configuration et avoir relancé le test, le paquet fragmenté avec le flag SYN est correctement détecté, loggué et stocké.  
+Les paquets sont stockés entiers et non pas fragmentés.
 
 ---
 
