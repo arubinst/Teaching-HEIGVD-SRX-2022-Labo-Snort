@@ -708,7 +708,13 @@ On parle donc d'adresse mail, de numéro de téléphone, de N° de CC, etc...
 
 ---
 
-**Réponse :**
+**Réponse :**  
+C'est un outil versatile qui permet, une fois bien utilisé, d'attraper presque toutes
+les infos sur les flux qui le traverse. Pouvoir l'utiliser comme IPS également est positif: 
+on pourrait l'utiliser comme firewall dans l'absolu.
+
+On a eu queluqes problèmes avec l'outil: notamment les premiers et derniers paquets
+semblent être ignorés et ne sont pas répertoriés dans les alertes ou les logs.
 
 ---
 
