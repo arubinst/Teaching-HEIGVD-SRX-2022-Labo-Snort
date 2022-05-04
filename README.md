@@ -837,9 +837,14 @@ Faire des recherches à propos des outils `fragroute` et `fragrouter`.
 
 **Réponse :**  
 
-`fragroute` est un outil qui intercepte, modifie, et re-écrit le trafic de sortie.
-`fragrouter` est un toolkit qui permet de ne pas se faire détecter par un NIDS.
-# TODO: améliorer réponses
+`fragroute` est un outil qui intercepte, modifie, et re-écrit le trafic de sortie de notre machine vers une cible, ce qui permet d'effectuer certaines attaques. Il permet notamment de :
+- Retarder l'envoi de paquets
+- Droper des paquets
+- Dupliquer des paquets
+- Fragmenter les paquets au niveau du protocole IP
+- Fragmenter les paquets aun niveau du protocole TCP
+
+`fragrouter` est un programme avec des fonctionnalités similaires, qui intercepte le traffic sortant et le modifie de maninère à essayer d'éviter qu'il soit détecté par un NIDS. Il peut notamment fragmenter les paquets au niveau IP et TCP, changer leur ordre, etc.
 
 ---
 
@@ -850,7 +855,9 @@ Faire des recherches à propos des outils `fragroute` et `fragrouter`.
 
 **Réponse :**  
 
-# TODO
+Le but est de jouer avec les spécifications des protocoles réseaux pour essayer d'envoyer des messages qui seront correctement interprétés pas la cible, mais qui ne seront pas correctement analysés par l'IDS.
+
+Notamment, les protocoles TCP et IP autorisent de fragmenter une payload en plusieurs paquets qui seront reconstitués par le destinataire. Si l'IPS ne fait pas correctement ce travail de reconstitution de paquets fragmentés, cela peut permettre à un attaquant d'envoyer du contenu qui ne sera pas détecté par l'IPS.
 
 ---
 
@@ -863,7 +870,7 @@ Faire des recherches à propos des outils `fragroute` et `fragrouter`.
 
 Le préprocesseur `Frag3` permet de détecter les paquets qui ont étés fragmentés.
 Il fonctionne en récupérant tous les fragments de paquets pour ensuite reconstituer le paquet original.
-Par la suite, le paquet original analysé par Snort.
+Par la suite, le paquet original est analysé par Snort.
 
 ---
 
