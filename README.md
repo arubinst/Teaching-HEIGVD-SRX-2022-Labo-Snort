@@ -540,7 +540,8 @@ Essayer d'écrire une règle qui Alerte qu'une tentative de session SSH a été 
 
 **Réponse :**  
 `alert tcp 192.168.220.3 any -> 192.168.220.2 22 (msg: "Tentative de connexion SSH par le Client"; sid: 4000123; rev: 2; flags: S; )`
-En utilisant le flag S en plus du port 22, cette règle ne log que les tentatives d'accès au port 22.
+Cette règle précise l'IP source, l'IP ainsi que le port de destination et le flag TCP à filtrer, SYN.
+En utilisant le flag SYN en plus du port 22, cette règle ne log que les tentatives d'accès au port 22, ce qui évite de logguer tout le traffic SSH.
 
 ---
 
