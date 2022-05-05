@@ -983,6 +983,10 @@ est la communauté qui fournis de nombreuses règles prêtes à l'emploi. Tout c
 fait qu'il est donc possible d'installer Snort sur un réseau avec une
 configuration de base assez solide et tout cela à bas prix.
 
+Note : il est possible d'utiliser des variables dans les fichiers de
+configuration(ip client, ids, réseau local, etc) que nous n'avons pas exploitée 
+par soucis de simplicité.
+
 ---
 
 ### Cleanup
