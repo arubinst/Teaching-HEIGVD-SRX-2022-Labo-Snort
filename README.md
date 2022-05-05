@@ -775,8 +775,8 @@ Type:8  Code:0  ID:47159   Seq:5  ECHO
 
 **Réponse :**  
 
-En précisent comme destination l'ip de l'IDS, soit 192.168.220.2 ainsi qu'avec
-une flèche allant dans le sens source -> destination, oû la destination est l'IP de l'IDS.
+En précisant comme destination l'ip de l'IDS, soit 192.168.220.2 ainsi qu'avec
+une flèche allant dans le sens source -> destination, ola destination est l'IP de l'IDS.
 
 ---
 
