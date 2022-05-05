@@ -781,9 +781,10 @@ Si Snort est lancé en mode IDS sur un fichier de capture (`snort -c rules -r ca
 - Des alertes et journalisations sont générées comme si les paquets venaient de l'analyse en temps réel
 - Après avoir lu la capture, Snort se termine automatiquement
 
-Si Snort est lancé en mode sniffer sur un fichier de capture (`snort -r capture.pcap`):
-
-Snort affiche dans la console le détail de chaque paquet séparé par `=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+`.
+Si Snort est lancé en mode sniffer (uniquement l'option `-r`) sur un fichier de capture (`snort -r capture.pcap`),
+Snort affiche dans la console le détail de chaque paquet
+séparé par `=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+` (voir exemple ci-dessous) et il ne génère aucun log ni
+aucune alerte, contrairement à l'analyse en temps réelle.
 Exemple :
 
 ```
