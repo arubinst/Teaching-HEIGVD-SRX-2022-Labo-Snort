@@ -6,7 +6,7 @@
 
 Clonez le repo sur votre machine. Vous pouvez répondre aux questions en modifiant directement votre clone du README.md ou avec un fichier pdf que vous pourrez uploader sur votre fork.
 
-**Le rendu consiste simplement à répondre à toutes les questions clairement identifiées dans le text avec la mention "Question" et à les accompagner avec des captures. Le rendu doit se faire par une "pull request". Envoyer également le hash du dernier commit et votre username GitHub par email au professeur et à l'assistant**
+**Le rendu consiste simplement à répondre à toutes les questions clairement identifiées dans le texte avec la mention "Question" et à les accompagner avec des captures. Le rendu doit se faire par une "pull request". Envoyer également le hash du dernier commit et votre username GitHub par email au professeur et à l'assistant**
 
 ## Table de matières
 
@@ -372,7 +372,7 @@ Informations tirées du [manuel](http://manual-snort-org.s3-website-us-east-1.am
 **Réponse :**
 
 C'est parce qu'aucun préprocesseur snort n'est chargé dans notre fichier de règle.\
-Par exemple, dans le fichier de base `snort.conf`, on peut y retrouver des configuration de préprocesseur telle que :
+Par exemple, dans le fichier de base `snort.conf`, on peut y retrouver des configurations de préprocesseur telles que :
 - preprocessor normalize_ip4
 - preprocessor normalize_icmp4
 - preprocessor frag3_global: max_frags 65536
@@ -417,7 +417,7 @@ sudo snort -c myrules.rules -i eth0
 C'est un résumé des règles trouvées, des préprocesseurs configurés, des ports pris en considération par les règles,\
 le nombre des différents protocoles analysés par les règles comme tcp, udp, ou icmp, etc...
 
-De plus, il y a également l'interface qui est analysé (ici eth0).
+De plus, il y a également l'interface qui est analysée (ici eth0).
 
 ![Affichage du démarrage de Snort 1](./images/startSnort1.png)
 
@@ -435,7 +435,7 @@ Pour accéder à Firefox dans son conteneur, ouvrez votre navigateur web sur vot
 
 **Réponse :**
 
-Une série de Warning qui indique qu'aucun préprocesseur n'a été configuré.
+Une série de warnings qui indiquent qu'aucun préprocesseur n'a été configuré.
 Cependant, les alertes sont bel et bien enregistré dans les fichiers de logs.
 
 ![Message affiché dans le fichier log](./images/snortLogging.png)
@@ -450,9 +450,9 @@ Arrêter Snort avec `CTRL-C`.
 
 **Réponse :**  
 
-De nouveau un résumé, mais cette fois-ci de combien de paquet ont eu une correspondance\
+De nouveau un résumé, mais cette fois-ci de combien de paquets ont eu une correspondance\
 avec les règles de Snort, de combien de temps l'IDS est lancé, de quel protocole venait\
-les paquets qui ont été récupéré, etc...
+les paquets qui ont été récupérés, etc...
 
 ![Résumé de fin de session Snort 1](./images/afterCtrlC1.png)
 
@@ -461,7 +461,7 @@ les paquets qui ont été récupéré, etc...
 ---
 
 
-Aller au répertoire /var/log/snort. Ouvrir le fichier `alert`. Vérifier qu'il y ait des alertes pour votre text choisi.
+Aller au répertoire /var/log/snort. Ouvrir le fichier `alert`. Vérifier qu'il y ait des alertes pour votre texte choisi.
 
 **Question 7: A quoi ressemble l'alerte ? Qu'est-ce que chaque élément de l'alerte veut dire ? Décrivez-la en détail !**
 
@@ -471,7 +471,7 @@ Aller au répertoire /var/log/snort. Ouvrir le fichier `alert`. Vérifier qu'il 
 
 La règle écrite est la suivante : `alert tcp any any -> any any (msg:"Salut c'est Snort!"; content:"WorldWideWeb"; sid:4000042; rev:1;)`
 
-Et voici une des alerte obtenue :
+Et voici une des alertes obtenues :
 
 ![Alert Snort](./images/alertSnort.png)
 
@@ -554,7 +554,7 @@ Dans le fichier `/var/log/snort/alert` qu'on peut afficher avec un simple `cat`.
 
 ---
 
-Les journaux sont générés en format pcap. Vous pouvez donc les lire avec Wireshark. Vous pouvez utiliser le conteneur wireshark en dirigeant le navigateur Web de votre hôte sur vers [http://localhost:3000](http://localhost:3000). Optionnellement, vous pouvez lire les fichiers log utilisant la commande `tshark -r nom_fichier_log` depuis votre IDS.
+Les journaux sont générés en format pcap. Vous pouvez donc les lire avec Wireshark. Vous pouvez utiliser le conteneur wireshark en dirigeant le navigateur Web de votre hôte sur [http://localhost:3000](http://localhost:3000). Optionnellement, vous pouvez lire les fichiers log utilisant la commande `tshark -r nom_fichier_log` depuis votre IDS.
 
 **Question 12: Qu'est-ce qui a été journalisé ?**
 
@@ -606,7 +606,7 @@ alert tcp $Client any -> $IDS 22 (msg:"Tentative de SSH du client vers IDS"; sid
 ```
 
 La règle provoque une alerte dès que l'IP correpondant à celle du client essaie d'accéder au port 22 (port SSH) de l'adresse IP de la machine IDS.
-Cela provoque une alerte en tout les cas, que la requête SSH a abouti ou a été refusée/droppé.
+Cela provoque une alerte dans tous les cas, que la requête SSH ait abouti ou ait été refusée/droppée.
 
 ---
 
@@ -715,7 +715,7 @@ Faire des recherches à propos des outils `fragroute` et `fragrouter`.
 
 **Réponse :** 
 
-- **fragroute** : Permet l'interception, l'édition, puis le renvoie du traffic de sortie destiné à un hôte.
+- **fragroute** : Permet l'interception, l'édition, puis le renvoi du traffic de sortie destiné à un hôte.
 
 Source : https://kalilinuxtutorials.com/fragroute/
 
@@ -734,7 +734,7 @@ Ces deux outils sont très utiles afin d'effectuer des attaques discrètement su
 
 **Réponse :**  
 
-Fragroute possède un ensemble de règles simple pour le délai de routage, la réplication, le rejet, la fragmentation, etc..., sur tous les paquets sortants destinés à l'hôte de destination.\
+Fragroute possède un ensemble de règles simples pour le délai de routage, la réplication, le rejet, la fragmentation, etc... sur tous les paquets sortants destinés à l'hôte de destination.\
 Un comportement aléatoire ou stochastique est pris en charge.
 
 Fragrouter est une sorte de routeur de fragmentation unidirectionnel.\
@@ -753,7 +753,7 @@ Le préprocesseur frag3 est un module de défragmentation IP basé sur les cible
 1) Une exécution plus rapide avec une gestion des données moins complexe.
 2) Techniques anti-évasion de modélisation de l'hôte basées sur la cible.
 
-Frag3 utilise la structure de données sfxhash et des listes liées pour la gestion des données en interne, ce qui lui permet d'avoir des performances beaucoup plus prévisibles et déterministes dans n'importe quel environnement, ce qui devrait nous aider à gérer les environnements fortement fragmentés.
+Frag3 utilise la structure de données sfxhash et des listes liées pour la gestion des données en interne, ce qui lui permet d'avoir des performances beaucoup plus prévisibles et déterministes dans n'importe quel environnement ce qui devrait nous aider à gérer les environnements fortement fragmentés.
 
 Source : https://www.snort.org/faq/readme-frag3
 
@@ -795,7 +795,7 @@ nmap -sS -f -p 22 --send-eth 192.168.220.2
 
 **Réponse :**  
 
-En utilisant le scan normal, la règle a bien fonctionné :
+En utilisant le scan normal, la règle a bien fonctionnée :
 
 ![Scan SSH reporté](./images/alertSSH.png)
 
@@ -819,7 +819,7 @@ preprocessor frag3_global
 preprocessor frag3_engine
 ```
 
-Le scan apparaît finalement dans les alertes :
+Le scan apparait finalement dans les alertes :
 
 ![Scan fragmenté](./images/alertSSHFragmenter.png)
 
@@ -835,13 +835,13 @@ Le scan apparaît finalement dans les alertes :
 Le trafic chiffré est ignoré par défaut par _Snort_ pour des raisons de performances et pour réduire les faux positifs.\
 Ce pré-processeur permet d'inspecter le trafic SSL/TLS.
 
-Par ailleurs, chaque paquet contenant du trafic SSL comporte une partie non chiffrée qui fournit certaines informations sur le trafic lui-même et l'état de la connexion.\
-SSLPP utilise ces informations pour déterminer si un handshake est en cours ou si il a déjà eu lieu.
+Par ailleurs, chaque paquet contenant du trafic SSL comporte une partie non-chiffrée qui fournit certaines informations sur le trafic lui-même et l'état de la connexion.\
+SSLPP utilise ces informations pour déterminer si un handshake est en cours ou s'il a déjà eu lieu.
 
-Par défaut, SSLPP recherche un handshake suivie d'un trafic chiffré circulant des deux côtés.\
+Par défaut, SSLPP recherche un handshake suivi d'un trafic chiffré circulant des deux côtés.\
 Si un côté répond en indiquant que quelque chose a échoué, comme le handshake, la session n'est pas marquée comme chiffrée.
 
-La vérification de l'envoi d'un trafic chiffré sans faille depuis les deux points d'extrémité garantit deux choses :
+La vérification de l'envoi du trafic chiffré depuis les deux points d'extrémité garantit deux choses :
 - Le dernier paquet du handshake côté client n'a pas été conçu pour échapper à Snort
 - Le trafic est légitimement chiffré
 
@@ -858,7 +858,7 @@ Source : https://www.snort.org/faq/readme-ssl
 **Réponse :**  
 
 Le _Sensitive Data preprocessor_ effectue la détection et le filtrage des informations personnellement identifiables (PII).\
-Ces informations incluent les numéros de carte de crédit, les numéros de sécurité sociale des États-Unis et les adresses e-mail.\
+Ces informations incluent les numéros de carte de crédit, les numéros de sécurité sociale aux États-Unis et les adresses e-mail.\
 Une syntaxe d'expression régulière limitée est également incluse pour définir nos propres informations personnelles.
 
 Source : https://www.snort.org/faq/readme-sensitive_data
