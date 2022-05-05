@@ -592,23 +592,23 @@ log tcp 192.168.220.3 any -> 91.198.174.194 any (msg:"Visite Wikipedia"; sid:400
 
 
 ```
-18:11:22.602624 IP ncredir-lb.esams.wikimedia.org.http > firefox.snortlan.57420: Flags [S.], seq 2827772920, ack 3857134510, win 43440, options [mss 1380,sackOK,TS val 2312190699 ecr 632067788,nop,wscale 9], length 0
-18:11:22.622756 IP ncredir-lb.esams.wikimedia.org.http > firefox.snortlan.57420: Flags [.], ack 81, win 85, options [nop,nop,TS val 2312190720 ecr 632067810], length 0
-18:11:22.622884 IP ncredir-lb.esams.wikimedia.org.http > firefox.snortlan.57420: Flags [P.], seq 1:382, ack 81, win 85, options [nop,nop,TS val 2312190721 ecr 632067810], length 381: HTTP: HTTP/1.1 301 Moved Permanently
-18:11:22.623017 IP ncredir-lb.esams.wikimedia.org.http > firefox.snortlan.57420: Flags [F.], seq 382, ack 81, win 85, options [nop,nop,TS val 2312190721 ecr 632067810], length 0
-18:11:22.642462 IP ncredir-lb.esams.wikimedia.org.http > firefox.snortlan.57420: Flags [.], ack 82, win 85, options [nop,nop,TS val 2312190740 ecr 632067830], length 0
-18:11:22.649391 IP ncredir-lb.esams.wikimedia.org.https > firefox.snortlan.34522: Flags [S.], seq 3868483984, ack 620835916, win 43440, options [mss 1380,sackOK,TS val 1988530205 ecr 632067837,nop,wscale 9], length 0
-18:11:22.681884 IP ncredir-lb.esams.wikimedia.org.https > firefox.snortlan.34522: Flags [.], ack 405, win 85, options [nop,nop,TS val 1988530236 ecr 632067868], length 0
-18:11:22.682413 IP ncredir-lb.esams.wikimedia.org.https > firefox.snortlan.34522: Flags [.], seq 1:1369, ack 405, win 85, options [nop,nop,TS val 1988530237 ecr 632067868], length 1368
-18:11:22.682601 IP ncredir-lb.esams.wikimedia.org.https > firefox.snortlan.34522: Flags [.], seq 1369:2737, ack 405, win 85, options [nop,nop,TS val 1988530237 ecr 632067868], length 1368
-18:11:22.682636 IP ncredir-lb.esams.wikimedia.org.https > firefox.snortlan.34522: Flags [P.], seq 2737:4097, ack 405, win 85, options [nop,nop,TS val 1988530237 ecr 632067868], length 1360
-18:11:22.682660 IP ncredir-lb.esams.wikimedia.org.https > firefox.snortlan.34522: Flags [P.], seq 4097:5163, ack 405, win 85, options [nop,nop,TS val 1988530238 ecr 632067868], length 1066
-18:11:22.703095 IP ncredir-lb.esams.wikimedia.org.https > firefox.snortlan.34522: Flags [P.], seq 5163:5450, ack 485, win 85, options [nop,nop,TS val 1988530258 ecr 632067890], length 287
-18:11:22.703297 IP ncredir-lb.esams.wikimedia.org.https > firefox.snortlan.34522: Flags [P.], seq 5450:5737, ack 485, win 85, options [nop,nop,TS val 1988530258 ecr 632067890], length 287
-18:11:22.722510 IP ncredir-lb.esams.wikimedia.org.https > firefox.snortlan.34522: Flags [P.], seq 5737:6214, ack 587, win 85, options [nop,nop,TS val 1988530278 ecr 632067910], length 477
-18:11:22.722760 IP ncredir-lb.esams.wikimedia.org.https > firefox.snortlan.34522: Flags [P.], seq 6214:6238, ack 587, win 85, options [nop,nop,TS val 1988530278 ecr 632067910], length 24
-18:11:22.723062 IP ncredir-lb.esams.wikimedia.org.https > firefox.snortlan.34522: Flags [F.], seq 6238, ack 587, win 85, options [nop,nop,TS val 1988530278 ecr 632067910], length 0
-18:11:22.743538 IP ncredir-lb.esams.wikimedia.org.https > firefox.snortlan.34522: Flags [R], seq 3868490223, win 0, length 0
+18:24:21.361376 IP firefox.snortlan.57460 > ncredir-lb.esams.wikimedia.org.http: Flags [S], seq 3847371389, win 64240, options [mss 1460,sackOK,TS val 632846566 ecr 0,nop,wscale 7], length 0
+18:24:21.381149 IP firefox.snortlan.57460 > ncredir-lb.esams.wikimedia.org.http: Flags [.], ack 1607640342, win 502, options [nop,nop,TS val 632846586 ecr 1989308928], length 0
+18:24:21.381298 IP firefox.snortlan.57460 > ncredir-lb.esams.wikimedia.org.http: Flags [P.], seq 0:80, ack 1, win 502, options [nop,nop,TS val 632846586 ecr 1989308928], length 80: HTTP: GET / HTTP/1.1
+18:24:21.402772 IP firefox.snortlan.57460 > ncredir-lb.esams.wikimedia.org.http: Flags [.], ack 382, win 501, options [nop,nop,TS val 632846608 ecr 1989308950], length 0
+18:24:21.402938 IP firefox.snortlan.57460 > ncredir-lb.esams.wikimedia.org.http: Flags [F.], seq 80, ack 383, win 501, options [nop,nop,TS val 632846608 ecr 1989308950], length 0
+18:24:21.410439 IP firefox.snortlan.34562 > ncredir-lb.esams.wikimedia.org.https: Flags [S], seq 2238789390, win 64240, options [mss 1460,sackOK,TS val 632846615 ecr 0,nop,wscale 7], length 0
+18:24:21.429835 IP firefox.snortlan.34562 > ncredir-lb.esams.wikimedia.org.https: Flags [.], ack 917728494, win 502, options [nop,nop,TS val 632846635 ecr 2312969518], length 0
+18:24:21.442261 IP firefox.snortlan.34562 > ncredir-lb.esams.wikimedia.org.https: Flags [P.], seq 0:404, ack 1, win 502, options [nop,nop,TS val 632846647 ecr 2312969518], length 404
+18:24:21.463462 IP firefox.snortlan.34562 > ncredir-lb.esams.wikimedia.org.https: Flags [.], ack 1369, win 501, options [nop,nop,TS val 632846668 ecr 2312969552], length 0
+18:24:21.463490 IP firefox.snortlan.34562 > ncredir-lb.esams.wikimedia.org.https: Flags [.], ack 2737, win 494, options [nop,nop,TS val 632846668 ecr 2312969552], length 0
+18:24:21.463508 IP firefox.snortlan.34562 > ncredir-lb.esams.wikimedia.org.https: Flags [.], ack 4097, win 485, options [nop,nop,TS val 632846669 ecr 2312969552], length 0
+18:24:21.463523 IP firefox.snortlan.34562 > ncredir-lb.esams.wikimedia.org.https: Flags [.], ack 5162, win 477, options [nop,nop,TS val 632846669 ecr 2312969552], length 0
+18:24:21.464319 IP firefox.snortlan.34562 > ncredir-lb.esams.wikimedia.org.https: Flags [P.], seq 404:484, ack 5162, win 501, options [nop,nop,TS val 632846669 ecr 2312969552], length 80
+18:24:21.484260 IP firefox.snortlan.34562 > ncredir-lb.esams.wikimedia.org.https: Flags [P.], seq 484:586, ack 5449, win 501, options [nop,nop,TS val 632846689 ecr 2312969572], length 102
+18:24:21.504324 IP firefox.snortlan.34562 > ncredir-lb.esams.wikimedia.org.https: Flags [.], ack 6213, win 501, options [nop,nop,TS val 632846709 ecr 2312969573], length 0
+18:24:21.504498 IP firefox.snortlan.34562 > ncredir-lb.esams.wikimedia.org.https: Flags [P.], seq 586:610, ack 6238, win 501, options [nop,nop,TS val 632846709 ecr 2312969593], length 24
+18:24:21.505793 IP firefox.snortlan.34562 > ncredir-lb.esams.wikimedia.org.https: Flags [F.], seq 610, ack 6238, win 501, options [nop,nop,TS val 632846711 ecr 2312969593], length 0
 ```
 
 Comme alternative nous avions utilisé les requêtes DNS avant d'utiliser
