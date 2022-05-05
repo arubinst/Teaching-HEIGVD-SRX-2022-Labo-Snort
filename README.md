@@ -442,11 +442,12 @@ Aller au répertoire /var/log/snort. Ouvrir le fichier `alert`. Vérifier qu'il 
 
 ---
 
-**Réponse :**  ![question7](images/question7.jpg)<br>
+**Réponse :**  
+![question7](images/question7.jpg)<br>
 La première ligne montre le message d'alerte choisi ainsi que son sid et son rev.<br>
 On voit que la priorité de l'alerte est de 0 (risque faible). <br>
 Il y a également la date / heure de l'alerte.<br>
-188.185.21.108:80 -> 192.168.220.2:58798 indique l'ip / port source / destination.<br>
+```188.185.21.108:80 -> 192.168.220.2:58798``` indique l'ip / port source / destination.<br>
 
 --- 
 
@@ -746,8 +747,8 @@ Par exemple, un email contenant un nom d'utilisateur ou un mot de passe.
 
 ---
 
-**Réponse :**  Snort est outil est un bon IDS. Il permet de détecter des intrusions de façon automatique. 
-Cependant, on ne sait pas trop si on l'utilise de la bonne manière. Ceci est du au fait que la documentation est malheureusment peu détaillée / compréhensible.
+**Réponse :**  Snort est un IDS relativement puissant. Il permet de détecter des intrusions de façon automatique. 
+Cependant, on ne sait pas trop si on l'utilise de la bonne manière, il est parfois difficile à configurer. Ceci est du au fait que la documentation est malheureusment peu détaillée / compréhensible.
 
 Nous avons tout de même réussi à faire le laboratoire sans être rééellement bloqué.
 
