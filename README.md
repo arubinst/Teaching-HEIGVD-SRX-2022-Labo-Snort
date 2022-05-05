@@ -587,7 +587,7 @@ Règles Snort:
 
 ```
 log tcp 192.168.220.4 any -> 91.198.174.194 any (msg:"Visite Wikipedia"; sid:40000020;)
-log tcp 192.168.220.3 any -> 91.198.174.194 any (msg:"Visite Wikipedia"; sid:40000020;)
+log tcp 192.168.220.3 any -> 91.198.174.194 any (msg:"Visite Wikipedia"; sid:40000021;)
 ```
 
 
