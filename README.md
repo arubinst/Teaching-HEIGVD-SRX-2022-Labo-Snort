@@ -507,7 +507,7 @@ Les journaux sont générés en format pcap. Vous pouvez donc les lire avec Wire
 ---
 
 **Réponse :**
-Seuls les "echo request" sont journalisés. C'est logique puisque les echo reply ne répondent pas à la règle que j'ai écrit.
+Seuls les "echo request" sont journalisés. C'est logique puisque les echo reply ne répondent pas à la règle que j'ai écrit, notamment au niveau des adresses IP.
 
 ---
 
@@ -522,7 +522,8 @@ Faites le nécessaire pour que les pings soient détectés dans les deux sens.
 ---
 
 **Réponse :** 
-`alert icmp any any -> any any (msg: "Ping traverse par l'IDS !"; sid:4010018; rev:2;)`
+`alert icmp any any -> any any (msg: "Ping traverse par l'IDS !"; sid:4010018; rev:2;)`  
+Cette règle log tout le traffic ICMP, ce qui capture le traffic dans les 2 sens.
 
 ---
 
@@ -538,7 +539,8 @@ Essayer d'écrire une règle qui Alerte qu'une tentative de session SSH a été 
 ---
 
 **Réponse :**  
-`alert tcp 192.168.220.3 any -> 192.168.220.2 22 (msg: "Tentative de connexion SSH par le Client"; sid: 4000123; rev: 2;)`
+`alert tcp 192.168.220.3 any -> 192.168.220.2 22 (msg: "Tentative de connexion SSH par le Client"; sid: 4000123; rev: 2; flags: S; )`
+En utilisant le flag S en plus du port 22, cette règle ne log que les tentatives d'accès au port 22.
 
 ---
 
@@ -548,9 +550,7 @@ Essayer d'écrire une règle qui Alerte qu'une tentative de session SSH a été 
 ---
 
 **Réponse :**  
-alert icmp 192.168.220.2 any -> !192.168.220.2 any (msg: "outgoing ICMP traffic"; sid:4010021; rev:2;)  
-alert icmp !192.168.220.2 any -> 192.168.220.2 any (msg: "incoming ICMP traffic"; sid:4010022; rev:2;)  
-Ces deux lignes permettent de détecter le traffic ICMP dans les deux sens en ajoutant la règle de sortie. 
+TODO ! 
 
 ---
 
