@@ -458,7 +458,9 @@ Ecrire deux règles qui journalisent (sans alerter) chacune un message à chaque
 
 **Réponse :**  
 `log tcp 192.168.220.3 any -> 91.198.174.192 [80,443] (msg: "Client accede a Wikipedia"; sid: 4000002; rev: 1;)`  
-`log tcp 192.168.220.4 any -> 91.198.174.192 [80,443] (msg: "Firefox accede a Wikipedia"; sid: 4000003; rev: 1;)`
+`log tcp 192.168.220.4 any -> 91.198.174.192 [80,443] (msg: "Firefox accede a Wikipedia"; sid: 4000003; rev: 1;)`  
+Tout est toujours journalisé dans /var/log/snort/alert, sauf si on précise un autre chemin en lançant snort.  
+On peut voir dans ce fichier toutes les connexions au site, tous les échanges faits, ce qui fait beaucoup de traffic.
 
 ---
 
