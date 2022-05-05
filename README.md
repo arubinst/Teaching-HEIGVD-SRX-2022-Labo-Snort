@@ -458,7 +458,35 @@ Ecrire deux règles qui journalisent (sans alerter) chacune un message à chaque
 
 ---
 
-**Réponse :**  
+**Réponse :** 
+En faisant un ```nslookup``` sur ```wikipedia.org``` on trouve l'ip : ```91.198.174.192```
+
+Règles :
+```
+log tcp 192.168.220.3 any -> 91.198.174.192 [80,443] (msg:"client visit detected on Wikipedia"; sid:4000040; rev:1;)
+
+log tcp 192.168.220.4 any -> 91.198.174.192 [80,443] (msg:"firefox visit detected on Wikipedia"; sid:4000041; rev:1;)
+```
+Emplacement des logs : ```/var/log/snort/snort.log.xxxxxxxxxx``` on  peut analyser les logs avec ```tcpdump -r snort.log.xxxxxxxxxx```
+
+```
+tcpdump -r snort.log.1651737671 
+reading from file snort.log.1651737671, link-type EN10MB (Ethernet), snapshot length 1514
+08:01:17.313327 IP firefox.snortlan.45958 > text-lb.esams.wikimedia.org.https: Flags [S], seq 1189754184, win 64240, options [mss 1460,sackOK,TS val 1030614761 ecr 0,nop,wscale 7], length 0
+08:01:17.337521 IP firefox.snortlan.45958 > text-lb.esams.wikimedia.org.https: Flags [.], ack 1721483883, win 502, options [nop,nop,TS val 1030614785 ecr 3589535131], length 0
+08:01:17.342190 IP firefox.snortlan.45958 > text-lb.esams.wikimedia.org.https: Flags [P.], seq 0:662, ack 1, win 502, options [nop,nop,TS val 1030614789 ecr 3589535131], length 662
+08:01:17.366694 IP firefox.snortlan.45958 > text-lb.esams.wikimedia.org.https: Flags [.], ack 255, win 501, options [nop,nop,TS val 1030614814 ecr 3589535161], length 0
+08:01:17.367505 IP firefox.snortlan.45958 > text-lb.esams.wikimedia.org.https: Flags [P.], seq 662:742, ack 255, win 501, options [nop,nop,TS val 1030614815 ecr 3589535161], length 80
+08:01:17.368498 IP firefox.snortlan.45958 > text-lb.esams.wikimedia.org.https: Flags [P.], seq 742:912, ack 255, win 501, options [nop,nop,TS val 1030614816 ecr 3589535161], length 170
+08:01:17.368571 IP firefox.snortlan.45958 > text-lb.esams.wikimedia.org.https: Flags [P.], seq 912:1400, ack 255, win 501, options [nop,nop,TS val 1030614816 ecr 3589535161], length 488
+08:01:17.391322 IP firefox.snortlan.45958 > text-lb.esams.wikimedia.org.https: Flags [.], ack 526, win 499, options [nop,nop,TS val 1030614839 ecr 3589535185], length 0
+08:01:17.391325 IP firefox.snortlan.45958 > text-lb.esams.wikimedia.org.https: Flags [.], ack 578, win 499, options [nop,nop,TS val 1030614839 ecr 3589535186], length 0
+```
+
+Elements journalisés : 
+| Timestamp        | Src           | Dest           | DNS request  |
+|:-------------|:-------------|:-----|:-----|
+| 08:01:17.391325      | firefox.snortlan.45958 | text-lb.esams.wikimedia.org.https | Flags [.], ack 526, win 499, options [nop,nop,TS val 1030614839 ecr 3589535185] |
 
 ---
 
@@ -470,7 +498,10 @@ Ecrire une règle qui alerte à chaque fois que votre machine IDS **reçoit** un
 
 ---
 
-**Réponse :**  ![question9](images/question9.jpg)
+**Réponse :**
+```
+alert icmp !192.168.220.2 any -> 192.168.220.2 any (msg:"PIIIIING !!!!"; sid:4000042; rev:1;)
+```
 
 ---
 
@@ -502,7 +533,9 @@ Les journaux sont générés en format pcap. Vous pouvez donc les lire avec Wire
 
 ---
 
-**Réponse :**  Seulement les reply sont log. ![question9](images/question9.jpg)
+**Réponse :** On peut voir les paquets qui correspondent à la règle.
+
+![question12](images/question12.jpg)
 
 ---
 
@@ -514,12 +547,13 @@ Faites le nécessaire pour que les pings soient détectés dans les deux sens.
 
 ---
 
-**Réponse :**  
+**Réponse :** Nous avons changé la flèche unidirectionelle (->) en bidirectionelle (<>) de la question 9.
 
+On a donc :
+```
+alert icmp !192.168.220.2 any <> 192.168.220.2 any (msg:"PIIIIING !!!!"; sid:4000043; rev:1;)
+```
 ---
-
-
---
 
 ### Detecter une tentative de login SSH
 
@@ -529,20 +563,23 @@ Essayer d'écrire une règle qui Alerte qu'une tentative de session SSH a été 
 
 ---
 
-**Réponse :**  
+**Réponse :**  Cette commande nous permet de détecter les tentatives de connexion SSH (sur le port 22 de l'IDS) qui proviennent de la machine Client.
+
+```
+alert tcp 192.168.220.3 any -> 192.168.220.2 22 (msg:"SSH connexion detected";sid:4000044;)
+```
 
 ---
-
 
 **Question 15: Montrer le message enregistré dans le fichier d'alertes.**
 
 ---
 
 **Réponse :**  
+![question15](images/question15.jpg)
 
 ---
 
---
 
 ### Analyse de logs
 
@@ -560,7 +597,9 @@ Générez du trafic depuis le deuxième terminal qui corresponde à l'une des r�
 
 ---
 
-**Réponse :**  
+**Réponse :**  Il s'agit de l'option ```-r```. 
+
+Exemple d'utilisation : ```snort -r nom_fichier.pcap``` 
 
 ---
 
@@ -571,6 +610,9 @@ Utiliser l'option correcte de Snort pour analyser le fichier de capture Wireshar
 ---
 
 **Réponse :**  
+On remaque plusieur choses :
+* Le comportement de Snort est identique à l'analyse en temps réel. Mais cette fois, les paquet sont lus depuis la capture.
+* On a un résumé de l'analyse de la capture assez similaire aux précédentes questions.
 
 ---
 
@@ -578,11 +620,10 @@ Utiliser l'option correcte de Snort pour analyser le fichier de capture Wireshar
 
 ---
 
-**Réponse :**  
+**Réponse :**  Effectivement, si snort est executé en mode IDS avec l'option ```-c```, les alertes sont enregistrées dans le fichier d'alertes.
 
 ---
 
---
 
 ### Contournement de la détection
 
@@ -593,6 +634,10 @@ Faire des recherches à propos des outils `fragroute` et `fragrouter`.
 ---
 
 **Réponse :**  
+* `fragroute` : Intercepte, modifie et réécrit le trafic de sortie destiné à l'hôte spécifié.
+* `fragrouter` : Un outil qui permet d'ésquiver les outils de détection d'intrusion sur le réseau.
+
+Source : [fragroute](https://kalilinuxtutorials.com/fragroute/) et [fragrouter](https://www.kali.org/tools/fragrouter/)
 
 ---
 
@@ -601,7 +646,7 @@ Faire des recherches à propos des outils `fragroute` et `fragrouter`.
 
 ---
 
-**Réponse :**  
+**Réponse :**  Le fonctionnement principal des ces deux outils est la fragmentation de paquets. En effet, la fragmentation permet de brouiller la détection de contenu.
 
 ---
 
@@ -610,7 +655,9 @@ Faire des recherches à propos des outils `fragroute` et `fragrouter`.
 
 ---
 
-**Réponse :**  
+**Réponse :**  C'est un module Snort de défragmentation/recomposition de paquets IP. Il intercepte le traffic dans le but de retenir les paquets fragmentés pour ensuite les défragmenter et les recombiner. 
+
+Ce module est installé par défaut sur les machines Snort.
 
 ---
 
@@ -625,6 +672,9 @@ L'outil nmap propose une option qui fragmente les messages afin d'essayer de con
 ---
 
 **Réponse :**  
+```
+alert tcp any any -> 192.168.220.2 22 (flags:S;msg:"SYN packet"; sid:4000045;)
+```
 
 ---
 
@@ -647,6 +697,7 @@ nmap -sS -f -p 22 --send-eth 192.168.220.2
 ---
 
 **Réponse :**  
+![question23](images/question23.jpg)
 
 ---
 
@@ -659,6 +710,10 @@ Modifier le fichier `myrules.rules` pour que snort utiliser le `Frag3 Preprocess
 ---
 
 **Réponse :**  
+![question24_1](images/question24_1.jpg)
+<br>
+<br>
+![question24_2](images/question24_2.jpg)
 
 ---
 
@@ -667,7 +722,9 @@ Modifier le fichier `myrules.rules` pour que snort utiliser le `Frag3 Preprocess
 
 ---
 
-**Réponse :**  
+**Réponse :**  C'est un module snort qui permet de détecter les paquets TLS/SSL. Il peut déterminer quand l'inspection doit être stoppée et quand il doit être relancé.
+
+Il est installé par défaut sur les machines snort.
 
 ---
 
@@ -676,7 +733,9 @@ Modifier le fichier `myrules.rules` pour que snort utiliser le `Frag3 Preprocess
 
 ---
 
-**Réponse :**  
+**Réponse :** C'est un module snort qui permet de détecter des données sensibles (PII = Personally Identifiable Information). 
+
+Par exemple, un email contenant un nom d'utilisateur ou un mot de passe.
 
 ---
 
@@ -687,7 +746,10 @@ Modifier le fichier `myrules.rules` pour que snort utiliser le `Frag3 Preprocess
 
 ---
 
-**Réponse :**  
+**Réponse :**  Snort est outil est un bon IDS. Il permet de détecter des intrusions de façon automatique. 
+Cependant, on ne sait pas trop si on l'utilise de la bonne manière. Ceci est du au fait que la documentation est malheureusment peu détaillée / compréhensible.
+
+Nous avons tout de même réussi à faire le laboratoire sans être rééellement bloqué.
 
 ---
 
