@@ -859,7 +859,7 @@ Faire des recherches à propos des outils `fragroute` et `fragrouter`.
 
 Le but est de jouer avec les spécifications des protocoles réseaux pour essayer d'envoyer des messages qui seront correctement interprétés pas la cible, mais qui ne seront pas correctement analysés par l'IDS.
 
-Notamment, les protocoles TCP et IP autorisent de fragmenter une payload en plusieurs paquets qui seront reconstitués par le destinataire. Si l'IPS ne fait pas correctement ce travail de reconstitution de paquets fragmentés, cela peut permettre à un attaquant d'envoyer du contenu qui ne sera pas détecté par l'IPS.
+Notamment, les protocoles TCP et IP autorisent de fragmenter une payload en plusieurs paquets qui seront reconstitués par le destinataire. Si l'IDS ne fait pas correctement ce travail de reconstitution de paquets fragmentés, cela peut permettre à un attaquant d'envoyer du contenu qui ne sera pas détecté par l'IDS.
 
 ---
 
