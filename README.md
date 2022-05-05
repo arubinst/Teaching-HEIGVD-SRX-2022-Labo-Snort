@@ -352,15 +352,15 @@ Vous pouvez aussi utiliser des captures Wireshark ou des fichiers snort.log.xxxx
 ---
 
 **Réponse :** 
-Les preprocesseurs dans le context de Snort sont les composants qui traitent les
+Les préprocesseurs dans le context de Snort sont les composants qui traitent les
 paquets avant qu'ils ne soient traités par les règles.
 Il y a par exemple un preprocesseur qui permet de détecter et réassembler 
-les paquets fragmentés qui tentent d'éviter une détection. Ce preprocesseur 
+les paquets fragmentés qui tentent d'éviter une détection. Ce préprocesseur 
 s'appelle Frag2.
 
-Le préprocesseurs est utile car certaines attaques ne peuvent pas être traitées
-par le moteur de règles avant d'avoir étés transformées au préalables. C'est le
-cas par exemple avec le traffic fragmenté.
+Le préprocesseur est utile car certaines attaques ne peuvent pas être traitées
+par le moteur de règles avant d'avoir été transformées au préalable. C'est le
+cas par exemple avec le trafic fragmenté.
 
 ---
 
@@ -371,7 +371,7 @@ cas par exemple avec le traffic fragmenté.
 **Réponse :**  
 
 Contrairement au fichier snort.conf, le fichier mysnort.conf ne charge aucun
-preprocesseur. Snort nous indique donc qu'aucun preprocesseur n'est chargé pour 
+préprocesseur. Snort nous indique donc qu'aucun péeprocesseur n'est chargé pour 
 la policy 0, mais fonctionne quand même sans traiter les paquets avant le set de 
 règles que nous avons renseignées.
 
@@ -660,7 +660,7 @@ Ecrire deux règles qui journalisent (sans alerter) chacune un message à chaque
 
 **Réponse :**  
 
-En utilisant l'adresse IP d'un des serveur de Wikipedia: 
+En utilisant l'adresse IP d'un des serveurs de Wikipedia: 
 
 Règles Snort:
 
@@ -708,7 +708,7 @@ reading from file snort.log.1651776441, link-type EN10MB (Ethernet), snapshot le
 On peut constater que le log contient:
 
 - un timestamp de l'événement
-- la source et la destination du paquet (en l'occurence le container source et le hôte de destination wikimedia)
+- la source et la destination du paquet (en l'occurence le container source et l'hôte de destination wikimedia)
 - des infos sur les flags
 - d'autres infos de séquence et longueur des paquets
 
@@ -776,7 +776,7 @@ Type:8  Code:0  ID:47159   Seq:5  ECHO
 **Réponse :**  
 
 En précisant comme destination l'ip de l'IDS, soit 192.168.220.2 ainsi qu'avec
-une flèche allant dans le sens source -> destination, ola destination est l'IP de l'IDS.
+une flèche allant dans le sens source -> destination, la destination est l'IP de l'IDS.
 
 ---
 
@@ -798,7 +798,7 @@ Les journaux sont générés en format pcap. Vous pouvez donc les lire avec Wire
 
 **Réponse :**  
 On peut voir dans le log ci-dessous que les adresses ip sources et destination,
-le protocol et le type de requetes sont loguées.
+le protocole et le type de requêtes sont loggées.
 
 Contenu du fichier log:
 
@@ -951,7 +951,7 @@ une attaque dont le but est d'échapper aux systèmes de détection d'intrusion.
 exemple d'attaque est de fragmenter les paquets en plusieurs petits paquets. Le
 système d'intrusion analyse ainsi du trafic qui ne correspond pas exactement à
 ce que la cible va recevoir, et n'est pas en mesure de détecter des attaques
-sans au préalable ré assembler les paquets, s'il est capable de le faire et
+sans au préalable ré-assembler les paquets, s'il est capable de le faire et
 s'il est configuré pour le faire.
 
 ---
@@ -964,7 +964,7 @@ s'il est configuré pour le faire.
 **Réponse :**  
 
 Frag3 a pour but de défragmenter du trafic étant arrivé fragmenté et ce pour
-contrer les techniques d'évasion de systèmes d'intrustion. Il fonctionne en
+contrer les techniques d'évasion de systèmes d'intrusion. Il fonctionne en
 ré-assemblant les paquets qui ont été fragmentés. Cela permet ensuite d'appliquer
 les règles du systèmes de détection d'intrusion sur le trafic défragmenté.
 
@@ -1030,7 +1030,7 @@ Modifier le fichier `myrules.rules` pour que snort utiliser le `Frag3 Preprocess
 
 
 Snort est maintenant capable d'identifier le SYN scan de Nmap. Il indique aussi
-dans son rapport les statistiques de Frag3 et les paquets qui ont été réassemblés.
+dans son rapport les statistiques de Frag3 et les paquets qui ont été ré-assemblés.
 
 ---
 
@@ -1058,10 +1058,10 @@ ressources inutilement.
 
 
 Ce préprocesseur sert à détecter des fuites de données sensibles, telles que des
-numéros de carte de crédit ou des numéros de sécurité sociale, afin de les modifier, 
+numéros de cartes de crédit ou des numéros de sécurité sociale, afin de les modifier, 
 par exemple en remplaçant les premiers digits d'un numéro de carte de crédit par
 des XXXX. Cela permet d'éviter que ces données sensibles sortent du réseau en
-clair, par exemple en les ayant copié accidentellement dans un document.
+clair, par exemple en les ayant copiées accidentellement dans un document.
 Certaines données sont inclues de base et il est possible d'en rajouter des
 règles personnalisées.
 
@@ -1079,17 +1079,17 @@ règles personnalisées.
 
 Snort est un outil puissant de détection d'intrusion. C'est devenu le standard
 de facto. Adoptant la philosophie Unix, il est possible de tout configurer et
-customiser, ce qui en fait un outil très flexible. Les règles et la syntaxes de
-base sont relativement simple à comprendre mais elles deviennent vite complexe
-lorsqu'il faut créer des règles plus élaborée. La documentation n'est pas
+customiser, ce qui en fait un outil très flexible. Les règles et la syntaxe de
+base sont relativement simples à comprendre mais elles deviennent vite complexes
+lorsqu'il faut créer des règles plus élaborées. La documentation n'est pas
 évidente à comprendre et il manque souvent des exemples. Une des grandes forces
-est la communauté qui fournis de nombreuses règles prêtes à l'emploi. Tout cela
+est la communauté qui fournit de nombreuses règles prêtes à l'emploi. Tout cela
 fait qu'il est donc possible d'installer Snort sur un réseau avec une
 configuration de base assez solide et tout cela à bas prix.
 
 Note : il est possible d'utiliser des variables dans les fichiers de
-configuration(ip client, ids, réseau local, etc) que nous n'avons pas exploitée 
-par soucis de simplicité.
+configuration(ip client, ids, réseau local, etc) que nous n'avons pas tellement exploitées 
+par souci de simplicité.
 
 ---
 
