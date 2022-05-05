@@ -822,7 +822,7 @@ Type:0  Code:0  ID:7438  Seq:1  ECHO REPLY
 
 **Réponse :**  
 
-Oui si Snort est lancé en mode IDS avec -c
+Non, sauf si Snort est lancé en mode IDS avec `-c`.
 
 ---
 
