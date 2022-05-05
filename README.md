@@ -428,6 +428,9 @@ Nous voyons :
 - Le nombre de paquets passés dans l'IO
 - Un breakdown par protocole de tous les paquets vus
 - Et finalement, un résumé de ce que snort a fait selon les paquets passés
+  - Le nombre d'alertes levées
+  - Le nombre de paquets loggués
+  - Le nombre de paquets bloqués
 ---
 
 
@@ -438,7 +441,7 @@ Aller au répertoire /var/log/snort. Ouvrir le fichier `alert`. Vérifier qu'il 
 ---
 
 **Réponse :**  
-L'alerte détaille de manière très précise le paquet capturé avec par exemple : les IPs et ports de source et destination, les flags TCP, etc...
+L'alerte détaille de manière très précise le paquet capturé avec par exemple : les IPs et ports de source et destination, les flags TCP, les informations sur la règle qui a levé l'alerte, etc...
 
 ---
 
