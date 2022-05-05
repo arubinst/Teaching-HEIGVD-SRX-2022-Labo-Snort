@@ -580,10 +580,39 @@ Ecrire deux règles qui journalisent (sans alerter) chacune un message à chaque
 ---
 
 **Réponse :**  
-Mehdi:
+
+En utilisant l'adresse IP d'un des serveur de Wikipedia: 
 
 Règles Snort:
 
+```
+log tcp 192.168.220.4 any -> 91.198.174.194 any (msg:"Visite Wikipedia"; sid:40000020;)
+log tcp 192.168.220.3 any -> 91.198.174.194 any (msg:"Visite Wikipedia"; sid:40000020;)
+```
+
+
+```
+18:11:22.602624 IP ncredir-lb.esams.wikimedia.org.http > firefox.snortlan.57420: Flags [S.], seq 2827772920, ack 3857134510, win 43440, options [mss 1380,sackOK,TS val 2312190699 ecr 632067788,nop,wscale 9], length 0
+18:11:22.622756 IP ncredir-lb.esams.wikimedia.org.http > firefox.snortlan.57420: Flags [.], ack 81, win 85, options [nop,nop,TS val 2312190720 ecr 632067810], length 0
+18:11:22.622884 IP ncredir-lb.esams.wikimedia.org.http > firefox.snortlan.57420: Flags [P.], seq 1:382, ack 81, win 85, options [nop,nop,TS val 2312190721 ecr 632067810], length 381: HTTP: HTTP/1.1 301 Moved Permanently
+18:11:22.623017 IP ncredir-lb.esams.wikimedia.org.http > firefox.snortlan.57420: Flags [F.], seq 382, ack 81, win 85, options [nop,nop,TS val 2312190721 ecr 632067810], length 0
+18:11:22.642462 IP ncredir-lb.esams.wikimedia.org.http > firefox.snortlan.57420: Flags [.], ack 82, win 85, options [nop,nop,TS val 2312190740 ecr 632067830], length 0
+18:11:22.649391 IP ncredir-lb.esams.wikimedia.org.https > firefox.snortlan.34522: Flags [S.], seq 3868483984, ack 620835916, win 43440, options [mss 1380,sackOK,TS val 1988530205 ecr 632067837,nop,wscale 9], length 0
+18:11:22.681884 IP ncredir-lb.esams.wikimedia.org.https > firefox.snortlan.34522: Flags [.], ack 405, win 85, options [nop,nop,TS val 1988530236 ecr 632067868], length 0
+18:11:22.682413 IP ncredir-lb.esams.wikimedia.org.https > firefox.snortlan.34522: Flags [.], seq 1:1369, ack 405, win 85, options [nop,nop,TS val 1988530237 ecr 632067868], length 1368
+18:11:22.682601 IP ncredir-lb.esams.wikimedia.org.https > firefox.snortlan.34522: Flags [.], seq 1369:2737, ack 405, win 85, options [nop,nop,TS val 1988530237 ecr 632067868], length 1368
+18:11:22.682636 IP ncredir-lb.esams.wikimedia.org.https > firefox.snortlan.34522: Flags [P.], seq 2737:4097, ack 405, win 85, options [nop,nop,TS val 1988530237 ecr 632067868], length 1360
+18:11:22.682660 IP ncredir-lb.esams.wikimedia.org.https > firefox.snortlan.34522: Flags [P.], seq 4097:5163, ack 405, win 85, options [nop,nop,TS val 1988530238 ecr 632067868], length 1066
+18:11:22.703095 IP ncredir-lb.esams.wikimedia.org.https > firefox.snortlan.34522: Flags [P.], seq 5163:5450, ack 485, win 85, options [nop,nop,TS val 1988530258 ecr 632067890], length 287
+18:11:22.703297 IP ncredir-lb.esams.wikimedia.org.https > firefox.snortlan.34522: Flags [P.], seq 5450:5737, ack 485, win 85, options [nop,nop,TS val 1988530258 ecr 632067890], length 287
+18:11:22.722510 IP ncredir-lb.esams.wikimedia.org.https > firefox.snortlan.34522: Flags [P.], seq 5737:6214, ack 587, win 85, options [nop,nop,TS val 1988530278 ecr 632067910], length 477
+18:11:22.722760 IP ncredir-lb.esams.wikimedia.org.https > firefox.snortlan.34522: Flags [P.], seq 6214:6238, ack 587, win 85, options [nop,nop,TS val 1988530278 ecr 632067910], length 24
+18:11:22.723062 IP ncredir-lb.esams.wikimedia.org.https > firefox.snortlan.34522: Flags [F.], seq 6238, ack 587, win 85, options [nop,nop,TS val 1988530278 ecr 632067910], length 0
+18:11:22.743538 IP ncredir-lb.esams.wikimedia.org.https > firefox.snortlan.34522: Flags [R], seq 3868490223, win 0, length 0
+```
+
+Comme alternative nous avions utilisé les requêtes DNS avant d'utiliser
+l'adresse IP de Wikipedia :
 ```
 log udp 192.168.220.4 any -> any any (msg:"Visite Wikipedia"; content:"|09|wikipedia|03|org|00|"; nocase; sid: 4000020;)                                                                                    
 log udp 192.168.220.3 any -> any any (msg:"Visite Wikipedia"; content:"|09|wikipedia|03|org|00|"; nocase; sid: 4000021;)
