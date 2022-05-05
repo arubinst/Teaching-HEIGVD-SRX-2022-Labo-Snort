@@ -381,7 +381,7 @@ alert tcp any any -> any any (msg:"Mon nom!"; content:"Rubinstein"; sid:4000015;
 ---
 
 **Réponse :**  
- Cette règle journalise une alerte pour tout le traffic TCP provenant de toute source et en direction de toute source, qui contient "Rubinstein" comme payload. L'alerte logguée portera le nom "Mon nom!"
+ Cette règle lève une alerte qui peut être logguée ou transmise à syslog par exemple, pour tout le traffic TCP provenant de toute source et en direction de toute source, qui contient "Rubinstein" comme payload. L'alerte logguée portera le nom "Mon nom!"
 
 ---
 
@@ -396,7 +396,8 @@ sudo snort -c myrules.rules -i eth0
 ---
 
 **Réponse :**  
-le chargement de snort affiche beaucoup d'informations sur la configuration de Snort.
+le chargement de snort affiche beaucoup d'informations sur la configuration de Snort.  
+Nous sommes également avertis du fait que nous n'avons pas chargé de préprocesseur.
 
 ---
 
