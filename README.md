@@ -618,7 +618,8 @@ Faire des recherches à propos des outils `fragroute` et `fragrouter`.
 ---
 
 **Réponse :**  
-Ils fragmentent volontairement les paquets envoyés pour tenter de brouiller la détection de contenu.
+Ils fragmentent volontairement les paquets envoyés pour tenter de brouiller la détection de contenu.  
+Ces outils fragmentent les paquets IPs en plusieurs paquets, ce qui empêche les règles basées sur les headers IP de filtrer les paquets.  
 
 ---
 
@@ -696,8 +697,8 @@ Les paquets sont stockés entiers et non pas fragmentés.
 
 **Réponse :**  
 Il permet de ne pas analyser de l'information inutile qui transite sur SSL/TLS:
-C'est du traffic chiffré, donc inexploitable en grande partie. Ce preproc configure
-Snort pour qu'il n'analyse que le handshake SSL/TLS, dont on peut retirer quelques infos.
+C'est du traffic chiffré, donc inexploitable en grande partie. Ce preprocésseur configure
+Snort pour qu'il n'analyse que le handshake SSL/TLS, sur lesquelles on pourrait intervenir avec des règles basiques.
 
 ---
 
@@ -720,12 +721,15 @@ On parle donc d'adresse mail, de numéro de téléphone, de N° de CC, etc...
 ---
 
 **Réponse :**  
-C'est un outil versatile qui permet, une fois bien utilisé, d'attraper presque toutes
-les infos sur les flux qui le traverse. Pouvoir l'utiliser comme IPS également est positif: 
+C'est un outil versatile qui permet, une fois bien configuré, d'attraper bien des informations sur les flux réseau qui le traverse.
+Pouvoir l'utiliser comme IPS également est positif: 
 on pourrait l'utiliser comme firewall dans l'absolu.
 
 On a eu queluqes problèmes avec l'outil: notamment les premiers et derniers paquets
-semblent être ignorés et ne sont pas répertoriés dans les alertes ou les logs.
+semblent être ignorés et ne sont pas répertoriés dans les alertes ou les logs.  
+  
+Cet outil est très puissant mais il demande un temps de prise en main et il n'est pas évident d'écrire des règles pertinentes.  
+La large communauté active autour de ce programme le rend très puissant et performant ! Les règles disponibles par défaut à l'installation sont déjà très pertinentes.
 
 ---
 
