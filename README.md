@@ -729,7 +729,6 @@ Ecrire une règle qui alerte à chaque fois que votre machine IDS **reçoit** un
 
 ```
 alert icmp 192.168.220.0/24 any -> 192.168.220.2 any (msg:"Alerte ping sur IDS"; sid: 4000022;)
-
 ```
 
 Résultat du fichier alert:
@@ -905,7 +904,7 @@ Utiliser l'option correcte de Snort pour analyser le fichier de capture Wireshar
 **Réponse :**  
 
 Snort affiche les logs puis un résumé du type du trafic et du nombre de
-paquets. Le comportant est identique à celui en temps réel.
+paquets. Le comportement est identique à celui en temps réel.
 
 ---
 
@@ -915,8 +914,8 @@ paquets. Le comportant est identique à celui en temps réel.
 
 **Réponse :**  
 
-Non étant donné que ce n'est pas Snort qui a été lancé pour faire la capture,
-mais Tshark.
+Non, étant donné que ce n'est pas Snort qui a été lancé pour faire la capture,
+mais tshark.
 
 ---
 
