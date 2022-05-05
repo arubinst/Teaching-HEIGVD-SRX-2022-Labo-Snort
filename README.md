@@ -207,9 +207,7 @@ L'entête de la règle contient l'action de la règle, le protocole, les adresse
 
 L'option contient des messages d'alerte et de l'information concernant les parties du paquet dont le contenu doit être analysé. Par exemple:
 
-```
-alert tcp any any -> 192.168.220.0/24 111 (content:"|00 01 86 a5|"; msg: "mountd access";)
-```
+`alert tcp any any -> 192.168.220.0/24 111 (content:"|00 01 86 a5|"; msg: "mountd access";)`
 
 Cette règle décrit une alerte générée quand Snort trouve un paquet avec tous les attributs suivants :
 
@@ -475,7 +473,7 @@ Ecrire une règle qui alerte à chaque fois que votre machine IDS **reçoit** un
 ---
 
 **Réponse :**  
-alert icmp !192.168.220.2 any -> 192.168.220.2 any (msg: "Ping reçu par l'IDS !"; sid:4010017; rev:2;)
+`alert icmp !192.168.220.2 any -> 192.168.220.2 any (msg: "Ping reçu par l'IDS !"; sid:4010017; rev:2;)`
 
 ---
 
@@ -539,7 +537,7 @@ Essayer d'écrire une règle qui Alerte qu'une tentative de session SSH a été 
 ---
 
 **Réponse :**  
-`alert tcp 192.168.220.3 any -> 192.168.220.2 22 (msg: "Tentative de connexion SSH par le Client"; sid: 4000123; rev: 2; flags: S; )`
+`alert tcp 192.168.220.3 any -> 192.168.220.2 22 (msg: "Tentative de connexion SSH par le Client"; sid: 4000123; rev: 2; flags: S; )`  
 Cette règle précise l'IP source, l'IP ainsi que le port de destination et le flag TCP à filtrer, SYN.
 En utilisant le flag SYN en plus du port 22, cette règle ne log que les tentatives d'accès au port 22, ce qui évite de logguer tout le traffic SSH.
 
@@ -551,7 +549,15 @@ En utilisant le flag SYN en plus du port 22, cette règle ne log que les tentati
 ---
 
 **Réponse :**  
-TODO ! 
+Dans le ficher /var/log/snort/alert, nous retrouvons le message suivant en cas de tentative de connexion ssh :  
+```
+[**] [1:4000123:2] Tentative de connexion SSH par le Client [**]
+[Priority: 0] 
+05/05-20:40:51.157930 192.168.220.3:50910 -> 192.168.220.2:22
+TCP TTL:64 TOS:0x10 ID:23696 IpLen:20 DgmLen:60 DF
+******S* Seq: 0x59A4A8E2  Ack: 0x0  Win: 0xFAF0  TcpLen: 40
+TCP Options (5) => MSS: 1460 SackOK TS: 3098191960 0 NOP WS: 7 
+```
 
 ---
 
@@ -646,9 +652,7 @@ L'outil nmap propose une option qui fragmente les messages afin d'essayer de con
 ---
 
 **Réponse :**
-```config
-alert tcp any any -> 192.168.220.2 22 (flags: S; msg: "Possible SYN scan on port 22";sid:4001022;rev:1;)    
-```
+`alert tcp any any -> 192.168.220.2 22 (flags: S; msg: "Possible SYN scan on port 22";sid:4001022;rev:1;)`  
 Cette règle détecte toutes les tentatives de connexion sur le port 22 en se basant sur le flag SYN.  
 En omettant le flag, toutes les connexions et tentatives de connexion seront logguées. En cas de scan fragmenté, seul le RST sera loggué par la règle sans flag.
 
