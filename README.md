@@ -591,6 +591,8 @@ log tcp 192.168.220.3 any -> 91.198.174.194 any (msg:"Visite Wikipedia"; sid:400
 ```
 
 
+Contenu log /var/log/snort/snort.log.1651775053 :
+(Ouvert avec tcpdump -r snort.log.xxxxx)
 ```
 18:24:21.361376 IP firefox.snortlan.57460 > ncredir-lb.esams.wikimedia.org.http: Flags [S], seq 3847371389, win 64240, options [mss 1460,sackOK,TS val 632846566 ecr 0,nop,wscale 7], length 0
 18:24:21.381149 IP firefox.snortlan.57460 > ncredir-lb.esams.wikimedia.org.http: Flags [.], ack 1607640342, win 502, options [nop,nop,TS val 632846586 ecr 1989308928], length 0
@@ -609,31 +611,6 @@ log tcp 192.168.220.3 any -> 91.198.174.194 any (msg:"Visite Wikipedia"; sid:400
 18:24:21.504324 IP firefox.snortlan.34562 > ncredir-lb.esams.wikimedia.org.https: Flags [.], ack 6213, win 501, options [nop,nop,TS val 632846709 ecr 2312969573], length 0
 18:24:21.504498 IP firefox.snortlan.34562 > ncredir-lb.esams.wikimedia.org.https: Flags [P.], seq 586:610, ack 6238, win 501, options [nop,nop,TS val 632846709 ecr 2312969593], length 24
 18:24:21.505793 IP firefox.snortlan.34562 > ncredir-lb.esams.wikimedia.org.https: Flags [F.], seq 610, ack 6238, win 501, options [nop,nop,TS val 632846711 ecr 2312969593], length 0
-```
-
-Comme alternative nous avions utilisé les requêtes DNS avant d'utiliser
-l'adresse IP de Wikipedia :
-```
-log udp 192.168.220.4 any -> any any (msg:"Visite Wikipedia"; content:"|09|wikipedia|03|org|00|"; nocase; sid: 4000020;)                                                                                    
-log udp 192.168.220.3 any -> any any (msg:"Visite Wikipedia"; content:"|09|wikipedia|03|org|00|"; nocase; sid: 4000021;)
-```
-
-Contenu log /var/log/snort/snort.log.1649002876 :
-(Ouvert avec tcpdump -r snort.log.xxxxx)
-
-```
-reading from file snort.log.1649002876, link-type EN10MB (Ethernet), snapshot
-length 1514
-16:21:19.278661 IP 192.168.220.4.34011 > 192.168.0.254.53: 28092+ A?  de.wikipedia.org. (34)
-16:21:19.279651 IP 192.168.220.4.53315 > 192.168.0.254.53: 51316+ A?  de.wikipedia.org. (34)
-16:21:19.524195 IP 192.168.220.4.54088 > 192.168.0.254.53: 3000+ A?  de.wikipedia.org. (34)
-16:21:19.527678 IP 192.168.220.4.36888 > 192.168.0.254.53: 62228+ A?  de.wikipedia.org. (34)
-16:21:19.565185 IP 192.168.220.4.52880 > 192.168.0.254.53: 18219+ A?  de.wikipedia.org. (34)
-16:21:19.571523 IP 192.168.220.4.44068 > 192.168.0.254.53: 10498+ A?  de.wikipedia.org. (34)
-16:21:19.575469 IP 192.168.220.4.43372 > 192.168.0.254.53: 43451+ A?  de.wikipedia.org. (34)
-16:21:19.625311 IP 192.168.220.4.51885 > 192.168.0.254.53: 41987+ A?  de.wikipedia.org. (34)
-16:21:19.665905 IP 192.168.220.4.56434 > 192.168.0.254.53: 45190+ A?  de.wikipedia.org. (34)
-16:21:19.745752 IP 192.168.220.4.45628 > 192.168.0.254.53: 33157+ A?  de.wikipedia.org. (34)
 ```
 
 On peut constater que le log contient:
