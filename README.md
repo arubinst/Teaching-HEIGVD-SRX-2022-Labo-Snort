@@ -370,7 +370,7 @@ cas par exemple avec le traffic fragmenté.
 
 **Réponse :**  
 
-Car contrairement au fichier snort.conf, le fichier mysnort.conf ne charge aucun
+Contrairement au fichier snort.conf, le fichier mysnort.conf ne charge aucun
 preprocesseur. Snort nous indique donc qu'aucun preprocesseur n'est chargé pour 
 la policy 0, mais fonctionne quand même sans traiter les paquets avant le set de 
 règles que nous avons renseignées.
@@ -415,6 +415,82 @@ Ce sont tous les éléments de configuration qui sont appliqués. On voit que la
 plupart des éléments indiquent "none". La configuration s'initialise en fonction 
 de ce qui est nécessaire pour pouvoir appliquer la règles que nous appliquons 
 via notre fichier myrules.rules.
+
+
+```
+Running in IDS mode
+
+        --== Initializing Snort ==--
+Initializing Output Plugins!
+Initializing Preprocessors!
+Initializing Plug-ins!
+Parsing Rules file "myrules.rules"
+PortVar 'HTTP_PORTS' defined :  [ 80 443 ]
+Tagged Packet Limit: 256
+Log directory = /var/log/snort
+
++++++++++++++++++++++++++++++++++++++++++++++++++++
+Initializing rule chains...
+2 Snort rules read
+    2 detection rules
+    0 decoder rules
+    0 preprocessor rules
+2 Option Chains linked into 2 Chain Headers
++++++++++++++++++++++++++++++++++++++++++++++++++++
+
++-------------------[Rule Port Counts]---------------------------------------
+|             tcp     udp    icmp      ip
+|     src       0       0       0       0
+|     dst       2       0       0       0
+|     any       0       0       0       0
+|      nc       2       0       0       0
+|     s+d       0       0       0       0
++----------------------------------------------------------------------------
+
++-----------------------[detection-filter-config]------------------------------
+| memory-cap : 1048576 bytes
++-----------------------[detection-filter-rules]-------------------------------
+| none
+-------------------------------------------------------------------------------
+
++-----------------------[rate-filter-config]-----------------------------------
+| memory-cap : 1048576 bytes
++-----------------------[rate-filter-rules]------------------------------------
+| none
+-------------------------------------------------------------------------------
+
++-----------------------[event-filter-config]----------------------------------
+| memory-cap : 1048576 bytes
++-----------------------[event-filter-global]----------------------------------
++-----------------------[event-filter-local]-----------------------------------
+| none
++-----------------------[suppression]------------------------------------------
+| none
+-------------------------------------------------------------------------------
+Rule application order: pass->drop->sdrop->reject->alert->log
+Verifying Preprocessor Configurations!
+
+[ Port Based Pattern Matching Memory ]
+pcap DAQ configured to passive.
+Acquiring network traffic from "eth0".
+Reload thread starting...
+Reload thread started, thread 0x7fe18b104640 (1146)
+Decoding Ethernet
+
+        --== Initialization Complete ==--
+
+   ,,_     -*> Snort! <*-
+  o"  )~   Version 2.9.15.1 GRE (Build 15125) 
+   ''''    By Martin Roesch & The Snort Team: http://www.snort.org/contact#team
+           Copyright (C) 2014-2019 Cisco and/or its affiliates. All rights reserved.
+           Copyright (C) 1998-2013 Sourcefire, Inc., et al.
+           Using libpcap version 1.10.1 (with TPACKET_V3)
+           Using PCRE version: 8.39 2016-06-14
+           Using ZLIB version: 1.2.11
+
+Commencing packet processing (pid=1145)
+
+```
 
 ---
 
@@ -557,6 +633,7 @@ TCP Options (3) => NOP NOP TS: 199862785 766923961
 
 ```
 ---
+```
 *[**] [1:4000015:1] Mon Alert! [**]*: Cette ligne indique le message d'alert ("Mon Alert!")
 ainsi que la signature de l'intrusion ([1:4000015:1] ).
 
@@ -565,6 +642,8 @@ ainsi que la signature de l'intrusion ([1:4000015:1] ).
 *04/01-09:58:35.141221*: Indique la date et l'heure de l'événement.
 
 *188.184.21.108:80 -> 192.168.220.4:37524*: Indique les ip et ports sources / destination.
+
+```
 
 Le reste du message donne des indications sur le paquet qui a été observé
 (comme le time-to-live par exemple).
@@ -594,31 +673,44 @@ log tcp 192.168.220.3 any -> 91.198.174.194 any (msg:"Visite Wikipedia"; sid:400
 Contenu log /var/log/snort/snort.log.1651775053 :
 (Ouvert avec tcpdump -r snort.log.xxxxx)
 ```
-18:24:21.361376 IP firefox.snortlan.57460 > ncredir-lb.esams.wikimedia.org.http: Flags [S], seq 3847371389, win 64240, options [mss 1460,sackOK,TS val 632846566 ecr 0,nop,wscale 7], length 0
-18:24:21.381149 IP firefox.snortlan.57460 > ncredir-lb.esams.wikimedia.org.http: Flags [.], ack 1607640342, win 502, options [nop,nop,TS val 632846586 ecr 1989308928], length 0
-18:24:21.381298 IP firefox.snortlan.57460 > ncredir-lb.esams.wikimedia.org.http: Flags [P.], seq 0:80, ack 1, win 502, options [nop,nop,TS val 632846586 ecr 1989308928], length 80: HTTP: GET / HTTP/1.1
-18:24:21.402772 IP firefox.snortlan.57460 > ncredir-lb.esams.wikimedia.org.http: Flags [.], ack 382, win 501, options [nop,nop,TS val 632846608 ecr 1989308950], length 0
-18:24:21.402938 IP firefox.snortlan.57460 > ncredir-lb.esams.wikimedia.org.http: Flags [F.], seq 80, ack 383, win 501, options [nop,nop,TS val 632846608 ecr 1989308950], length 0
-18:24:21.410439 IP firefox.snortlan.34562 > ncredir-lb.esams.wikimedia.org.https: Flags [S], seq 2238789390, win 64240, options [mss 1460,sackOK,TS val 632846615 ecr 0,nop,wscale 7], length 0
-18:24:21.429835 IP firefox.snortlan.34562 > ncredir-lb.esams.wikimedia.org.https: Flags [.], ack 917728494, win 502, options [nop,nop,TS val 632846635 ecr 2312969518], length 0
-18:24:21.442261 IP firefox.snortlan.34562 > ncredir-lb.esams.wikimedia.org.https: Flags [P.], seq 0:404, ack 1, win 502, options [nop,nop,TS val 632846647 ecr 2312969518], length 404
-18:24:21.463462 IP firefox.snortlan.34562 > ncredir-lb.esams.wikimedia.org.https: Flags [.], ack 1369, win 501, options [nop,nop,TS val 632846668 ecr 2312969552], length 0
-18:24:21.463490 IP firefox.snortlan.34562 > ncredir-lb.esams.wikimedia.org.https: Flags [.], ack 2737, win 494, options [nop,nop,TS val 632846668 ecr 2312969552], length 0
-18:24:21.463508 IP firefox.snortlan.34562 > ncredir-lb.esams.wikimedia.org.https: Flags [.], ack 4097, win 485, options [nop,nop,TS val 632846669 ecr 2312969552], length 0
-18:24:21.463523 IP firefox.snortlan.34562 > ncredir-lb.esams.wikimedia.org.https: Flags [.], ack 5162, win 477, options [nop,nop,TS val 632846669 ecr 2312969552], length 0
-18:24:21.464319 IP firefox.snortlan.34562 > ncredir-lb.esams.wikimedia.org.https: Flags [P.], seq 404:484, ack 5162, win 501, options [nop,nop,TS val 632846669 ecr 2312969552], length 80
-18:24:21.484260 IP firefox.snortlan.34562 > ncredir-lb.esams.wikimedia.org.https: Flags [P.], seq 484:586, ack 5449, win 501, options [nop,nop,TS val 632846689 ecr 2312969572], length 102
-18:24:21.504324 IP firefox.snortlan.34562 > ncredir-lb.esams.wikimedia.org.https: Flags [.], ack 6213, win 501, options [nop,nop,TS val 632846709 ecr 2312969573], length 0
-18:24:21.504498 IP firefox.snortlan.34562 > ncredir-lb.esams.wikimedia.org.https: Flags [P.], seq 586:610, ack 6238, win 501, options [nop,nop,TS val 632846709 ecr 2312969593], length 24
-18:24:21.505793 IP firefox.snortlan.34562 > ncredir-lb.esams.wikimedia.org.https: Flags [F.], seq 610, ack 6238, win 501, options [nop,nop,TS val 632846711 ecr 2312969593], length 0
+reading from file snort.log.1651776441, link-type EN10MB (Ethernet), snapshot length 1514
+18:47:27.211644 IP Client.snortlan.49922 > text-lb.esams.wikimedia.org.https: Flags [R], seq 415024408, win 0, length 0
+18:47:27.211656 IP Client.snortlan.49922 > text-lb.esams.wikimedia.org.https: Flags [R], seq 415024408, win 0, length 0
+18:47:27.253651 IP Client.snortlan.49924 > text-lb.esams.wikimedia.org.https: Flags [R], seq 795850364, win 0, length 0
+18:47:27.253661 IP Client.snortlan.49924 > text-lb.esams.wikimedia.org.https: Flags [R], seq 795850364, win 0, length 0
+18:47:28.916129 IP firefox.snortlan.38864 > text-lb.esams.wikimedia.org.https: Flags [R], seq 585709669, win 0, length 0
+18:47:28.916143 IP firefox.snortlan.38864 > text-lb.esams.wikimedia.org.https: Flags [R], seq 585709669, win 0, length 0
+18:47:28.918004 IP firefox.snortlan.38864 > text-lb.esams.wikimedia.org.https: Flags [R], seq 585709669, win 0, length 0
+18:47:28.918234 IP firefox.snortlan.38864 > text-lb.esams.wikimedia.org.https: Flags [R], seq 585709669, win 0, length 0
+18:47:28.920529 IP firefox.snortlan.38864 > text-lb.esams.wikimedia.org.https: Flags [R], seq 585709669, win 0, length 0
+18:47:28.921746 IP firefox.snortlan.38864 > text-lb.esams.wikimedia.org.https: Flags [R], seq 585709669, win 0, length 0
+18:47:28.921756 IP firefox.snortlan.38864 > text-lb.esams.wikimedia.org.https: Flags [R], seq 585709669, win 0, length 0
+18:47:28.922584 IP firefox.snortlan.38864 > text-lb.esams.wikimedia.org.https: Flags [R], seq 585709669, win 0, length 0
+18:47:28.923954 IP firefox.snortlan.38864 > text-lb.esams.wikimedia.org.https: Flags [R], seq 585709669, win 0, length 0
+18:47:28.923969 IP firefox.snortlan.38864 > text-lb.esams.wikimedia.org.https: Flags [R], seq 585709669, win 0, length 0
+18:47:28.934021 IP firefox.snortlan.38864 > text-lb.esams.wikimedia.org.https: Flags [R], seq 585709669, win 0, length 0
+18:47:28.934993 IP firefox.snortlan.38864 > text-lb.esams.wikimedia.org.https: Flags [R], seq 585709669, win 0, length 0
+18:47:28.935955 IP firefox.snortlan.38864 > text-lb.esams.wikimedia.org.https: Flags [R], seq 585709669, win 0, length 0
+18:47:32.568637 IP firefox.snortlan.38868 > text-lb.esams.wikimedia.org.https: Flags [R], seq 3919816474, win 0, length 0
+18:47:32.569935 IP firefox.snortlan.38868 > text-lb.esams.wikimedia.org.https: Flags [R], seq 3919816474, win 0, length 0
+18:47:32.569943 IP firefox.snortlan.38868 > text-lb.esams.wikimedia.org.https: Flags [R], seq 3919816474, win 0, length 0
+18:47:32.571924 IP firefox.snortlan.38868 > text-lb.esams.wikimedia.org.https: Flags [R], seq 3919816474, win 0, length 0
+18:47:32.573183 IP firefox.snortlan.38868 > text-lb.esams.wikimedia.org.https: Flags [R], seq 3919816474, win 0, length 0
+18:47:32.574447 IP firefox.snortlan.38868 > text-lb.esams.wikimedia.org.https: Flags [R], seq 3919816474, win 0, length 0
+18:47:32.574457 IP firefox.snortlan.38868 > text-lb.esams.wikimedia.org.https: Flags [R], seq 3919816474, win 0, length 0
+18:47:32.577646 IP firefox.snortlan.38868 > text-lb.esams.wikimedia.org.https: Flags [R], seq 3919816474, win 0, length 0
+18:47:32.577656 IP firefox.snortlan.38868 > text-lb.esams.wikimedia.org.https: Flags [R], seq 3919816474, win 0, length 0
+18:47:32.585777 IP firefox.snortlan.38868 > text-lb.esams.wikimedia.org.https: Flags [R], seq 3919816474, win 0, length 0
+18:47:32.587356 IP firefox.snortlan.38868 > text-lb.esams.wikimedia.org.https: Flags [R], seq 3919816474, win 0, length 0
+18:47:32.587366 IP firefox.snortlan.38868 > text-lb.esams.wikimedia.org.https: Flags [R], seq 3919816474, win 0, length 0
 ```
 
 On peut constater que le log contient:
 
 - un timestamp de l'événement
-- l'adresse IP source et destination
-- le port source et destionation
-- la requête DNS qui a été faite
+- la source et la destination du paquet (en l'occurence le container source et le hôte de destination wikimedia)
+- des infos sur les flags
+- d'autres infos de séquence et longueur des paquets
 
 ---
 
@@ -636,29 +728,43 @@ Ecrire une règle qui alerte à chaque fois que votre machine IDS **reçoit** un
 
 
 ```
-alert icmp 192.168.220.0/24 any -> 192.168.220.2 any (msg:"Alerte ping recu"; sid: 4000022;)
-
-ou
-
-alert icmp any any -> 192.168.220.2 any (msg:"Alerte ping recu"; sid: 4000023;)
+alert icmp 192.168.220.0/24 any -> 192.168.220.2 any (msg:"Alerte ping sur IDS"; sid: 4000022;)
 
 ```
 
 Résultat du fichier alert:
 
 ```
-
-[**] [1:4000022:0] Alerte ping recu [**]
-[Priority: 0]                                        
-04/03-16:54:29.270623 192.168.220.3 -> 192.168.220.2                                                  
-ICMP TTL:64 TOS:0x0 ID:39077 IpLen:20 DgmLen:84 DF
-Type:8  Code:0  ID:59576   Seq:4  ECHO
-
-[**] [1:4000022:0] Alerte ping recu [**]
+[**] [1:4000022:0] Alerte ping sur IDS [**]
 [Priority: 0] 
-04/03-16:54:46.198408 192.168.220.4 -> 192.168.220.2
-ICMP TTL:64 TOS:0x0 ID:12740 IpLen:20 DgmLen:84 DF
-Type:8  Code:0  ID:8628   Seq:0  ECHO
+05/05-18:54:03.205946 192.168.220.3 -> 192.168.220.2
+ICMP TTL:64 TOS:0x0 ID:36596 IpLen:20 DgmLen:84 DF
+Type:8  Code:0  ID:47159   Seq:1  ECHO
+
+[**] [1:4000022:0] Alerte ping sur IDS [**]
+[Priority: 0] 
+05/05-18:54:04.228455 192.168.220.3 -> 192.168.220.2
+ICMP TTL:64 TOS:0x0 ID:36746 IpLen:20 DgmLen:84 DF
+Type:8  Code:0  ID:47159   Seq:2  ECHO
+
+[**] [1:4000022:0] Alerte ping sur IDS [**]
+[Priority: 0] 
+05/05-18:54:05.241518 192.168.220.3 -> 192.168.220.2
+ICMP TTL:64 TOS:0x0 ID:36812 IpLen:20 DgmLen:84 DF
+Type:8  Code:0  ID:47159   Seq:3  ECHO
+
+[**] [1:4000022:0] Alerte ping sur IDS [**]
+[Priority: 0] 
+05/05-18:54:06.255284 192.168.220.3 -> 192.168.220.2
+ICMP TTL:64 TOS:0x0 ID:37115 IpLen:20 DgmLen:84 DF
+Type:8  Code:0  ID:47159   Seq:4  ECHO
+
+[**] [1:4000022:0] Alerte ping sur IDS [**]
+[Priority: 0] 
+05/05-18:54:07.268464 192.168.220.3 -> 192.168.220.2
+ICMP TTL:64 TOS:0x0 ID:37386 IpLen:20 DgmLen:84 DF
+Type:8  Code:0  ID:47159   Seq:5  ECHO
+
 ```
 
 ---
@@ -681,7 +787,7 @@ une flèche allant dans le sens source -> destination, oû la destination est l'
 
 **Réponse :**  
 
-Dans /var/log/snort/alert
+Dans `/var/log/snort/alert`
 
 ---
 
@@ -698,13 +804,11 @@ le protocol et le type de requetes sont loguées.
 Contenu du fichier log:
 
 ```
-1   0.000000 192.168.220.3 ? 192.168.220.2 ICMP 98 Echo (ping) request  id=0xe8b8, seq=1/256, ttl=64
-2   1.008930 192.168.220.3 ? 192.168.220.2 ICMP 98 Echo (ping) request  id=0xe8b8, seq=2/512, ttl=64
-3   2.033023 192.168.220.3 ? 192.168.220.2 ICMP 98 Echo (ping) request  id=0xe8b8, seq=3/768, ttl=64
-4   3.057157 192.168.220.3 ? 192.168.220.2 ICMP 98 Echo (ping) request  id=0xe8b8, seq=4/1024, ttl=64
-5  19.984942 192.168.220.4 ? 192.168.220.2 ICMP 98 Echo (ping) request  id=0x21b4, seq=0/0, ttl=64
-6  20.985172 192.168.220.4 ? 192.168.220.2 ICMP 98 Echo (ping) request  id=0x21b4, seq=1/256, ttl=64
-7  21.985403 192.168.220.4 ? 192.168.220.2 ICMP 98 Echo (ping) request  id=0x21b4, seq=2/512, ttl=64
+    1   0.000000 192.168.220.3 ? 192.168.220.2 ICMP 98 Echo (ping) request  id=0xb837, seq=1/256, ttl=64
+    2   1.022509 192.168.220.3 ? 192.168.220.2 ICMP 98 Echo (ping) request  id=0xb837, seq=2/512, ttl=64
+    3   2.035572 192.168.220.3 ? 192.168.220.2 ICMP 98 Echo (ping) request  id=0xb837, seq=3/768, ttl=64
+    4   3.049338 192.168.220.3 ? 192.168.220.2 ICMP 98 Echo (ping) request  id=0xb837, seq=4/1024, ttl=64
+    5   4.062518 192.168.220.3 ? 192.168.220.2 ICMP 98 Echo (ping) request  id=0xb837, seq=5/1280, ttl=64
 ```
 ---
 
@@ -721,11 +825,9 @@ Faites le nécessaire pour que les pings soient détectés dans les deux sens.
 **Réponse :**  
 
 ```
-alert icmp 192.168.220.0/24 any -> 192.168.220.2 any (msg:"Ping vers IDS"; sid: 4000025;)
-alert icmp 192.168.220.2 any -> 192.168.220.0/24 any (msg:"Ping depuis IDS"; sid: 4000026;)
+alert icmp 192.168.220.0/24 any <> 192.168.220.2 any (msg:"Alerte ping bidirectionnel"; sid: 4000025;)
 ```
-
-Note: il est aussi possible d'utiliser l'opérateur bidirectionnel
+Note: on lance aussi une alerte pour l'echo-reply.
 
 ---
 
@@ -745,6 +847,9 @@ Essayer d'écrire une règle qui Alerte qu'une tentative de session SSH a été 
 ```
 alert tcp 192.168.220.3 any -> 192.168.220.2 22 (msg: "Alerte SSH Client->IDS";sid :4000024;)
 ```
+Cette règle lance une alerte lorsqu'un paquet provenant de n'importe quel port de l'hôte `192.168.220.3?` (Client) allant vers `192.168.220.2`
+(IDS) sur le port 22 (SSH). Le message d'alerte est "Alerte SSH Client-> IDS".
+
 
 ---
 
