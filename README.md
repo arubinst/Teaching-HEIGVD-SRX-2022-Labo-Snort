@@ -362,7 +362,9 @@ Un préprocesseur peut, par exemple, réunir un payload applicatif fragmenté da
 ---
 
 **Réponse :**  
-Car il manque la définition d'un pré-processeur dans notre fichier de règle. La solution la plus simple est de reprendre des préprocesseurs définis dans /etc/snort/snort.conf.
+Car il manque la définition d'un pré-processeur dans notre fichier de règle.  
+Mais ceci ne pose pas de problème tant que nous nous limitons à des règles simples.  
+Autrement, nous pouvons charger les préprocesseurs qui sont dans /etc/snort/snort.conf .
 
 ---
 
