@@ -14,6 +14,7 @@ services:
             - 3000:3000
         volumes:
             - shared-data:/var/log/snort
+            - ./scripts-containers/ids.sh:/opt/config.sh
         networks:
            snortlan:
              ipv4_address: 192.168.220.2
@@ -36,6 +37,8 @@ services:
             - ids
         stdin_open: true
         tty: true
+        volumes:
+            - ./scripts-containers/client.sh:/opt/config.sh
         networks:
            snortlan:
              ipv4_address: 192.168.220.3
@@ -54,6 +57,7 @@ services:
             - NET_ADMIN
         volumes:
             - shared-data:/var/log/snort
+            - ./scripts-containers/wireshark.sh:/opt/config.sh
         network_mode: service:ids
         environment:
             - PUID=0
@@ -71,7 +75,8 @@ services:
             - PUID=1000
             - PGID=1000
             - TZ=Europe/Zurich
-    #volumes:
+        volumes:
+            - ./scripts-containers/firefox.sh:/opt/config.sh
     #  - /path/to/config:/config
         networks:
            snortlan:

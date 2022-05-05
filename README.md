@@ -351,7 +351,9 @@ Vous pouvez aussi utiliser des captures Wireshark ou des fichiers snort.log.xxxx
 
 ---
 
-**Réponse :**  
+**Réponse :** 
+
+Selon la [documentation officielle](https://www.snort.org/documents/snort-users-manual), les préprocesseurs permettent d'étendre les fonctionnalités de Snort en permettant aux utilisateurs et aux programmeurs de déposer assez facilement des plugins modulaires dans Snort. Le code du préprocesseur est exécuté avant que le moteur de détection ne soit appelé, mais après le traitement du paquet.
 
 ---
 
@@ -360,6 +362,8 @@ Vous pouvez aussi utiliser des captures Wireshark ou des fichiers snort.log.xxxx
 ---
 
 **Réponse :**  
+
+Parce que le fichier de configuration "fait-maison" (par ex. `mysnort.conf`) ne contient pas de directives `preprocessor <name>: <options>`.
 
 ---
 
@@ -377,12 +381,14 @@ alert tcp any any -> any any (msg:"Mon nom!"; content:"Rubinstein"; sid:4000015;
 
 **Réponse :**  
 
+Si un paquet TCP ayant n'importe quel port et n'importe quelle adresse ip comme source ou destination contient "Rubinstein" dans la payload, un message d'alerte avec comme information "Mon nom!" est généré et le paquet est écrit dans le journal.
+
 ---
 
 Utiliser nano pour créer un fichier `myrules.rules` sur votre répertoire home (```/root```). Rajouter une règle comme celle montrée avant mais avec votre text, phrase ou mot clé que vous aimeriez détecter. Lancer Snort avec la commande suivante :
 
 ```
-sudo snort -c myrules.rules -i eth0
+snort -c myrules.rules -i eth0 -k none
 ```
 
 **Question 4: Que voyez-vous quand le logiciel est lancé ? Qu'est-ce que tous ces messages affichés veulent dire ?**
@@ -390,6 +396,98 @@ sudo snort -c myrules.rules -i eth0
 ---
 
 **Réponse :**  
+
+```
+Running in IDS mode
+
+        --== Initializing Snort ==--
+Initializing Output Plugins!
+Initializing Preprocessors!
+Initializing Plug-ins!
+Parsing Rules file "myrules.rules"
+Tagged Packet Limit: 256
+Log directory = /var/log/snort
+
++++++++++++++++++++++++++++++++++++++++++++++++++++
+Initializing rule chains...
+1 Snort rules read
+    1 detection rules
+    0 decoder rules
+    0 preprocessor rules
+1 Option Chains linked into 1 Chain Headers
++++++++++++++++++++++++++++++++++++++++++++++++++++
+
++-------------------[Rule Port Counts]---------------------------------------
+|             tcp     udp    icmp      ip
+|     src       0       0       0       0
+|     dst       0       0       0       0
+|     any       1       0       0       0
+|      nc       0       0       0       0
+|     s+d       0       0       0       0
++----------------------------------------------------------------------------
+
++-----------------------[detection-filter-config]------------------------------
+| memory-cap : 1048576 bytes
++-----------------------[detection-filter-rules]-------------------------------
+| none
+-------------------------------------------------------------------------------
+
++-----------------------[rate-filter-config]-----------------------------------
+| memory-cap : 1048576 bytes
++-----------------------[rate-filter-rules]------------------------------------
+| none
+-------------------------------------------------------------------------------
+
++-----------------------[event-filter-config]----------------------------------
+| memory-cap : 1048576 bytes
++-----------------------[event-filter-global]----------------------------------
++-----------------------[event-filter-local]-----------------------------------
+| none
++-----------------------[suppression]------------------------------------------
+| none
+-------------------------------------------------------------------------------
+Rule application order: pass->drop->sdrop->reject->alert->log
+Verifying Preprocessor Configurations!
+
+[ Port Based Pattern Matching Memory ]
++-[AC-BNFA Search Info Summary]------------------------------
+| Instances        : 1
+| Patterns         : 1
+| Pattern Chars    : 8
+| Num States       : 8
+| Num Match States : 1
+| Memory           :   1.62Kbytes
+|   Patterns       :   0.05K
+|   Match Lists    :   0.09K
+|   Transitions    :   1.09K
++-------------------------------------------------
+pcap DAQ configured to passive.
+Acquiring network traffic from "eth0".
+Reload thread starting...
+Reload thread started, thread 0x7f6a2849c640 (20)
+Decoding Ethernet
+
+        --== Initialization Complete ==--
+
+   ,,_     -*> Snort! <*-
+  o"  )~   Version 2.9.15.1 GRE (Build 15125) 
+   ''''    By Martin Roesch & The Snort Team: http://www.snort.org/contact#team
+           Copyright (C) 2014-2019 Cisco and/or its affiliates. All rights reserved.
+           Copyright (C) 1998-2013 Sourcefire, Inc., et al.
+           Using libpcap version 1.10.1 (with TPACKET_V3)
+           Using PCRE version: 8.39 2016-06-14
+           Using ZLIB version: 1.2.11
+
+Commencing packet processing (pid=19)
+```
+
+On voit entre autres, dans l'ordre :
+- Des informations sur l'initialisation de Snort, notamment le fichier d'origine des règles ainsi que le répertoire de log
+- Le nombre de règles lues, en l'occurrence 1 règle de détection
+- Les catégories de règles, en l'occurrence il y a une règle TCP
+- L'interface depuis laquelle Snort écoute
+- La version de Snort et d'autres logiciels utilisés
+- Le PID de Snort
 
 ---
 
@@ -403,6 +501,9 @@ Pour accéder à Firefox dans son conteneur, ouvrez votre navigateur web sur vot
 
 **Réponse :**  
 
+Absolument rien (sauf des `No preprocessors configured for policy 0`.
+Cependant, l'alerte est loggée dans le fichier `/var/log/snort/alert`.
+
 ---
 
 Arrêter Snort avec `CTRL-C`.
@@ -412,6 +513,17 @@ Arrêter Snort avec `CTRL-C`.
 ---
 
 **Réponse :**  
+
+Lorsqu'on arrête Snort, on voit des statistiques sur ce qui a été analysé, plus précisément :
+
+- le nombre total de paquets traités, ainsi que la moyenne du nombre de paquets reçu par minutes et par secondes
+- un résumé sur l'utilisation de la RAM
+- le nombre total de paquets reçus, analysés, droppés, filtrés, en suspend, et injectés
+- la répartition des protocoles décodés par Snort
+- un résumé sur :
+  - ce que Snort a effectué comme action (alerter, logger, laisser passer) sur les paquets.
+  - ce qui n'a pas pu être traité dû aux limitations du système (mémoire RAM libre, temps de calcul, ...)
+  - le verdict des paquets (accepté, bloqué, remplacé, ignoré, ...)
 
 ---
 
@@ -423,6 +535,18 @@ Aller au répertoire /var/log/snort. Ouvrir le fichier `alert`. Vérifier qu'il 
 ---
 
 **Réponse :**  
+
+L'alerte ressemble à ceci :
+```
+[**] [1:4000001:1] Concerne l'HEIG-VD [**]
+[Priority: 0] 
+04/25-09:41:35.419896 193.134.221.132:80 -> 192.168.220.4:38724
+TCP TTL:47 TOS:0x0 ID:37118 IpLen:20 DgmLen:1308 DF
+***AP*** Seq: 0xB3450495  Ack: 0x1FD04902  Win: 0x1C5  TcpLen: 32
+TCP Options (3) => NOP NOP TS: 4066533714 2833739280
+```
+
+On voit le SID et la REV (`[1:4000001:1]`) de la règle, le message (`Concerne l'HEIG-VD`), la priorité (`[Priority: 0]`), la date et l'heure de la réception du paquet (`04/25-09:41:35.419896`), l'ip/port source et destination (`193.134.221.132:80 -> 192.168.220.4:38724`), puis tous les détails (séquence, acknowledge, ...) du header du paquet TCP concerné.
 
 ---
 
@@ -439,9 +563,48 @@ Ecrire deux règles qui journalisent (sans alerter) chacune un message à chaque
 
 **Réponse :**  
 
+Notre règle est la suivante :
+```
+portvar HTTP [80,443]
+ipvar CLIENT 192.168.220.3
+ipvar FIREFOX 192.168.220.4
+
+ipvar WIKIPEDIA 91.198.174.192
+log tcp $CLIENT any -> $WIKIPEDIA $HTTP (msg:"Wikipedia visited"; sid:40000002; rev:1;)
+log tcp $FIREFOX any -> $WIKIPEDIA $HTTP (msg:"Wikipedia visited"; sid:40000003; rev:1;)
+```
+
+Tout le contenu qui répondait à la règle écrite ci-dessus a été journalisé :
+`tcpdump -r snort.log.1651128924 ` :
+
+```
+reading from file snort.log.1651128924, link-type EN10MB (Ethernet), snapshot length 1514
+06:55:29.586884 IP firefox.snortlan.32782 > text-lb.esams.wikimedia.org.https: Flags [P.], seq 2504514308:2504514523, ack 913394832, win 501, options [nop,nop,TS val 1175129956 ecr 2832372735], length 215
+06:55:29.587502 IP firefox.snortlan.32782 > text-lb.esams.wikimedia.org.https: Flags [P.], seq 215:250, ack 1, win 501, options [nop,nop,TS val 1175129957 ecr 2832372735], length 35
+06:55:29.589227 IP firefox.snortlan.32782 > text-lb.esams.wikimedia.org.https: Flags [P.], seq 250:333, ack 1, win 501, options [nop,nop,TS val 1175129958 ecr 2832372735], length 83
+06:55:29.612648 IP firefox.snortlan.32782 > text-lb.esams.wikimedia.org.https: Flags [.], ack 1371, win 493, options [nop,nop,TS val 1175129982 ecr 2832388835], length 0
+06:55:29.614543 IP firefox.snortlan.32782 > text-lb.esams.wikimedia.org.https: Flags [.], ack 2819, win 493, options [nop,nop,TS val 1175129984 ecr 2832388838], length 0
+06:55:29.614825 IP firefox.snortlan.32782 > text-lb.esams.wikimedia.org.https: Flags [.], ack 4267, win 493, options [nop,nop,TS val 1175129984 ecr 2832388838], length 0
+06:55:29.614947 IP firefox.snortlan.32782 > text-lb.esams.wikimedia.org.https: Flags [.], ack 5715, win 493, options [nop,nop,TS val 1175129984 ecr 2832388838], length 0
+06:55:29.615698 IP firefox.snortlan.32782 > text-lb.esams.wikimedia.org.https: Flags [.], ack 8611, win 477, options [nop,nop,TS val 1175129985 ecr 2832388838], length 0
+06:55:29.616416 IP firefox.snortlan.32782 > text-lb.esams.wikimedia.org.https: Flags [.], ack 15851, win 429, options [nop,nop,TS val 1175129986 ecr 2832388838], length 0
+06:55:29.618242 IP firefox.snortlan.32782 > text-lb.esams.wikimedia.org.https: Flags [.], ack 17299, win 493, options [nop,nop,TS val 1175129987 ecr 2832388838], length 0
+06:55:29.618364 IP firefox.snortlan.32782 > text-lb.esams.wikimedia.org.https: Flags [.], ack 18747, win 493, options [nop,nop,TS val 1175129988 ecr 2832388838], length 0
+06:55:29.619873 IP firefox.snortlan.32782 > text-lb.esams.wikimedia.org.https: Flags [.], ack 20195, win 493, options [nop,nop,TS val 1175129989 ecr 2832388838], length 0
+06:55:29.620474 IP firefox.snortlan.32782 > text-lb.esams.wikimedia.org.https: Flags [.], ack 21387, win 493, options [nop,nop,TS val 1175129990 ecr 2832388838], length 0
+06:55:29.641705 IP firefox.snortlan.32782 > text-lb.esams.wikimedia.org.https: Flags [P.], seq 333:475, ack 21387, win 501, options [nop,nop,TS val 1175130011 ecr 2832388838], length 142
+06:55:29.642003 IP firefox.snortlan.32782 > text-lb.esams.wikimedia.org.https: Flags [P.], seq 475:578, ack 21387, win 501, options [nop,nop,TS val 1175130011 ecr 2832388838], length 103
+06:55:29.642066 IP firefox.snortlan.32782 > text-lb.esams.wikimedia.org.https: Flags [P.], seq 578:613, ack 21387, win 501, options [nop,nop,TS val 1175130011 ecr 2832388838], length 35
+06:55:29.642176 IP firefox.snortlan.32782 > text-lb.esams.wikimedia.org.https: Flags [P.], seq 613:648, ack 21387, win 501, options [nop,nop,TS val 1175130011 ecr 2832388838], length 35
+06:55:29.704932 IP firefox.snortlan.32782 > text-lb.esams.wikimedia.org.https: Flags [P.], seq 648:764, ack 21387, win 501, options [nop,nop,TS val 1175130074 ecr 2832388896], length 116
+06:55:29.705060 IP firefox.snortlan.32782 > text-lb.esams.wikimedia.org.https: Flags [P.], seq 764:850, ack 21387, win 501, options [nop,nop,TS val 1175130074 ecr 2832388896], length 86
+06:55:29.705088 IP firefox.snortlan.32782 > text-lb.esams.wikimedia.org.https: Flags [P.], seq 850:885, ack 21387, win 501, options [nop,nop,TS val 1175130074 ecr 2832388896], length 35
+06:55:29.705534 IP firefox.snortlan.32782 > text-lb.esams.wikimedia.org.https: Flags [P.], seq 885:920, ack 21387, win 501, options [nop,nop,TS val 1175130075 ecr 2832388896], length 35
+```
+Nous pouvons remarquer que Wikipédia est hébergé chez Wikimedia (l'organisation mère).
+
 ---
 
---
 
 ### Détecter un ping d'un autre système
 
@@ -453,6 +616,12 @@ Ecrire une règle qui alerte à chaque fois que votre machine IDS **reçoit** un
 
 **Réponse :**  
 
+```
+ipvar IDS 192.168.220.2
+ipvar LOCAL_NETWORK 192.168.220.0/24
+alert icmp $LOCAL_NETWORK any -> $IDS any (msg:"PING ALERT !"; itype:8; sid:40000004; rev:1;)
+```
+
 ---
 
 
@@ -461,6 +630,8 @@ Ecrire une règle qui alerte à chaque fois que votre machine IDS **reçoit** un
 ---
 
 **Réponse :**  
+
+Nous avons utilisé le mot clé `itype:8` (ICMP type 8 = requête echo) pour éviter de détecter les réponses à des pings.
 
 ---
 
@@ -471,6 +642,11 @@ Ecrire une règle qui alerte à chaque fois que votre machine IDS **reçoit** un
 
 **Réponse :**  
 
+
+Dans `var/log/snort/snort.log.xxxxxxxxxx`
+
+(une alerte a également été ajoutée dans `/var/log/snort/alert`)
+
 ---
 
 Les journaux sont générés en format pcap. Vous pouvez donc les lire avec Wireshark. Vous pouvez utiliser le conteneur wireshark en dirigeant le navigateur Web de votre hôte sur vers [http://localhost:3000](http://localhost:3000). Optionnellement, vous pouvez lire les fichiers log utilisant la commande `tshark -r nom_fichier_log` depuis votre IDS.
@@ -480,6 +656,25 @@ Les journaux sont générés en format pcap. Vous pouvez donc les lire avec Wire
 ---
 
 **Réponse :**  
+
+Les paquets entiers qui correspondent à une ou plusieurs règle(s) ont été journalisés.
+On peut donc relire les headers et les payloads.
+
+`tcpdump -r snort.log.1651133359`:
+```
+reading from file snort.log.1651133359, link-type EN10MB (Ethernet), snapshot length 1514
+08:09:21.497813 IP firefox.snortlan > IDS: ICMP echo request, id 5903, seq 0, length 64
+08:09:22.498073 IP firefox.snortlan > IDS: ICMP echo request, id 5903, seq 1, length 64
+08:09:23.498305 IP firefox.snortlan > IDS: ICMP echo request, id 5903, seq 2, length 64
+```
+
+`tshark -r snort.log.1651133359`:
+```
+Running as user "root" and group "root". This could be dangerous.
+    1   0.000000 192.168.220.4 ? 192.168.220.2 ICMP 98 Echo (ping) request  id=0x170f, seq=0/0, ttl=64
+    2   1.000260 192.168.220.4 ? 192.168.220.2 ICMP 98 Echo (ping) request  id=0x170f, seq=1/256, ttl=64
+    3   2.000492 192.168.220.4 ? 192.168.220.2 ICMP 98 Echo (ping) request  id=0x170f, seq=2/512, ttl=64
+```
 
 ---
 
@@ -494,6 +689,16 @@ Faites le nécessaire pour que les pings soient détectés dans les deux sens.
 ---
 
 **Réponse :**  
+
+(Nous partons du principe que, comme pour la question 9, on veut détecter seulement des pings de/vers des machines de notre réseau.)
+
+Il suffit de changer `->` par `<>`:
+
+```
+ipvar IDS 192.168.220.2
+ipvar LOCAL_NETWORK 192.168.220.0/24
+alert icmp $LOCAL_NETWORK any <> $IDS any (msg:"PING ALERT !"; itype:8; sid:40000004; rev:1;)
+```
 
 ---
 
@@ -510,6 +715,15 @@ Essayer d'écrire une règle qui Alerte qu'une tentative de session SSH a été 
 
 **Réponse :**  
 
+Notre règle est la suivante :
+```
+ipvar CLIENT 192.168.220.3
+ipvar IDS 192.168.220.2
+portvar SSH 22
+alert tcp $CLIENT any -> $IDS $SSH (msg:"SSH ALERT !"; sid:40000005; rev:1;)
+```
+Elle nous alerte si un paquet provient de la machine `Client` et est à destination du port 22 (SSH) de notre IDS.
+
 ---
 
 
@@ -518,6 +732,15 @@ Essayer d'écrire une règle qui Alerte qu'une tentative de session SSH a été 
 ---
 
 **Réponse :**  
+
+```
+[**] [1:40000005:1] SSH ALERT ! [**]
+[Priority: 0] 
+04/28-08:26:30.555510 192.168.220.3:35946 -> 192.168.220.2:22
+TCP TTL:64 TOS:0x10 ID:3943 IpLen:20 DgmLen:60 DF
+******S* Seq: 0x3BF2EA7E  Ack: 0x0  Win: 0xFAF0  TcpLen: 40
+TCP Options (5) => MSS: 1460 SackOK TS: 2609854087 0 NOP WS: 7
+```
 
 ---
 
@@ -541,6 +764,9 @@ Générez du trafic depuis le deuxième terminal qui corresponde à l'une des r�
 
 **Réponse :**  
 
+L'option `-r`.
+Utilisation : `snort -r nom_fichier.{pcap|log}`
+
 ---
 
 Utiliser l'option correcte de Snort pour analyser le fichier de capture Wireshark que vous venez de générer.
@@ -551,6 +777,44 @@ Utiliser l'option correcte de Snort pour analyser le fichier de capture Wireshar
 
 **Réponse :**  
 
+Si Snort est lancé en mode IDS sur un fichier de capture (`snort -c rules -r capture.pcap`) :
+- Snort a le même comportement que l'analyse en temps réel, sauf que les paquets sont lus depuis la capture
+- Des alertes et journalisations sont générées comme si les paquets venaient de l'analyse en temps réel
+- Après avoir lu la capture, Snort se termine automatiquement
+
+Si Snort est lancé en mode sniffer (uniquement l'option `-r`) sur un fichier de capture (`snort -r capture.pcap`),
+Snort affiche dans la console le détail de chaque paquet
+séparé par `=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+` (voir exemple ci-dessous) et il ne génère aucun log ni
+aucune alerte, contrairement à l'analyse en temps réelle.
+Exemple :
+
+```
+WARNING: No preprocessors configured for policy 0.
+04/28-08:38:31.856358 192.168.220.4 -> 192.168.220.2
+ICMP TTL:64 TOS:0x0 ID:54502 IpLen:20 DgmLen:84 DF
+Type:8  Code:0  ID:7438   Seq:0  ECHO
+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+
+WARNING: No preprocessors configured for policy 0.
+04/28-08:38:31.856413 192.168.220.2 -> 192.168.220.4
+ICMP TTL:64 TOS:0x0 ID:40635 IpLen:20 DgmLen:84
+Type:0  Code:0  ID:7438  Seq:0  ECHO REPLY
+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+
+WARNING: No preprocessors configured for policy 0.
+04/28-08:38:32.856574 192.168.220.4 -> 192.168.220.2
+ICMP TTL:64 TOS:0x0 ID:54549 IpLen:20 DgmLen:84 DF
+Type:8  Code:0  ID:7438   Seq:1  ECHO
+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+
+WARNING: No preprocessors configured for policy 0.
+04/28-08:38:32.856608 192.168.220.2 -> 192.168.220.4
+ICMP TTL:64 TOS:0x0 ID:40646 IpLen:20 DgmLen:84
+Type:0  Code:0  ID:7438  Seq:1  ECHO REPLY
+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+```
+
+
 ---
 
 **Question 18: Est-ce que des alertes sont aussi enregistrées dans le fichier d'alertes?**
@@ -558,6 +822,8 @@ Utiliser l'option correcte de Snort pour analyser le fichier de capture Wireshar
 ---
 
 **Réponse :**  
+
+Non, sauf si Snort est lancé en mode IDS avec `-c`.
 
 ---
 
@@ -573,6 +839,15 @@ Faire des recherches à propos des outils `fragroute` et `fragrouter`.
 
 **Réponse :**  
 
+`fragroute` est un outil qui intercepte, modifie, et re-écrit le trafic de sortie de notre machine vers une cible, ce qui permet d'effectuer certaines attaques. Il permet notamment de :
+- Retarder l'envoi de paquets
+- Droper des paquets
+- Dupliquer des paquets
+- Fragmenter les paquets au niveau du protocole IP
+- Fragmenter les paquets aun niveau du protocole TCP
+
+`fragrouter` est un programme avec des fonctionnalités similaires, qui intercepte le traffic sortant et le modifie de maninère à essayer d'éviter qu'il soit détecté par un NIDS. Il peut notamment fragmenter les paquets au niveau IP et TCP, changer leur ordre, etc.
+
 ---
 
 
@@ -582,6 +857,10 @@ Faire des recherches à propos des outils `fragroute` et `fragrouter`.
 
 **Réponse :**  
 
+Le but est de jouer avec les spécifications des protocoles réseaux pour essayer d'envoyer des messages qui seront correctement interprétés pas la cible, mais qui ne seront pas correctement analysés par l'IDS.
+
+Notamment, les protocoles TCP et IP autorisent de fragmenter une payload en plusieurs paquets qui seront reconstitués par le destinataire. Si l'IDS ne fait pas correctement ce travail de reconstitution de paquets fragmentés, cela peut permettre à un attaquant d'envoyer du contenu qui ne sera pas détecté par l'IDS.
+
 ---
 
 
@@ -590,6 +869,10 @@ Faire des recherches à propos des outils `fragroute` et `fragrouter`.
 ---
 
 **Réponse :**  
+
+Le préprocesseur `Frag3` permet de détecter les paquets qui ont étés fragmentés.
+Il fonctionne en récupérant tous les fragments de paquets pour ensuite reconstituer le paquet original.
+Par la suite, le paquet original est analysé par Snort.
 
 ---
 
@@ -604,6 +887,12 @@ L'outil nmap propose une option qui fragmente les messages afin d'essayer de con
 ---
 
 **Réponse :**  
+
+```
+ipvar IDS 192.168.220.2
+portvar SSH 22
+alert tcp any any -> $IDS $SSH (msg:"SYN packet on SSH port"; flags:S; sid:40000006; rev:1;)
+```
 
 ---
 
@@ -627,6 +916,16 @@ nmap -sS -f -p 22 --send-eth 192.168.220.2
 
 **Réponse :**  
 
+Le paquet SYN est détecté si et seulement si le paquet n'est pas fragmenté.
+```
+[**] [1:40000006:1] SYN packet on SSH port [**]
+[Priority: 0] 
+04/28-11:31:38.142265 192.168.220.3:48255 -> 192.168.220.2:22
+TCP TTL:43 TOS:0x0 ID:11034 IpLen:20 DgmLen:44
+******S* Seq: 0xE936B454  Ack: 0x0  Win: 0x400  TcpLen: 24
+TCP Options (1) => MSS: 1460
+```
+
 ---
 
 
@@ -639,6 +938,16 @@ Modifier le fichier `myrules.rules` pour que snort utiliser le `Frag3 Preprocess
 
 **Réponse :**  
 
+Le paquet fragmenté est détecté:
+```
+[**] [1:40000006:1] SYN packet on SSH port [**]
+[Priority: 0] 
+04/28-11:42:21.322002 192.168.220.3:47096 -> 192.168.220.2:22
+TCP TTL:45 TOS:0x0 ID:4639 IpLen:20 DgmLen:44
+******S* Seq: 0x7885591A  Ack: 0x0  Win: 0x400  TcpLen: 24
+TCP Options (1) => MSS: 1460
+```
+
 ---
 
 
@@ -648,6 +957,10 @@ Modifier le fichier `myrules.rules` pour que snort utiliser le `Frag3 Preprocess
 
 **Réponse :**  
 
+Ce préprocesseur sert à détecter le trafic chiffré avec TLS/SSL pour que Snort arrête de l'inspecter.
+
+C'est une bonne chose qu'il exsite, car le trafic chiffré est inutile pour l'IDs, car il risque de déclencher
+des faux positifs et de gaspiller du temps de calcul.
 ---
 
 
@@ -656,6 +969,8 @@ Modifier le fichier `myrules.rules` pour que snort utiliser le `Frag3 Preprocess
 ---
 
 **Réponse :**  
+
+Il permet de détecter lorsque des informations personnelles identifiables comme des numéros de carte de crédit, numéro de sécurité social, etc. sont transmises sur le réseau. Il est aussi possible de masquer ces informations en les remplaçant partiellement pas des "X".
 
 ---
 
@@ -667,6 +982,8 @@ Modifier le fichier `myrules.rules` pour que snort utiliser le `Frag3 Preprocess
 ---
 
 **Réponse :**  
+
+Snort est un outil très puissant, mais la documentation est assez pauvre et, par conséquent, il est difficile de le configurer avec des règles très précises.
 
 ---
 
