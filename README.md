@@ -686,7 +686,7 @@ L'hote final va pourtant bien reconstituer les packets x,y,z et donc potentielle
 
 ---
 
-**Réponse :**  
+**Réponse :** C'est un préprocesseur qui va s'occuper de défragmenter les paquets IPs en simulant un hôte cible. Cela lui permet de s'abstraire de la manière dont un OS pourrait défragmenter les paquets (car chaque OS a sa façon de fonctionner à ce niveau) et de détecter une éventuelle attaque dissimulée derrière une fragmentation de paquets.
 
 ---
 
