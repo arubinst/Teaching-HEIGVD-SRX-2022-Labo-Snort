@@ -1,0 +1,2 @@
+alert icmp [192.168.220.0/24] any -> 192.168.220.2 any (msg:"Ping vers IDS"; sid:40000001; rev:1;)
+alert icmp 192.168.220.2 any -> [192.168.220.0/24] any (msg:"Ping depuis IDS"; sid:40000002; rev:1;)

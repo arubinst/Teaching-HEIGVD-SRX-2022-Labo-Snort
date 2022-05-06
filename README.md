@@ -702,7 +702,11 @@ L'outil nmap propose une option qui fragmente les messages afin d'essayer de con
 
 ---
 
-**Réponse :**  
+**Réponse :** 
+```
+alert tcp any any -> 192.168.220.2 22 (msg:"SYN scan sur IDS"; flags:S; sid:4000001; rev:1;)
+
+```
 
 ---
 
@@ -724,7 +728,7 @@ nmap -sS -f -p 22 --send-eth 192.168.220.2
 
 ---
 
-**Réponse :**  
+**Réponse :** L'alerte est bien levée lors du premier SYN scan (non fragmenté), mais lors du SYN scan fragmenté aucune alerte n'est levée.
 
 ---
 
@@ -736,7 +740,12 @@ Modifier le fichier `myrules.rules` pour que snort utiliser le `Frag3 Preprocess
 
 ---
 
-**Réponse :**  
+**Réponse :** En ajoutant les lignes suivantes au début du fichier de règles, l'alerte est cette fois levée à la fois lors d'un SYN scan normal, et également lors d'un SYN scan fragmenté.
+
+```text
+preprocessor frag3_global
+preprocessor frag3_engine
+```
 
 ---
 
@@ -745,7 +754,7 @@ Modifier le fichier `myrules.rules` pour que snort utiliser le `Frag3 Preprocess
 
 ---
 
-**Réponse :**  
+**Réponse :** Ce préprocesseur permet d'ignorer le trafic HTTPS chiffré qui n'est de toute façon pas lisible par Snort. Cela a l'avantage de lui permettre dédier ses ressources inutilement utilisées à d'autres tâches.
 
 ---
 
@@ -754,7 +763,7 @@ Modifier le fichier `myrules.rules` pour que snort utiliser le `Frag3 Preprocess
 
 ---
 
-**Réponse :**  
+**Réponse :** Ce préprocesseur permet de détecter et filtrer les informations personnelles identifiables (PII) tels que les numéros de carte de crédit, les numéros de sécurité sociale américains et les adresses e-mail.
 
 ---
 
@@ -765,7 +774,7 @@ Modifier le fichier `myrules.rules` pour que snort utiliser le `Frag3 Preprocess
 
 ---
 
-**Réponse :**  
+**Réponse :**  Snort nous semble à la fois très complet et personnalisable, mais également difficile à prendre en main et facilement mal configurable. C'est donc à double tranchant, et la documentation, bien que complète, n'est pas des plus intuitivres. Cependant, un Snort bien configuré est probablement très efficace pour détecter de potentielles attaques.
 
 ---
 
