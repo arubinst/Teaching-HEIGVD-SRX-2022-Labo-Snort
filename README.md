@@ -671,6 +671,8 @@ De base dans le protocol IP, il est parfois nécéssaire de fragmenter un / des 
 
 Ici ces deux outils profitent de ce méchanisme pour altérer la détéction de signature par un IDS, justement en fragmentant / réordonnant des packets.
 
+NB: chaque système / OS a une façon particulière de "remettre les paquets ensemble" il faut donc lors de la fragmentation des paquets être conscient de comment l'hôte ciblée va reconstruire les paquets !
+
 Par exemple:
 Admettons que snort aie une règle détéctant une suite d'actions consistants en 3 packets tcp x,y,z. 
 Si l'on envoie x,y,z alors snort detecte "l'attaque" et log/alerte (il detecte "la signature" de l'attaque). 
