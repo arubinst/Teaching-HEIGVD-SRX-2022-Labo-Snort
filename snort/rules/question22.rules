@@ -1,0 +1,1 @@
+alert tcp any any -> 192.168.220.2 22 (msg:"SYN packet on SSH port"; flags:S; sid:40000001; rev:1;)

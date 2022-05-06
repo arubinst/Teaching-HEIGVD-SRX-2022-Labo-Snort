@@ -4,19 +4,20 @@ services:
     ids:
         hostname: 'IDS'
         privileged: true
-        container_name : IDS
+        container_name: IDS
         build: .
-        cap_add : 
-            - NET_ADMIN 
+        cap_add:
+            - NET_ADMIN
         stdin_open: true
         tty: true
         ports:
             - 3000:3000
         volumes:
-            - shared-data:/var/log/snort
+            - ./shared-data:/var/log/snort
+            - ./snort:/etc/snort
         networks:
-           snortlan:
-             ipv4_address: 192.168.220.2
+            snortlan:
+                ipv4_address: 192.168.220.2
         command: /bin/bash
         sysctls:
             net.ipv4.conf.all.send_redirects: '0'
@@ -28,17 +29,17 @@ services:
     client:
         hostname: 'Client'
         privileged: true
-        container_name : Client
+        container_name: Client
         build: .
-        cap_add : 
+        cap_add:
             - NET_ADMIN
-        depends_on: 
+        depends_on:
             - ids
         stdin_open: true
         tty: true
         networks:
-           snortlan:
-             ipv4_address: 192.168.220.3
+            snortlan:
+                ipv4_address: 192.168.220.3
         command: /bin/bash
         sysctls:
             net.ipv4.conf.all.send_redirects: '0'
@@ -71,17 +72,17 @@ services:
             - PUID=1000
             - PGID=1000
             - TZ=Europe/Zurich
-    #volumes:
-    #  - /path/to/config:/config
+        #volumes:
+        #  - /path/to/config:/config
         networks:
-           snortlan:
-             ipv4_address: 192.168.220.4
+            snortlan:
+                ipv4_address: 192.168.220.4
         ports:
             - 4000:3000
         shm_size: "1gb"
-        cap_add : 
+        cap_add:
             - NET_ADMIN
-        depends_on: 
+        depends_on:
             - ids
         sysctls:
             net.ipv4.conf.all.send_redirects: '0'
@@ -92,7 +93,9 @@ services:
         restart: unless-stopped
 
 volumes:
-  shared-data:
+    shared-data:
+
+    snort:
 
 networks:
     snortlan:
@@ -100,5 +103,4 @@ networks:
         name: snortlan
         ipam:
             config:
-                - 
-                 subnet: 192.168.220.0/24
+                - subnet: 192.168.220.0/24

@@ -1,0 +1,4 @@
+# client
+log tcp 192.168.220.3 any <> 91.198.174.192 any (sid:4000001; rev:1)
+# firefox
+log tcp 192.168.220.4 any <> 91.198.174.192 any (sid:4000002; rev:1)
